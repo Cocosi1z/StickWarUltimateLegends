@@ -3,466 +3,596 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stick War Ultimate Legends</title>
+<title>SWUL - Stick War Ultimate Legends</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
+body{
     background:
-        radial-gradient(circle at top, #303030 0%, #151515 45%, #080808 100%);
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
+        radial-gradient(circle at top,#27344a 0%,#111722 45%,#070a0f 100%);
+    color:white;
+    min-height:100vh;
 }
 
-button {
-    font-family: inherit;
-    cursor: pointer;
+button{
+    cursor:pointer;
+    border:0;
+    font-weight:bold;
 }
 
-#app {
-    min-height: 100vh;
+.hidden{
+    display:none!important;
 }
 
-.screen {
-    display: none;
-    min-height: 100vh;
-    padding: 25px;
+/* LOGIN */
+
+#loginScreen{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
 }
 
-.screen.active {
-    display: block;
+.loginBox{
+    width:430px;
+    max-width:100%;
+    background:rgba(16,22,32,.96);
+    border:2px solid #46566d;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 20px 70px rgba(0,0,0,.6);
+    text-align:center;
 }
 
-/* =========================
-   LOADING
-========================= */
-
-#loadingScreen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: linear-gradient(#111, #252525);
+.logo{
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:2px;
 }
 
-.loading-box h1 {
-    font-size: 42px;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
+.subtitle{
+    color:#aeb8c8;
+    margin:8px 0 25px;
 }
 
-.loading-box p {
-    color: #aaa;
-    margin-bottom: 25px;
+.loginInput{
+    width:100%;
+    padding:14px;
+    margin:7px 0;
+    border-radius:10px;
+    border:1px solid #475569;
+    background:#0c1119;
+    color:white;
+    outline:none;
 }
 
-.loading-bar {
-    width: 320px;
-    height: 12px;
-    background: #333;
-    border-radius: 20px;
-    overflow: hidden;
-    margin: auto;
+.loginInput:focus{
+    border-color:#f5c542;
 }
 
-.loading-progress {
-    width: 0%;
-    height: 100%;
-    background: #f5c542;
-    animation: load 2s forwards;
+.mainBtn{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#eab308,#f59e0b);
+    color:#111;
+    font-size:16px;
 }
 
-@keyframes load {
-    to { width: 100%; }
+.secondaryBtn{
+    width:100%;
+    padding:13px;
+    margin-top:9px;
+    border-radius:10px;
+    background:#263244;
+    color:white;
 }
 
-/* =========================
-   HEADER
-========================= */
-
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(20,20,20,.92);
-    border: 1px solid #444;
-    border-radius: 14px;
-    padding: 14px 18px;
-    margin-bottom: 22px;
-    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+.guestBtn{
+    background:#334155;
 }
 
-.logo {
-    font-size: 21px;
-    font-weight: bold;
+#loginMessage{
+    min-height:22px;
+    margin-top:15px;
+    color:#facc15;
 }
 
-.resources {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
+/* GAME */
+
+#game{
+    min-height:100vh;
 }
 
-.resource {
-    background: #252525;
-    border: 1px solid #444;
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-weight: bold;
+.topbar{
+    height:70px;
+    background:rgba(8,12,18,.96);
+    border-bottom:2px solid #303b4d;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    position:sticky;
+    top:0;
+    z-index:50;
 }
 
-/* =========================
-   HOME
-========================= */
-
-.home-container {
-    max-width: 1200px;
-    margin: auto;
+.gameLogo{
+    font-size:24px;
+    font-weight:900;
 }
 
-.hero {
-    text-align: center;
-    padding: 35px 10px 28px;
+.playerInfo{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.hero h1 {
-    font-size: clamp(32px, 6vw, 68px);
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    text-shadow: 0 4px 15px black;
+.resource{
+    background:#182231;
+    border:1px solid #354154;
+    padding:8px 12px;
+    border-radius:9px;
 }
 
-.hero .version {
-    color: #aaa;
-    margin-top: 8px;
+#content{
+    padding:25px;
+    max-width:1400px;
+    margin:auto;
 }
 
-.play-button {
-    margin-top: 25px;
-    width: min(420px, 90%);
-    padding: 18px;
-    font-size: 25px;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(#d9a928, #8f6813);
-    border: 2px solid #f4d06b;
-    border-radius: 15px;
-    box-shadow: 0 7px 0 #4c3508, 0 15px 30px rgba(0,0,0,.4);
-    transition: .15s;
+/* NAV */
+
+.nav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:22px;
 }
 
-.play-button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.12);
+.nav button{
+    padding:11px 15px;
+    border-radius:9px;
+    background:#202b3c;
+    color:#dbe5f3;
+    border:1px solid #354257;
 }
 
-.play-button:active {
-    transform: translateY(5px);
-    box-shadow: 0 2px 0 #4c3508;
+.nav button:hover{
+    background:#334155;
 }
 
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 13px;
-    max-width: 1050px;
-    margin: auto;
+.nav .adminNav{
+    background:#5b1720;
+    border-color:#9f2636;
 }
 
-.menu-button {
-    min-height: 74px;
-    border: 1px solid #4b4b4b;
-    background: linear-gradient(#292929, #181818);
-    color: white;
-    border-radius: 13px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: .15s;
+/* PAGE */
+
+.page{
+    display:none;
 }
 
-.menu-button:hover {
-    transform: translateY(-3px);
-    background: linear-gradient(#383838, #202020);
-    border-color: #777;
+.page.active{
+    display:block;
 }
 
-.menu-button.gold {
-    border-color: #9b781e;
+.pageTitle{
+    font-size:32px;
+    margin-bottom:8px;
 }
 
-.menu-button.blue {
-    border-color: #3f78a6;
+.pageDescription{
+    color:#aeb8c8;
+    margin-bottom:22px;
 }
 
-.menu-button.red {
-    border-color: #8c3e3e;
-}
+/* HOME */
 
-.announcement {
-    max-width: 1050px;
-    margin: 25px auto 0;
-    padding: 15px;
-    border: 1px solid #494949;
-    background: rgba(20,20,20,.75);
-    border-radius: 12px;
-    color: #ddd;
-}
-
-/* =========================
-   GENERAL PANEL
-========================= */
-
-.panel {
-    max-width: 1100px;
-    margin: auto;
-}
-
-.panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.panel-header h2 {
-    font-size: 32px;
-}
-
-.back-button {
-    background: #292929;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 10px;
-    padding: 10px 16px;
-}
-
-.back-button:hover {
-    background: #3a3a3a;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-}
-
-.card {
-    background: linear-gradient(145deg, #292929, #171717);
-    border: 1px solid #444;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.25);
-}
-
-.card h3 {
-    margin-bottom: 9px;
-}
-
-.card p {
-    color: #aaa;
-    line-height: 1.5;
-}
-
-.card button {
-    margin-top: 15px;
-    width: 100%;
-    padding: 11px;
-    border-radius: 9px;
-    border: 1px solid #555;
-    background: #303030;
-    color: white;
-}
-
-.card button:hover {
-    background: #414141;
-}
-
-.progress {
-    height: 10px;
-    background: #333;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 12px;
-}
-
-.progress-bar {
-    height: 100%;
-    background: #d6aa35;
-}
-
-/* =========================
-   LOGIN
-========================= */
-
-.auth-box {
-    max-width: 430px;
-    margin: 70px auto;
-    background: #1c1c1c;
-    border: 1px solid #4b4b4b;
-    border-radius: 18px;
-    padding: 28px;
-}
-
-.auth-box h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.input {
-    width: 100%;
-    padding: 13px;
-    margin-bottom: 12px;
-    background: #101010;
-    border: 1px solid #4a4a4a;
-    border-radius: 9px;
-    color: white;
-    outline: none;
-}
-
-.auth-actions {
-    display: grid;
-    gap: 10px;
-}
-
-.primary {
-    padding: 13px;
-    border-radius: 9px;
-    border: 1px solid #c7a02e;
-    background: #92721e;
-    color: white;
-    font-weight: bold;
-}
-
-.secondary {
-    padding: 13px;
-    border-radius: 9px;
-    border: 1px solid #555;
-    background: #2b2b2b;
-    color: white;
-}
-
-.small-note {
-    color: #888;
-    font-size: 13px;
-    text-align: center;
-    margin-top: 14px;
-}
-
-/* =========================
-   ARMORY
-========================= */
-
-.character-preview {
-    min-height: 230px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 100px;
+.hero{
     background:
-        radial-gradient(circle, #3b3b3b, #151515 70%);
-    border-radius: 15px;
-    border: 1px solid #444;
-    margin-bottom: 18px;
+        linear-gradient(90deg,rgba(5,9,14,.97),rgba(15,23,42,.72)),
+        linear-gradient(135deg,#28394e,#111827);
+    border:1px solid #45546a;
+    border-radius:18px;
+    padding:35px;
+    min-height:260px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 }
 
-/* =========================
-   LEADERBOARD
-========================= */
-
-.leaderboard {
-    width: 100%;
-    border-collapse: collapse;
-    background: #191919;
-    border-radius: 12px;
-    overflow: hidden;
+.hero h1{
+    font-size:48px;
 }
 
-.leaderboard th,
-.leaderboard td {
-    padding: 14px;
-    border-bottom: 1px solid #333;
-    text-align: left;
+.hero p{
+    color:#cbd5e1;
+    margin:12px 0 22px;
+    font-size:18px;
 }
 
-.leaderboard th {
-    background: #292929;
+.heroButtons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
 }
 
-.leaderboard tr.current {
-    background: #423716;
+.heroButtons button{
+    padding:13px 20px;
+    border-radius:10px;
+    background:#eab308;
+    color:#111;
 }
 
-/* =========================
-   MODAL
-========================= */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.75);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 100;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    margin-top:22px;
 }
 
-.modal.show {
-    display: flex;
+.card{
+    background:#121a27;
+    border:1px solid #344155;
+    border-radius:14px;
+    padding:20px;
 }
 
-.modal-box {
-    width: min(500px, 100%);
-    background: #202020;
-    border: 1px solid #555;
-    border-radius: 16px;
-    padding: 25px;
-    text-align: center;
+.card h3{
+    margin-bottom:8px;
 }
 
-.modal-box h2 {
-    margin-bottom: 12px;
+.card p{
+    color:#aeb8c8;
 }
 
-.modal-box p {
-    color: #bbb;
-    line-height: 1.5;
-    margin-bottom: 18px;
+/* CAMPAIGN */
+
+.campaignGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:18px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.campaign{
+    min-height:190px;
+    background:linear-gradient(145deg,#1b2636,#0e141e);
+    border:2px solid #3a485c;
+    border-radius:15px;
+    padding:20px;
+    position:relative;
+}
 
-@media (max-width: 600px) {
-    .screen {
-        padding: 13px;
+.campaign.locked{
+    opacity:.55;
+}
+
+.campaignNumber{
+    font-size:14px;
+    color:#facc15;
+}
+
+.campaign h3{
+    margin:10px 0;
+    font-size:24px;
+}
+
+.campaign button{
+    margin-top:15px;
+    padding:10px 15px;
+    border-radius:8px;
+    background:#eab308;
+}
+
+/* MISSION */
+
+.missionGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+}
+
+.mission{
+    background:#121a27;
+    border:1px solid #344155;
+    border-radius:14px;
+    padding:18px;
+}
+
+.mission h3{
+    margin-bottom:8px;
+}
+
+.mission small{
+    color:#94a3b8;
+}
+
+.mission button{
+    margin-top:13px;
+    padding:10px 14px;
+    border-radius:8px;
+    background:#eab308;
+}
+
+/* ARMORY */
+
+.unitGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+}
+
+.unit{
+    background:#121a27;
+    border:1px solid #39475c;
+    border-radius:14px;
+    padding:20px;
+}
+
+.unitIcon{
+    height:100px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#273449,#111827);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.equipment{
+    margin-top:12px;
+    color:#cbd5e1;
+    line-height:1.8;
+}
+
+/* SHOP */
+
+.shopGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.shopItem{
+    background:#121a27;
+    border:1px solid #3c4a5e;
+    padding:20px;
+    border-radius:14px;
+}
+
+.shopItem .price{
+    color:#facc15;
+    margin:10px 0;
+}
+
+.shopItem button{
+    padding:10px 14px;
+    border-radius:8px;
+    background:#eab308;
+}
+
+/* EVENTS */
+
+.event{
+    background:#121a27;
+    border:1px solid #3c4a5e;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:14px;
+}
+
+.event button{
+    margin-top:12px;
+    padding:10px 15px;
+    border-radius:8px;
+    background:#22c55e;
+}
+
+/* LEADERBOARD */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#101722;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+th,td{
+    padding:14px;
+    border-bottom:1px solid #2e3949;
+    text-align:left;
+}
+
+th{
+    background:#1d2939;
+}
+
+/* CODES */
+
+.codeBox{
+    max-width:500px;
+}
+
+.codeInput{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #435168;
+    background:#0c1119;
+    color:white;
+    margin-bottom:10px;
+}
+
+.codeBox button{
+    padding:12px 18px;
+    border-radius:9px;
+    background:#eab308;
+}
+
+/* ADMIN */
+
+.adminPanel{
+    background:#100f14;
+    border:2px solid #7f1d1d;
+    border-radius:16px;
+    padding:22px;
+}
+
+.adminGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+}
+
+.adminCard{
+    background:#1b1419;
+    border:1px solid #642b35;
+    border-radius:12px;
+    padding:18px;
+}
+
+.adminCard h3{
+    margin-bottom:10px;
+}
+
+.adminCard input,
+.adminCard textarea,
+.adminCard select{
+    width:100%;
+    padding:11px;
+    margin:5px 0;
+    background:#0b0d12;
+    color:white;
+    border:1px solid #4b5563;
+    border-radius:8px;
+}
+
+.adminCard textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.adminCard button{
+    width:100%;
+    padding:11px;
+    margin-top:6px;
+    border-radius:8px;
+    background:#dc2626;
+    color:white;
+}
+
+.accountList{
+    max-height:260px;
+    overflow:auto;
+    margin-top:10px;
+}
+
+.accountRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#11151d;
+    padding:10px;
+    border-radius:8px;
+    margin:5px 0;
+}
+
+.accountRow button{
+    width:auto;
+    margin:0;
+    background:#475569;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modalBox{
+    width:600px;
+    max-width:100%;
+    max-height:90vh;
+    overflow:auto;
+    background:#111827;
+    border:2px solid #475569;
+    border-radius:16px;
+    padding:25px;
+}
+
+.modalBox h2{
+    margin-bottom:15px;
+}
+
+.modalBox button{
+    padding:11px 17px;
+    border-radius:8px;
+    background:#eab308;
+    margin-top:15px;
+}
+
+.story{
+    font-size:19px;
+    line-height:1.7;
+    color:#e2e8f0;
+}
+
+.report{
+    background:#0b111b;
+    border-left:4px solid #eab308;
+    padding:15px;
+    margin:12px 0;
+    line-height:1.7;
+}
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#111827;
+    border:1px solid #64748b;
+    padding:15px 20px;
+    border-radius:10px;
+    z-index:200;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+@media(max-width:700px){
+    .topbar{
+        height:auto;
+        padding:12px;
+        gap:10px;
+        flex-wrap:wrap;
     }
 
-    .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+    .hero h1{
+        font-size:34px;
     }
 
-    .hero {
-        padding-top: 18px;
+    #content{
+        padding:15px;
     }
 
-    .hero h1 {
-        letter-spacing: 1px;
-    }
-
-    .panel-header h2 {
-        font-size: 25px;
+    .pageTitle{
+        font-size:26px;
     }
 }
 </style>
@@ -470,1591 +600,2009 @@ button {
 
 <body>
 
-<div id="app">
+<!-- ================= LOGIN ================= -->
 
-<!-- =========================
-     LOADING
-========================= -->
+<section id="loginScreen">
 
-<section id="loadingScreen" class="screen active">
-    <div class="loading-box">
-        <h1>SWUL</h1>
-        <p>Stick War Ultimate Legends v.2026.27.8</p>
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
-    </div>
-</section>
+<div class="loginBox">
 
-<!-- =========================
-     LOGIN
-========================= -->
+    <div class="logo">⚔️ SWUL</div>
 
-<section id="loginScreen" class="screen">
-    <div class="auth-box">
-        <h2>⚔️ ACCOUNT LOGIN</h2>
-
-        <input id="loginUsername"
-               class="input"
-               placeholder="Username">
-
-        <input id="loginPassword"
-               class="input"
-               type="password"
-               placeholder="Password">
-
-        <div class="auth-actions">
-            <button class="primary" onclick="login()">
-                LOGIN
-            </button>
-
-            <button class="secondary" onclick="showScreen('registerScreen')">
-                CREATE ACCOUNT
-            </button>
-
-            <button class="secondary" onclick="guestLogin()">
-                PLAY AS GUEST
-            </button>
-        </div>
-
-        <p class="small-note">
-            Demo frontend account system.
-        </p>
-    </div>
-</section>
-
-<!-- =========================
-     REGISTER
-========================= -->
-
-<section id="registerScreen" class="screen">
-    <div class="auth-box">
-        <h2>👤 CREATE ACCOUNT</h2>
-
-        <input id="registerUsername"
-               class="input"
-               placeholder="Username">
-
-        <input id="registerPassword"
-               class="input"
-               type="password"
-               placeholder="Password">
-
-        <div class="auth-actions">
-            <button class="primary" onclick="registerAccount()">
-                CREATE ACCOUNT
-            </button>
-
-            <button class="secondary" onclick="showScreen('loginScreen')">
-                BACK TO LOGIN
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- =========================
-     HOME
-========================= -->
-
-<section id="homeScreen" class="screen">
-
-    <div class="home-container">
-
-        <div class="topbar">
-            <div class="logo">
-                ⚔️ SWUL
-            </div>
-
-            <div class="resources">
-                <div class="resource">
-                    💰 <span id="goldDisplay">0</span>
-                </div>
-
-                <div class="resource">
-                    💎 <span id="gemsDisplay">0</span>
-                </div>
-
-                <div class="resource">
-                    👤 <span id="playerDisplay">Guest</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="hero">
-
-            <h1>
-                Stick War<br>
-                Ultimate Legends
-            </h1>
-
-            <div class="version">
-                v.2026.27.8
-            </div>
-
-            <button class="play-button"
-                    onclick="startGame()">
-                ▶ PLAY
-            </button>
-
-        </div>
-
-        <div class="menu-grid">
-
-            <button class="menu-button gold"
-                    onclick="showScreen('campaignScreen')">
-                ⚔️ CAMPAIGN
-            </button>
-
-            <button class="menu-button blue"
-                    onclick="showScreen('missionsScreen')">
-                🎯 MISSIONS
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('armoryScreen')">
-                🎒 ARMORY
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('shopScreen')">
-                🏪 SHOP
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('spellsScreen')">
-                ✨ SPELLS
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('royalsScreen')">
-                👑 ROYALS
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('upgradesScreen')">
-                ⬆️ UPGRADES
-            </button>
-
-            <button class="menu-button gold"
-                    onclick="showScreen('eventsScreen')">
-                🎉 EVENTS
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('leaderboardScreen')">
-                🏆 LEADERBOARD
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('mailboxScreen')">
-                📬 MAILBOX
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('codesScreen')">
-                🔑 CODES
-            </button>
-
-            <button class="menu-button"
-                    onclick="showScreen('settingsScreen')">
-                ⚙️ SETTINGS
-            </button>
-        </div>
-
-        <div class="announcement">
-            📢 <strong>Announcement:</strong>
-            Welcome to Stick War Ultimate Legends!
-        </div>
-
+    <div class="subtitle">
+        Stick War Ultimate Legends v.2026.27.8
     </div>
 
-</section>
+    <input id="loginUser"
+           class="loginInput"
+           placeholder="Username">
 
-<!-- =========================
-     CAMPAIGN
-========================= -->
+    <input id="loginPass"
+           class="loginInput"
+           type="password"
+           placeholder="Password">
 
-<section id="campaignScreen" class="screen">
-<div class="panel">
+    <button class="mainBtn" onclick="login()">
+        LOGIN
+    </button>
 
-    <div class="panel-header">
-        <h2>⚔️ CAMPAIGN</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
+    <button class="secondaryBtn" onclick="createAccount()">
+        CREATE ACCOUNT
+    </button>
 
-    <div class="cards" id="campaignCards"></div>
+    <button class="secondaryBtn guestBtn" onclick="guestLogin()">
+        PLAY AS GUEST
+    </button>
+
+    <div id="loginMessage"></div>
+
+    <p style="margin-top:20px;color:#64748b;font-size:13px">
+        SWUL Web Edition
+    </p>
 
 </div>
+
 </section>
 
-<!-- =========================
-     MISSIONS
-========================= -->
 
-<section id="missionsScreen" class="screen">
-<div class="panel">
+<!-- ================= GAME ================= -->
 
-    <div class="panel-header">
-        <h2>🎯 MISSIONS</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+<section id="game" class="hidden">
+
+<header class="topbar">
+
+    <div class="gameLogo">
+        ⚔️ SWUL
     </div>
 
-    <div class="card">
-        <h3>📜 Scouting Report</h3>
-        <p>
-            Each Mission map contains a Scouting Report
-            before battle.
-        </p>
-    </div>
+    <div class="playerInfo">
 
-    <br>
-
-    <div class="cards" id="missionCards"></div>
-
-</div>
-</section>
-
-<!-- =========================
-     ARMORY
-========================= -->
-
-<section id="armoryScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>🎒 ARMORY</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="character-preview">
-        ⚔️
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>⚔️ Swordwrath</h3>
-            <p>Skins, armor and weapons.</p>
-            <button onclick="equipItem('Swordwrath Skin')">
-                EQUIP
-            </button>
+        <div class="resource">
+            💰 <span id="gold">1000</span>
         </div>
 
-        <div class="card">
-            <h3>🏹 Archidon</h3>
-            <p>Custom equipment and skins.</p>
-            <button onclick="equipItem('Archidon Skin')">
-                EQUIP
-            </button>
+        <div class="resource">
+            💎 <span id="gems">100</span>
         </div>
 
-        <div class="card">
-            <h3>🛡️ Spearton</h3>
-            <p>Armor and weapon customization.</p>
-            <button onclick="equipItem('Spearton Armor')">
-                EQUIP
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🧙 Magikill</h3>
-            <p>Magic equipment and skins.</p>
-            <button onclick="equipItem('Magikill Skin')">
-                EQUIP
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>👹 Giant</h3>
-            <p>Titan equipment and special skins.</p>
-            <button onclick="equipItem('Titan Skin')">
-                EQUIP
-            </button>
+        <div class="resource">
+            👤 <span id="playerName">Guest</span>
         </div>
 
     </div>
 
-</div>
-</section>
-
-<!-- =========================
-     SHOP
-========================= -->
-
-<section id="shopScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>🏪 SHOP</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>🛡️ Iron Armor</h3>
-            <p>Basic protection.</p>
-            <button onclick="buyItem('Iron Armor', 500)">
-                BUY — 500 GOLD
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>⚔️ Knight Armor</h3>
-            <p>Stronger protection.</p>
-            <button onclick="buyItem('Knight Armor', 1500)">
-                BUY — 1,500 GOLD
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🐉 Dragon Armor</h3>
-            <p>Powerful legendary armor.</p>
-            <button onclick="buyItem('Dragon Armor', 5000)">
-                BUY — 5,000 GOLD
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>👑 Royal Armor</h3>
-            <p>Royal equipment.</p>
-            <button onclick="buyItem('Royal Armor', 8000)">
-                BUY — 8,000 GOLD
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🔥 Titan Armor</h3>
-            <p>Ultimate equipment.</p>
-            <button onclick="buyItem('Titan Armor', 15000)">
-                BUY — 15,000 GOLD
-            </button>
-        </div>
-
-    </div>
-
-</div>
-</section>
-
-<!-- =========================
-     EVENTS
-========================= -->
-
-<section id="eventsScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>🎉 EVENTS</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>🔥 Titan Week</h3>
-            <p>
-                Complete 5 battles.
-            </p>
-
-            <div class="progress">
-                <div class="progress-bar"
-                     style="width: 80%;">
-                </div>
-            </div>
-
-            <p style="margin-top:10px;">
-                Progress: 4 / 5
-            </p>
-
-            <button onclick="claimEvent('Titan Week')">
-                🎁 CLAIM REWARD
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>📅 Daily Login</h3>
-            <p>
-                Login today to receive your reward.
-            </p>
+</header>
 
-            <button onclick="claimEvent('Daily Login')">
-                🎁 CLAIM
-            </button>
-        </div>
 
-    </div>
+<div id="content">
 
-</div>
-</section>
+<!-- NAVIGATION -->
 
-<!-- =========================
-     LEADERBOARD
-========================= -->
+<nav class="nav">
 
-<section id="leaderboardScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>🏆 LEADERBOARD</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <table class="leaderboard">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>PLAYER</th>
-                <th>SCORE</th>
-                <th>LEVEL</th>
-            </tr>
-        </thead>
-
-        <tbody id="leaderboardBody"></tbody>
-    </table>
-
-</div>
-</section>
-
-<!-- =========================
-     CODES
-========================= -->
-
-<section id="codesScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>🔑 CODES</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="auth-box" style="margin:20px auto;">
-
-        <input id="codeInput"
-               class="input"
-               placeholder="Enter code">
-
-        <button class="primary"
-                onclick="redeemCode()">
-            REDEEM CODE
-        </button>
-
-        <p class="small-note">
-            Enter a valid SWUL code to receive rewards.
-        </p>
-
-    </div>
-
-</div>
-</section>
-
-<!-- =========================
-     SPELLS
-========================= -->
-
-<section id="spellsScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>✨ SPELLS</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="cards" id="spellCards"></div>
-
-</div>
-</section>
-
-<!-- =========================
-     ROYALS
-========================= -->
-
-<section id="royalsScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>👑 ROYALS</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>⚔️ Xiphos</h3>
-            <p>Royal warrior.</p>
-            <button onclick="selectRoyal('Xiphos')">
-                SELECT
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🏹 Kytchu</h3>
-            <p>Royal archer.</p>
-            <button onclick="selectRoyal('Kytchu')">
-                SELECT
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🗡️ Atreyos</h3>
-            <p>Elite royal fighter.</p>
-            <button onclick="selectRoyal('Atreyos')">
-                SELECT
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>👑 Icaron</h3>
-            <p>Royal champion.</p>
-            <button onclick="selectRoyal('Icaron')">
-                SELECT
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🔥 Thera</h3>
-            <p>Powerful royal.</p>
-            <button onclick="selectRoyal('Thera')">
-                SELECT
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>⚡ Adicai</h3>
-            <p>Legendary royal.</p>
-            <button onclick="selectRoyal('Adicai')">
-                SELECT
-            </button>
-        </div>
-
-    </div>
-
-</div>
-</section>
-
-<!-- =========================
-     UPGRADES
-========================= -->
-
-<section id="upgradesScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>⬆️ UPGRADES</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>⚔️ Unit Upgrade</h3>
-            <p>Increase unit attack and health.</p>
-            <button onclick="upgrade('Unit')">
-                UPGRADE
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>👑 Royal Upgrade</h3>
-            <p>Improve Royal abilities.</p>
-            <button onclick="upgrade('Royal')">
-                UPGRADE
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🛡️ Armor Upgrade</h3>
-            <p>Increase defense.</p>
-            <button onclick="upgrade('Armor')">
-                UPGRADE
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>✨ Spell Upgrade</h3>
-            <p>Improve spell power.</p>
-            <button onclick="upgrade('Spell')">
-                UPGRADE
-            </button>
-        </div>
-
-    </div>
-
-</div>
-</section>
-
-<!-- =========================
-     MAILBOX
-========================= -->
-
-<section id="mailboxScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>📬 MAILBOX</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>🎁 Welcome Gift</h3>
-            <p>
-                Welcome to Stick War Ultimate Legends!
-            </p>
-
-            <button onclick="claimGift()">
-                CLAIM
-            </button>
-        </div>
-
-    </div>
-
-</div>
-</section>
-
-<!-- =========================
-     SETTINGS
-========================= -->
-
-<section id="settingsScreen" class="screen">
-<div class="panel">
-
-    <div class="panel-header">
-        <h2>⚙️ SETTINGS</h2>
-        <button class="back-button" onclick="goHome()">🏠 HOME</button>
-    </div>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>🎵 Music</h3>
-            <p>Game music.</p>
-            <button onclick="toggleSetting('Music')">
-                ON / OFF
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🔊 Sound Effects</h3>
-            <p>Battle sound effects.</p>
-            <button onclick="toggleSetting('SFX')">
-                ON / OFF
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🖥️ Graphics</h3>
-            <p>Graphics quality.</p>
-            <button onclick="toggleSetting('Graphics')">
-                CHANGE
-            </button>
-        </div>
-
-        <div class="card">
-            <h3>🚪 Account</h3>
-            <p>Log out of this account.</p>
-            <button onclick="logout()">
-                LOGOUT
-            </button>
-        </div>
-
-    </div>
-
-</div>
-</section>
-
-<!-- =========================
-     MODAL
-========================= -->
-
-<div id="modal" class="modal">
-    <div class="modal-box">
-        <h2 id="modalTitle">Message</h2>
-        <p id="modalText"></p>
-
-        <button class="primary"
-                onclick="closeModal()">
-            OK
-        </button>
-    </div>
+<button onclick="showPage('home')">🏠 Home</button>
+<button onclick="showPage('campaign')">⚔️ Campaign</button>
+<button onclick="showPage('mission')">🗺️ Mission</button>
+<button onclick="showPage('armory')">🛡️ Armory</button>
+<button onclick="showPage('shop')">🛒 Shop</button>
+<button onclick="showPage('events')">🎉 Events</button>
+<button onclick="showPage('leaderboard')">🏆 Leaderboard</button>
+<button onclick="showPage('codes')">🔑 Codes</button>
+<button onclick="showPage('appeal')">📩 Appeal</button>
+<button id="adminNav"
+        class="adminNav hidden"
+        onclick="showPage('admin')">
+    👑 Admin Panel
+</button>
+<button onclick="logout()">🚪 Logout</button>
+
+</nav>
+
+
+<!-- ================= HOME ================= -->
+
+<div id="home" class="page active">
+
+<div class="hero">
+
+<h1>Stick War Ultimate Legends</h1>
+
+<p>
+Build your army. Conquer every nation.
+Become the ultimate legend.
+</p>
+
+<div class="heroButtons">
+
+<button onclick="showPage('campaign')">
+⚔️ START CAMPAIGN
+</button>
+
+<button onclick="showPage('mission')">
+🗺️ MISSIONS
+</button>
+
+<button onclick="showPage('armory')">
+🛡️ ARMORY
+</button>
+
 </div>
 
 </div>
+
+<div class="cards">
+
+<div class="card">
+<h3>⚔️ Campaign</h3>
+<p>10 campaigns. Every campaign has its own story.</p>
+</div>
+
+<div class="card">
+<h3>🗺️ Mission</h3>
+<p>Complete 10 missions and earn an exclusive skin.</p>
+</div>
+
+<div class="card">
+<h3>🛡️ Armory</h3>
+<p>Customize your units with weapons, armor and skins.</p>
+</div>
+
+<div class="card">
+<h3>🎉 Events</h3>
+<p>Complete events and collect free rewards.</p>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= CAMPAIGN ================= -->
+
+<div id="campaign" class="page">
+
+<h1 class="pageTitle">⚔️ Campaign</h1>
+
+<p class="pageDescription">
+Complete each campaign. After every battle, a 20-second story scene appears.
+After Campaign 10, the main story ends.
+</p>
+
+<div class="campaignGrid" id="campaignGrid"></div>
+
+</div>
+
+
+<!-- ================= MISSION ================= -->
+
+<div id="mission" class="page">
+
+<h1 class="pageTitle">🗺️ Mission</h1>
+
+<p class="pageDescription">
+10 special maps. Each map contains a scouting report.
+Complete all 10 to unlock a special skin.
+</p>
+
+<div class="missionGrid" id="missionGrid"></div>
+
+<div class="card" style="margin-top:20px">
+
+<h3>🔒 Next Update</h3>
+
+<p style="margin-top:8px">
+Complete Mission 10 to see the locked update area.
+</p>
+
+<div style="
+margin-top:15px;
+padding:18px;
+text-align:center;
+border:1px dashed #64748b;
+border-radius:10px;
+color:#94a3b8;
+font-size:18px;
+">
+🔒 Next update will open...
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= ARMORY ================= -->
+
+<div id="armory" class="page">
+
+<h1 class="pageTitle">🛡️ Armory</h1>
+
+<p class="pageDescription">
+Every unit has its own equipment and skins.
+</p>
+
+<div class="unitGrid">
+
+<div class="unit">
+<div class="unitIcon">⚔️</div>
+<h2>Swordwrath</h2>
+<div class="equipment">
+Weapon: Iron Sword<br>
+Armor: Basic Armor<br>
+Skin: Warrior
+</div>
+<button class="mainBtn" onclick="equipItem('Swordwrath')">
+EQUIP
+</button>
+</div>
+
+<div class="unit">
+<div class="unitIcon">🏹</div>
+<h2>Archidon</h2>
+<div class="equipment">
+Weapon: Long Bow<br>
+Armor: Archer Armor<br>
+Skin: Hunter
+</div>
+<button class="mainBtn" onclick="equipItem('Archidon')">
+EQUIP
+</button>
+</div>
+
+<div class="unit">
+<div class="unitIcon">🛡️</div>
+<h2>Spearton</h2>
+<div class="equipment">
+Weapon: Spear<br>
+Armor: Knight Armor<br>
+Skin: Royal Guard
+</div>
+<button class="mainBtn" onclick="equipItem('Spearton')">
+EQUIP
+</button>
+</div>
+
+<div class="unit">
+<div class="unitIcon">🔮</div>
+<h2>Magikill</h2>
+<div class="equipment">
+Weapon: Magic Staff<br>
+Armor: Mage Robe<br>
+Skin: Arcane
+</div>
+<button class="mainBtn" onclick="equipItem('Magikill')">
+EQUIP
+</button>
+</div>
+
+<div class="unit">
+<div class="unitIcon">👹</div>
+<h2>Giant</h2>
+<div class="equipment">
+Weapon: Giant Fist<br>
+Armor: Titan Armor<br>
+Skin: Titan
+</div>
+<button class="mainBtn" onclick="equipItem('Giant')">
+EQUIP
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= SHOP ================= -->
+
+<div id="shop" class="page">
+
+<h1 class="pageTitle">🛒 Shop</h1>
+
+<p class="pageDescription">
+Buy equipment, skins and special items.
+</p>
+
+<div class="shopGrid">
+
+<div class="shopItem">
+<h2>Iron Armor</h2>
+<div class="price">💰 250</div>
+<button onclick="buyItem('Iron Armor',250)">
+BUY
+</button>
+</div>
+
+<div class="shopItem">
+<h2>Knight Armor</h2>
+<div class="price">💰 500</div>
+<button onclick="buyItem('Knight Armor',500)">
+BUY
+</button>
+</div>
+
+<div class="shopItem">
+<h2>Dragon Armor</h2>
+<div class="price">💎 100</div>
+<button onclick="buyGemItem('Dragon Armor',100)">
+BUY
+</button>
+</div>
+
+<div class="shopItem">
+<h2>Shadow Armor</h2>
+<div class="price">💎 150</div>
+<button onclick="buyGemItem('Shadow Armor',150)">
+BUY
+</button>
+</div>
+
+<div class="shopItem">
+<h2>Royal Armor</h2>
+<div class="price">💎 250</div>
+<button onclick="buyGemItem('Royal Armor',250)">
+BUY
+</button>
+</div>
+
+<div class="shopItem">
+<h2>Titan Armor</h2>
+<div class="price">💎 500</div>
+<button onclick="buyGemItem('Titan Armor',500)">
+BUY
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= EVENTS ================= -->
+
+<div id="events" class="page">
+
+<h1 class="pageTitle">🎉 Events</h1>
+
+<p class="pageDescription">
+Limited events and free rewards.
+</p>
+
+<div class="event">
+
+<h2>🔥 Daily Battle</h2>
+
+<p style="margin-top:8px;color:#aeb8c8">
+Win 1 battle to receive your daily reward.
+</p>
+
+<button onclick="claimEvent('daily')">
+CLAIM REWARD
+</button>
+
+</div>
+
+<div class="event">
+
+<h2>💎 Legend Login</h2>
+
+<p style="margin-top:8px;color:#aeb8c8">
+Login today and receive 25 gems.
+</p>
+
+<button onclick="claimEvent('legend')">
+CLAIM 25 💎
+</button>
+
+</div>
+
+<div class="event">
+
+<h2>⚔️ Army Challenge</h2>
+
+<p style="margin-top:8px;color:#aeb8c8">
+Complete any Campaign battle.
+</p>
+
+<button onclick="claimEvent('army')">
+CLAIM REWARD
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= LEADERBOARD ================= -->
+
+<div id="leaderboard" class="page">
+
+<h1 class="pageTitle">🏆 Leaderboard</h1>
+
+<p class="pageDescription">
+Top SWUL legends.
+</p>
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Player</th>
+<th>Wins</th>
+<th>Level</th>
+<th>Rank</th>
+</tr>
+</thead>
+
+<tbody id="leaderboardBody"></tbody>
+
+</table>
+
+</div>
+
+
+<!-- ================= CODES ================= -->
+
+<div id="codes" class="page">
+
+<h1 class="pageTitle">🔑 Redeem Code</h1>
+
+<p class="pageDescription">
+Enter a code created by the SWUL Admin.
+</p>
+
+<div class="codeBox">
+
+<input
+id="redeemCode"
+class="codeInput"
+placeholder="Enter code..."
+>
+
+<button onclick="redeemCode()">
+REDEEM
+</button>
+
+<div id="codeMessage" style="margin-top:15px"></div>
+
+</div>
+
+</div>
+
+
+<!-- ================= APPEAL ================= -->
+
+<div id="appeal" class="page">
+
+<h1 class="pageTitle">📩 Appeal</h1>
+
+<p class="pageDescription">
+If your account has been banned, you can submit an appeal.
+</p>
+
+<div class="codeBox">
+
+<textarea
+id="appealText"
+class="codeInput"
+style="min-height:180px"
+placeholder="Write your appeal..."
+></textarea>
+
+<button onclick="submitAppeal()">
+SEND APPEAL
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= ADMIN ================= -->
+
+<div id="admin" class="page">
+
+<h1 class="pageTitle">👑 Admin Panel</h1>
+
+<div class="adminPanel">
+
+<div class="adminGrid">
+
+
+<!-- CREATE CODE -->
+
+<div class="adminCard">
+
+<h3>🎟️ Create Code</h3>
+
+<input id="newCode" placeholder="Code">
+
+<input id="codeReward" placeholder="Reward e.g. 500 gold">
+
+<button onclick="createCode()">
+CREATE CODE
+</button>
+
+</div>
+
+
+<!-- TEXT ALL GAME -->
+
+<div class="adminCard">
+
+<h3>📢 Text To All Game</h3>
+
+<textarea
+id="globalMessage"
+placeholder="Message..."
+></textarea>
+
+<button onclick="sendGlobalMessage()">
+SEND TO ALL
+</button>
+
+</div>
+
+
+<!-- GIFT -->
+
+<div class="adminCard">
+
+<h3>🎁 Gift To Account</h3>
+
+<select id="giftAccount"></select>
+
+<input
+id="giftAmount"
+type="number"
+placeholder="Gold amount"
+>
+
+<button onclick="giftAccount()">
+GIFT
+</button>
+
+</div>
+
+
+<!-- BAN -->
+
+<div class="adminCard">
+
+<h3>🚫 Ban Account</h3>
+
+<select id="banAccount"></select>
+
+<select id="banType">
+
+<option value="normal">Normal Ban</option>
+<option value="permanent">Permanent Ban</option>
+
+</select>
+
+<button onclick="banAccount()">
+BAN ACCOUNT
+</button>
+
+</div>
+
+
+<!-- TROLL -->
+
+<div class="adminCard">
+
+<h3>😂 Troll Account</h3>
+
+<select id="trollAccount"></select>
+
+<button onclick="trollAccount()">
+TROLL
+</button>
+
+</div>
+
+
+<!-- ACCOUNT LIST -->
+
+<div class="adminCard" style="grid-column:1/-1">
+
+<h3>👥 Account List</h3>
+
+<div id="adminAccountList"
+     class="accountList">
+</div>
+
+</div>
+
+
+<!-- APPEALS -->
+
+<div class="adminCard" style="grid-column:1/-1">
+
+<h3>📩 Appeal Box</h3>
+
+<div id="appealList"></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= MODAL ================= -->
+
+<div id="modal" class="modal hidden">
+
+<div class="modalBox">
+
+<h2 id="modalTitle"></h2>
+
+<div id="modalContent"></div>
+
+<button onclick="closeModal()">
+CLOSE
+</button>
+
+</div>
+
+</div>
+
+
+<div id="toast" class="toast hidden"></div>
+
 
 <script>
 
 /* =========================================================
-   SWUL FRONTEND
+   SWUL FRONTEND DATABASE
 ========================================================= */
 
-const STORAGE_KEY = "swul_accounts_v1";
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "AdLegend2026";
+
+let accounts =
+JSON.parse(localStorage.getItem("SWUL_ACCOUNTS") || "null");
+
+if(!accounts){
+
+    accounts = {
+
+        admin:{
+            username:"admin",
+            password:"AdLegend2026",
+            gold:999999999,
+            gems:999999999,
+            level:999,
+            wins:99999,
+            admin:true,
+            banned:false,
+            permanent:false,
+            troll:false,
+            campaign:10,
+            missions:10,
+            claimedEvents:[]
+        }
+
+    };
+
+    saveAccounts();
+}
+
+let codes =
+JSON.parse(localStorage.getItem("SWUL_CODES") || "{}");
+
+let appeals =
+JSON.parse(localStorage.getItem("SWUL_APPEALS") || "[]");
 
 let currentUser = null;
 
-const defaultAccount = {
-    username: "Guest",
-    password: "",
-    gold: 10000,
-    gems: 500,
-    score: 0,
-    level: 1,
-    campaign: 0,
-    missions: 0,
-    inventory: [],
-    claimedEvents: [],
-    claimedGifts: []
-};
 
-/* =========================
-   DATABASE LOCAL
-========================= */
+/* =========================================================
+   SAVE
+========================================================= */
 
-function getAccounts() {
-    try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch {
-        return [];
-    }
-}
+function saveAccounts(){
 
-function saveAccounts(accounts) {
     localStorage.setItem(
-        STORAGE_KEY,
+        "SWUL_ACCOUNTS",
         JSON.stringify(accounts)
     );
+
 }
 
-function saveCurrentUser() {
+function saveCodes(){
 
-    if (!currentUser) return;
-
-    if (currentUser.username === "Guest") return;
-
-    const accounts = getAccounts();
-
-    const index = accounts.findIndex(
-        a => a.username === currentUser.username
+    localStorage.setItem(
+        "SWUL_CODES",
+        JSON.stringify(codes)
     );
 
-    if (index !== -1) {
-        accounts[index] = currentUser;
-        saveAccounts(accounts);
-    }
 }
 
-/* =========================
-   SCREEN SYSTEM
-========================= */
+function saveAppeals(){
 
-function showScreen(id) {
+    localStorage.setItem(
+        "SWUL_APPEALS",
+        JSON.stringify(appeals)
+    );
 
-    document.querySelectorAll(".screen")
-        .forEach(screen => {
-            screen.classList.remove("active");
-        });
-
-    const target = document.getElementById(id);
-
-    if (target) {
-        target.classList.add("active");
-    }
-
-    updateUI();
-
-    if (id === "campaignScreen") {
-        renderCampaign();
-    }
-
-    if (id === "missionsScreen") {
-        renderMissions();
-    }
-
-    if (id === "leaderboardScreen") {
-        renderLeaderboard();
-    }
 }
 
-function goHome() {
-    showScreen("homeScreen");
-}
 
-/* =========================
-   LOADING
-========================= */
-
-setTimeout(() => {
-    showScreen("loginScreen");
-}, 2200);
-
-/* =========================
+/* =========================================================
    LOGIN
-========================= */
+========================================================= */
 
-function login() {
+function login(){
 
-    const username =
-        document.getElementById("loginUsername")
-        .value.trim();
+    const user =
+        document.getElementById("loginUser").value.trim();
 
-    const password =
-        document.getElementById("loginPassword")
-        .value;
+    const pass =
+        document.getElementById("loginPass").value;
 
-    if (!username || !password) {
-        popup(
-            "LOGIN",
-            "Please enter username and password."
-        );
+    if(!user || !pass){
+
+        showLoginMessage("Please enter username and password.");
         return;
+
     }
 
-    const accounts = getAccounts();
+    const acc = accounts[user];
 
-    const account = accounts.find(
-        a =>
-            a.username === username &&
-            a.password === password
-    );
+    if(!acc){
 
-    if (!account) {
-        popup(
-            "LOGIN FAILED",
-            "Account not found or password is incorrect."
-        );
+        showLoginMessage("Account not found.");
         return;
+
     }
 
-    currentUser = account;
+    if(acc.banned){
 
-    popup(
-        "WELCOME",
-        "Welcome back, " + username + "!"
-    );
+        if(acc.permanent){
 
-    setTimeout(goHome, 700);
+            showLoginMessage(
+                "This account is permanently banned."
+            );
+
+        }else{
+
+            showLoginMessage(
+                "This account is banned."
+            );
+
+        }
+
+        return;
+
+    }
+
+    if(acc.password !== pass){
+
+        showLoginMessage("Wrong password.");
+        return;
+
+    }
+
+    currentUser = user;
+
+    startGame();
+
 }
 
-function registerAccount() {
 
-    const username =
-        document.getElementById("registerUsername")
-        .value.trim();
+function createAccount(){
 
-    const password =
-        document.getElementById("registerPassword")
-        .value;
+    const user =
+        document.getElementById("loginUser").value.trim();
 
-    if (username.length < 3) {
-        popup(
-            "CREATE ACCOUNT",
-            "Username must contain at least 3 characters."
+    const pass =
+        document.getElementById("loginPass").value;
+
+    if(user.length < 3){
+
+        showLoginMessage(
+            "Username must have at least 3 characters."
         );
+
         return;
+
     }
 
-    if (password.length < 4) {
-        popup(
-            "CREATE ACCOUNT",
-            "Password must contain at least 4 characters."
+    if(pass.length < 4){
+
+        showLoginMessage(
+            "Password must have at least 4 characters."
         );
+
         return;
+
     }
 
-    const accounts = getAccounts();
+    if(accounts[user]){
 
-    if (
-        accounts.some(
-            a => a.username.toLowerCase() === username.toLowerCase()
-        )
-    ) {
-        popup(
-            "CREATE ACCOUNT",
-            "That username already exists."
+        showLoginMessage(
+            "Username already exists."
         );
+
         return;
+
     }
 
-    const account = {
-        ...defaultAccount,
-        username,
-        password
+    accounts[user] = {
+
+        username:user,
+        password:pass,
+
+        gold:1000,
+        gems:100,
+
+        level:1,
+        wins:0,
+
+        admin:false,
+        banned:false,
+        permanent:false,
+        troll:false,
+
+        campaign:0,
+        missions:0,
+
+        claimedEvents:[]
+
     };
 
-    accounts.push(account);
+    saveAccounts();
 
-    saveAccounts(accounts);
-
-    currentUser = account;
-
-    popup(
-        "ACCOUNT CREATED",
-        "Your SWUL account has been created."
+    showLoginMessage(
+        "Account created! Click LOGIN."
     );
 
-    setTimeout(goHome, 700);
 }
 
-function guestLogin() {
 
-    currentUser = {
-        ...defaultAccount,
-        username: "Guest"
+function guestLogin(){
+
+    currentUser = "Guest_" +
+        Math.floor(Math.random()*99999);
+
+    accounts[currentUser] = {
+
+        username:currentUser,
+        password:"",
+        gold:1000,
+        gems:100,
+        level:1,
+        wins:0,
+        admin:false,
+        banned:false,
+        permanent:false,
+        troll:false,
+        campaign:0,
+        missions:0,
+        claimedEvents:[]
+
     };
 
-    goHome();
+    saveAccounts();
+
+    startGame();
+
 }
 
-function logout() {
 
-    saveCurrentUser();
+function showLoginMessage(text){
+
+    document.getElementById(
+        "loginMessage"
+    ).textContent = text;
+
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
+
+function startGame(){
+
+    document.getElementById(
+        "loginScreen"
+    ).classList.add("hidden");
+
+    document.getElementById(
+        "game"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+        "playerName"
+    ).textContent = currentUser;
+
+    updateResources();
+
+    if(accounts[currentUser].admin){
+
+        document
+            .getElementById("adminNav")
+            .classList.remove("hidden");
+
+    }
+
+    buildCampaigns();
+    buildMissions();
+    buildLeaderboard();
+    refreshAdmin();
+
+    showPage("home");
+
+    toast(
+        "Welcome to Stick War Ultimate Legends!"
+    );
+
+}
+
+
+function logout(){
 
     currentUser = null;
 
-    showScreen("loginScreen");
+    document
+        .getElementById("game")
+        .classList.add("hidden");
+
+    document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
+
 }
 
-/* =========================
-   UI
-========================= */
 
-function updateUI() {
+/* =========================================================
+   RESOURCES
+========================================================= */
 
-    if (!currentUser) return;
+function updateResources(){
 
-    document.getElementById("goldDisplay")
-        .textContent =
-        Number(currentUser.gold || 0)
-        .toLocaleString();
+    const acc = accounts[currentUser];
 
-    document.getElementById("gemsDisplay")
-        .textContent =
-        Number(currentUser.gems || 0)
-        .toLocaleString();
+    document.getElementById("gold")
+        .textContent = acc.gold;
 
-    document.getElementById("playerDisplay")
-        .textContent =
-        currentUser.username;
+    document.getElementById("gems")
+        .textContent = acc.gems;
+
 }
 
-/* =========================
-   PLAY
-========================= */
 
-function startGame() {
+/* =========================================================
+   PAGE SYSTEM
+========================================================= */
 
-    popup(
-        "⚔️ BATTLE",
-        "Battle system is the next module. The SWUL Home system is ready!"
-    );
+function showPage(id){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page=>{
+            page.classList.remove("active");
+        });
+
+    const page =
+        document.getElementById(id);
+
+    if(page){
+
+        page.classList.add("active");
+
+    }
+
 }
 
-/* =========================
+
+/* =========================================================
    CAMPAIGN
-========================= */
+========================================================= */
 
 const campaignNames = [
+
     "The Beginning",
+    "The Spear",
     "The Archer",
-    "The Spearton",
-    "The Golem",
-    "The Beast",
-    "The Shadow",
-    "The Royal",
-    "The Titan",
-    "The Final Army",
-    "The Last Battle"
+    "The Order",
+    "Rise of the Mage",
+    "The Giant",
+    "Darkness",
+    "Royal War",
+    "Titan's Fall",
+    "The Final Battle"
+
 ];
 
-const campaignCreatures = [
-    "🐴",
-    "🐉",
-    "🦅",
-    "🗿",
-    "🐺",
-    "👹",
-    "🦁",
-    "🔥",
-    "⚡",
-    "👑"
+const campaignStories = [
+
+    "The journey begins. The Order prepares its first army.",
+    "A mysterious Spearton joins your forces.",
+    "The enemy controls the mountains. Archers answer the call.",
+    "The Order grows stronger and faces a new enemy.",
+    "A powerful Magikill enters the battlefield.",
+    "The Giant awakens and joins your army.",
+    "Dark forces surround the kingdom.",
+    "The Royal armies enter the war.",
+    "A legendary Titan appears on the battlefield.",
+    "The final battle begins. Everything ends here."
+
 ];
 
-function renderCampaign() {
 
-    const container =
-        document.getElementById("campaignCards");
+function buildCampaigns(){
 
-    container.innerHTML = "";
+    const grid =
+        document.getElementById("campaignGrid");
 
-    campaignNames.forEach((name, index) => {
+    grid.innerHTML = "";
+
+    const progress =
+        accounts[currentUser].campaign;
+
+    for(let i=0;i<10;i++){
 
         const unlocked =
-            index <= Number(currentUser.campaign || 0);
+            i <= progress;
 
-        const card =
+        const div =
             document.createElement("div");
 
-        card.className = "card";
+        div.className =
+            "campaign " +
+            (!unlocked ? "locked":"");
 
-        card.innerHTML = `
-            <h3>
-                ${campaignCreatures[index]}
-                Campaign ${index + 1}
-            </h3>
+        div.innerHTML = `
 
-            <p>${name}</p>
-
-            <p style="margin-top:8px;">
-                ${
-                    unlocked
-                    ? "🟢 UNLOCKED"
-                    : "🔒 LOCKED"
-                }
-            </p>
-
-            <div class="progress">
-                <div class="progress-bar"
-                     style="width:${unlocked ? 100 : 0}%;">
-                </div>
+            <div class="campaignNumber">
+                CAMPAIGN ${i+1}
             </div>
 
-            <button
-                onclick="playCampaign(${index})"
-                ${unlocked ? "" : "disabled"}>
-                ${
-                    unlocked
-                    ? "PLAY"
-                    : "LOCKED"
-                }
-            </button>
+            <h3>${campaignNames[i]}</h3>
+
+            <p style="color:#aeb8c8">
+                ${unlocked ?
+                    "Ready for battle.":
+                    "🔒 Locked"}
+            </p>
+
+            ${
+                unlocked ?
+                `<button onclick="playCampaign(${i})">
+                    PLAY
+                 </button>`:
+                ""
+            }
+
         `;
 
-        container.appendChild(card);
-    });
-}
+        grid.appendChild(div);
 
-function playCampaign(index) {
-
-    if (
-        index >
-        Number(currentUser.campaign || 0)
-    ) {
-        popup(
-            "LOCKED",
-            "Complete the previous Campaign first."
-        );
-        return;
     }
 
-    popup(
-        "CAMPAIGN " + (index + 1),
-        "Battle loading... After victory, this Campaign will unlock its creature and story."
-    );
 }
 
-/* =========================
+
+function playCampaign(index){
+
+    const acc =
+        accounts[currentUser];
+
+    if(index > acc.campaign){
+
+        toast("Campaign locked.");
+        return;
+
+    }
+
+    acc.wins++;
+    acc.gold += 200;
+    acc.campaign =
+        Math.max(acc.campaign,index+1);
+
+    saveAccounts();
+
+    updateResources();
+    buildCampaigns();
+    buildLeaderboard();
+
+    showStory(
+        "Campaign " + (index+1),
+        campaignStories[index]
+    );
+
+}
+
+
+/* =========================================================
+   STORY
+========================================================= */
+
+function showStory(title,text){
+
+    let seconds = 20;
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("modalTitle")
+        .textContent =
+        "📖 " + title + " - Story";
+
+    const content =
+        document.getElementById("modalContent");
+
+    content.innerHTML = `
+
+        <div class="story">
+            ${text}
+        </div>
+
+        <div class="report" style="margin-top:20px">
+            Story scene playing...
+            <br>
+            <b id="storyTimer">20</b> seconds
+        </div>
+
+    `;
+
+    const timer =
+        setInterval(()=>{
+
+            seconds--;
+
+            const el =
+                document.getElementById("storyTimer");
+
+            if(el)
+                el.textContent = seconds;
+
+            if(seconds <= 0){
+
+                clearInterval(timer);
+
+                closeModal();
+
+            }
+
+        },1000);
+
+}
+
+
+/* =========================================================
    MISSIONS
-========================= */
+========================================================= */
 
-function renderMissions() {
+function buildMissions(){
 
-    const container =
-        document.getElementById("missionCards");
+    const grid =
+        document.getElementById("missionGrid");
 
-    container.innerHTML = "";
+    grid.innerHTML = "";
 
-    for (let i = 1; i <= 10; i++) {
+    const progress =
+        accounts[currentUser].missions;
 
-        const completed =
-            i <= Number(currentUser.missions || 0);
+    for(let i=0;i<10;i++){
 
-        const card =
+        const unlocked =
+            i <= progress;
+
+        const div =
             document.createElement("div");
 
-        card.className = "card";
+        div.className="mission";
 
-        card.innerHTML = `
-            <h3>🎯 Mission ${i}</h3>
+        div.innerHTML=`
 
-            <p>
-                📜 Scouting Report available
-            </p>
+            <h3>
+                Mission ${i+1}
+            </h3>
 
-            <p style="margin-top:8px;">
+            <small>
+                ${unlocked ?
+                "Map available":
+                "🔒 Locked"}
+            </small>
+
+            <div class="report">
+
+                <b>📡 Scouting Report</b>
+
+                <br>
+
+                Enemy strength:
+                ${40 + i*7}%
+
+                <br>
+
+                Enemy units:
                 ${
-                    completed
-                    ? "🏆 COMPLETED"
-                    : "⚔️ READY"
+                    i%2===0 ?
+                    "Swordwrath + Archidon":
+                    "Spearton + Magikill"
                 }
-            </p>
 
-            <button onclick="playMission(${i})">
-                ${
-                    completed
-                    ? "REPLAY"
-                    : "SCOUT"
-                }
-            </button>
+            </div>
+
+            ${
+                unlocked ?
+                `<button onclick="playMission(${i})">
+                    PLAY MAP
+                 </button>`:
+                ""
+            }
+
         `;
 
-        container.appendChild(card);
+        grid.appendChild(div);
+
     }
+
 }
 
-function playMission(number) {
 
-    popup(
-        "📜 SCOUTING REPORT",
-        "Enemy forces detected on Mission Map " +
-        number +
-        ". Prepare your army!"
-    );
+function playMission(index){
+
+    const acc =
+        accounts[currentUser];
+
+    if(index > acc.missions){
+
+        toast("Mission locked.");
+        return;
+
+    }
+
+    acc.wins++;
+    acc.gold += 100;
+
+    acc.missions =
+        Math.max(acc.missions,index+1);
+
+    if(index === 9){
+
+        acc.gems += 100;
+
+        toast(
+            "🎉 Mission 10 complete! Exclusive skin unlocked!"
+        );
+
+    }
+
+    saveAccounts();
+
+    updateResources();
+    buildMissions();
+    buildLeaderboard();
+
 }
 
-/* =========================
-   SPELLS
-========================= */
 
-const spells = [
-    "Lightning",
-    "Meteor",
-    "Fireball",
-    "Freeze",
-    "Heal",
-    "Rage",
-    "Shield",
-    "Tornado",
-    "Earthquake",
-    "Poison",
-    "Clone",
-    "Teleport",
-    "Arrow Rain",
-    "Darkness",
-    "Thunder Storm",
-    "Time Stop",
-    "Stone Skin",
-    "Speed",
-    "Summon"
-];
-
-function renderSpells() {
-
-    const container =
-        document.getElementById("spellCards");
-
-    container.innerHTML = "";
-
-    spells.forEach((spell, index) => {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-            <h3>✨ ${spell}</h3>
-            <p>Spell ${index + 1} of 19.</p>
-            <button onclick="selectSpell('${spell}')">
-                SELECT
-            </button>
-        `;
-
-        container.appendChild(card);
-    });
-}
-
-function selectSpell(spell) {
-
-    popup(
-        "SPELL SELECTED",
-        spell + " selected."
-    );
-}
-
-/* =========================
+/* =========================================================
    ARMORY
-========================= */
+========================================================= */
 
-function equipItem(item) {
+function equipItem(unit){
 
-    if (!currentUser.inventory) {
-        currentUser.inventory = [];
-    }
-
-    if (!currentUser.inventory.includes(item)) {
-        currentUser.inventory.push(item);
-    }
-
-    saveCurrentUser();
-
-    popup(
-        "ARMORY",
-        item + " equipped!"
+    toast(
+        unit + " equipment equipped!"
     );
+
 }
 
-/* =========================
+
+/* =========================================================
    SHOP
-========================= */
+========================================================= */
 
-function buyItem(item, price) {
+function buyItem(name,price){
 
-    if (currentUser.gold < price) {
+    const acc =
+        accounts[currentUser];
 
-        popup(
-            "SHOP",
-            "Not enough Gold."
-        );
+    if(acc.gold < price){
 
+        toast("Not enough gold.");
         return;
+
     }
 
-    currentUser.gold -= price;
+    acc.gold -= price;
 
-    if (!currentUser.inventory) {
-        currentUser.inventory = [];
-    }
+    saveAccounts();
 
-    currentUser.inventory.push(item);
+    updateResources();
 
-    saveCurrentUser();
-
-    updateUI();
-
-    popup(
-        "PURCHASE COMPLETE",
-        "You bought " + item + "."
+    toast(
+        "Purchased " + name + "!"
     );
+
 }
 
-/* =========================
+
+function buyGemItem(name,price){
+
+    const acc =
+        accounts[currentUser];
+
+    if(acc.gems < price){
+
+        toast("Not enough gems.");
+        return;
+
+    }
+
+    acc.gems -= price;
+
+    saveAccounts();
+
+    updateResources();
+
+    toast(
+        "Purchased " + name + "!"
+    );
+
+}
+
+
+/* =========================================================
    EVENTS
-========================= */
+========================================================= */
 
-function claimEvent(eventName) {
+function claimEvent(id){
 
-    if (!currentUser.claimedEvents) {
-        currentUser.claimedEvents = [];
-    }
+    const acc =
+        accounts[currentUser];
 
-    if (
-        currentUser.claimedEvents.includes(eventName)
-    ) {
-        popup(
-            "EVENT",
-            "You already claimed this reward."
-        );
+    if(acc.claimedEvents.includes(id)){
+
+        toast("Already claimed.");
         return;
+
     }
 
-    currentUser.claimedEvents.push(eventName);
+    acc.claimedEvents.push(id);
 
-    currentUser.gems += 100;
+    if(id==="legend"){
 
-    saveCurrentUser();
+        acc.gems += 25;
 
-    updateUI();
+    }else{
 
-    popup(
-        "🎁 REWARD",
-        "You received 100 Gems from " +
-        eventName + "!"
-    );
-}
+        acc.gold += 500;
 
-/* =========================
-   GIFTS
-========================= */
-
-function claimGift() {
-
-    if (!currentUser.claimedGifts) {
-        currentUser.claimedGifts = [];
     }
 
-    if (
-        currentUser.claimedGifts.includes("Welcome Gift")
-    ) {
-        popup(
-            "GIFT",
-            "This gift has already been claimed."
-        );
-        return;
-    }
+    saveAccounts();
 
-    currentUser.claimedGifts.push("Welcome Gift");
+    updateResources();
 
-    currentUser.gold += 1000;
-    currentUser.gems += 50;
+    toast("🎁 Reward claimed!");
 
-    saveCurrentUser();
-
-    updateUI();
-
-    popup(
-        "🎁 GIFT CLAIMED",
-        "You received 1,000 Gold and 50 Gems!"
-    );
 }
 
-/* =========================
-   CODES
-========================= */
 
-const demoCodes = {
-    "SWUL2026": {
-        gold: 5000,
-        gems: 100
-    },
-
-    "TITANFREE": {
-        gold: 1000,
-        gems: 500
-    }
-};
-
-function redeemCode() {
-
-    const input =
-        document.getElementById("codeInput");
-
-    const code =
-        input.value.trim().toUpperCase();
-
-    if (!code) {
-        popup(
-            "CODE",
-            "Enter a code."
-        );
-        return;
-    }
-
-    const reward =
-        demoCodes[code];
-
-    if (!reward) {
-        popup(
-            "INVALID CODE",
-            "This code is not valid."
-        );
-        return;
-    }
-
-    currentUser.gold += reward.gold;
-    currentUser.gems += reward.gems;
-
-    saveCurrentUser();
-
-    updateUI();
-
-    input.value = "";
-
-    popup(
-        "🎁 CODE REDEEMED",
-        "You received " +
-        reward.gold.toLocaleString() +
-        " Gold and " +
-        reward.gems +
-        " Gems!"
-    );
-}
-
-/* =========================
-   ROYALS
-========================= */
-
-function selectRoyal(name) {
-
-    popup(
-        "👑 ROYAL",
-        name + " selected."
-    );
-}
-
-/* =========================
-   UPGRADES
-========================= */
-
-function upgrade(type) {
-
-    const cost = 500;
-
-    if (currentUser.gold < cost) {
-
-        popup(
-            "UPGRADE",
-            "You need 500 Gold."
-        );
-
-        return;
-    }
-
-    currentUser.gold -= cost;
-
-    saveCurrentUser();
-
-    updateUI();
-
-    popup(
-        "UPGRADE",
-        type + " upgraded!"
-    );
-}
-
-/* =========================
-   SETTINGS
-========================= */
-
-function toggleSetting(name) {
-
-    popup(
-        "SETTINGS",
-        name + " setting changed."
-    );
-}
-
-function toggleSetting(name) {
-
-    popup(
-        "SETTINGS",
-        name + " setting changed."
-    );
-}
-
-/* =========================
+/* =========================================================
    LEADERBOARD
-========================= */
+========================================================= */
 
-function renderLeaderboard() {
+function buildLeaderboard(){
 
     const body =
-        document.getElementById("leaderboardBody");
+        document.getElementById(
+            "leaderboardBody"
+        );
 
-    const accounts = getAccounts();
+    const list =
+        Object.values(accounts)
+        .filter(a=>!a.admin)
+        .sort((a,b)=>b.wins-a.wins);
 
-    let leaderboard = [
-        {
-            username: "Giffon",
-            score: 985420,
-            level: 87
-        },
-        {
-            username: "TinGaming",
-            score: 920100,
-            level: 82
-        },
-        {
-            username: "Khoa",
-            score: 875600,
-            level: 79
-        },
-        {
-            username: "Player123",
-            score: 721500,
-            level: 70
-        }
+    body.innerHTML="";
+
+    list.forEach((acc,index)=>{
+
+        const rank =
+            index===0 ? "👑 Legend":
+            index<3 ? "⭐ Elite":
+            "Warrior";
+
+        body.innerHTML += `
+
+            <tr>
+
+                <td>${index+1}</td>
+
+                <td>${acc.username}</td>
+
+                <td>${acc.wins}</td>
+
+                <td>${acc.level}</td>
+
+                <td>${rank}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   CODES
+========================================================= */
+
+function createCode(){
+
+    if(!isAdmin())
+        return;
+
+    const code =
+        document.getElementById(
+            "newCode"
+        ).value.trim().toUpperCase();
+
+    const reward =
+        document.getElementById(
+            "codeReward"
+        ).value.trim();
+
+    if(!code || !reward){
+
+        toast("Enter code and reward.");
+        return;
+
+    }
+
+    codes[code] = {
+        reward:reward,
+        used:[]
+    };
+
+    saveCodes();
+
+    toast(
+        "Code " + code + " created!"
+    );
+
+}
+
+
+function redeemCode(){
+
+    const code =
+        document.getElementById(
+            "redeemCode"
+        ).value.trim().toUpperCase();
+
+    const item = codes[code];
+
+    if(!item){
+
+        document.getElementById(
+            "codeMessage"
+        ).textContent =
+        "❌ Invalid code.";
+
+        return;
+
+    }
+
+    if(item.used.includes(currentUser)){
+
+        document.getElementById(
+            "codeMessage"
+        ).textContent =
+        "❌ You already used this code.";
+
+        return;
+
+    }
+
+    item.used.push(currentUser);
+
+    accounts[currentUser].gold += 500;
+
+    saveCodes();
+    saveAccounts();
+
+    updateResources();
+
+    document.getElementById(
+        "codeMessage"
+    ).textContent =
+    "✅ Code redeemed! Reward: " +
+    item.reward;
+
+}
+
+
+/* =========================================================
+   APPEAL
+========================================================= */
+
+function submitAppeal(){
+
+    const text =
+        document.getElementById(
+            "appealText"
+        ).value.trim();
+
+    if(!text){
+
+        toast("Write your appeal first.");
+        return;
+
+    }
+
+    appeals.push({
+
+        username:currentUser,
+        text:text,
+        time:new Date().toLocaleString(),
+        status:"Pending"
+
+    });
+
+    saveAppeals();
+
+    document.getElementById(
+        "appealText"
+    ).value="";
+
+    toast(
+        "📩 Appeal sent to Admin."
+    );
+
+    refreshAdmin();
+
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+function isAdmin(){
+
+    if(!currentUser ||
+       !accounts[currentUser] ||
+       !accounts[currentUser].admin){
+
+        toast("Admin access required.");
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+function refreshAdmin(){
+
+    if(!currentUser ||
+       !accounts[currentUser] ||
+       !accounts[currentUser].admin){
+
+        return;
+
+    }
+
+    const names =
+        Object.keys(accounts);
+
+    const selects = [
+
+        document.getElementById("giftAccount"),
+        document.getElementById("banAccount"),
+        document.getElementById("trollAccount")
+
     ];
 
-    accounts.forEach(account => {
+    selects.forEach(select=>{
 
-        leaderboard.push({
-            username: account.username,
-            score: account.score || 0,
-            level: account.level || 1
+        if(!select) return;
+
+        select.innerHTML="";
+
+        names
+        .filter(name=>name!=="admin")
+        .forEach(name=>{
+
+            select.innerHTML +=
+            `<option value="${name}">
+                ${name}
+             </option>`;
+
         });
 
     });
 
-    leaderboard.sort(
-        (a,b) => b.score - a.score
-    );
 
-    body.innerHTML = "";
+    const list =
+        document.getElementById(
+            "adminAccountList"
+        );
 
-    leaderboard.forEach((player, index) => {
+    if(list){
 
-        const row =
-            document.createElement("tr");
+        list.innerHTML="";
 
-        if (
-            currentUser &&
-            player.username === currentUser.username
-        ) {
-            row.className = "current";
+        names.forEach(name=>{
+
+            const acc =
+                accounts[name];
+
+            list.innerHTML += `
+
+                <div class="accountRow">
+
+                    <div>
+                        <b>${name}</b>
+
+                        <br>
+
+                        <small>
+                            💰 ${acc.gold}
+                            |
+                            💎 ${acc.gems}
+                            |
+                            Wins ${acc.wins}
+                            |
+                            ${
+                                acc.banned ?
+                                "🚫 BANNED":
+                                "✅ ACTIVE"
+                            }
+                        </small>
+
+                    </div>
+
+                    <button
+                        onclick="selectAdminAccount('${name}')">
+                        SELECT
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    const appealList =
+        document.getElementById(
+            "appealList"
+        );
+
+    if(appealList){
+
+        appealList.innerHTML="";
+
+        if(appeals.length===0){
+
+            appealList.innerHTML =
+                "<p>No appeals.</p>";
+
         }
 
-        row.innerHTML = `
-            <td>
-                ${
-                    index === 0 ? "🥇" :
-                    index === 1 ? "🥈" :
-                    index === 2 ? "🥉" :
-                    index + 1
-                }
-            </td>
+        appeals.forEach((a,i)=>{
 
-            <td>${escapeHTML(player.username)}</td>
+            appealList.innerHTML += `
 
-            <td>${Number(player.score).toLocaleString()}</td>
+                <div class="report">
 
-            <td>${player.level}</td>
-        `;
+                    <b>${a.username}</b>
 
-        body.appendChild(row);
-    });
+                    <br>
+
+                    ${a.text}
+
+                    <br>
+
+                    <small>
+                        ${a.time}
+                    </small>
+
+                    <br>
+
+                    Status:
+                    ${a.status}
+
+                    <br>
+
+                    <button
+                    onclick="approveAppeal(${i})">
+                        MARK REVIEWED
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
 }
 
-/* =========================
-   HTML SECURITY
-========================= */
 
-function escapeHTML(text) {
+function selectAdminAccount(name){
 
-    return String(text)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    document.getElementById(
+        "giftAccount"
+    ).value=name;
+
+    document.getElementById(
+        "banAccount"
+    ).value=name;
+
+    document.getElementById(
+        "trollAccount"
+    ).value=name;
+
+    toast(
+        "Selected account: " + name
+    );
+
 }
 
-/* =========================
+
+function giftAccount(){
+
+    if(!isAdmin()) return;
+
+    const name =
+        document.getElementById(
+            "giftAccount"
+        ).value;
+
+    const amount =
+        Number(
+            document.getElementById(
+                "giftAmount"
+            ).value
+        );
+
+    if(!accounts[name]){
+
+        toast("Account not found.");
+        return;
+
+    }
+
+    if(!amount || amount<=0){
+
+        toast("Invalid amount.");
+        return;
+
+    }
+
+    accounts[name].gold += amount;
+
+    saveAccounts();
+
+    refreshAdmin();
+
+    toast(
+        "🎁 Gifted " +
+        amount +
+        " gold to " +
+        name
+    );
+
+}
+
+
+function banAccount(){
+
+    if(!isAdmin()) return;
+
+    const name =
+        document.getElementById(
+            "banAccount"
+        ).value;
+
+    const type =
+        document.getElementById(
+            "banType"
+        ).value;
+
+    if(!accounts[name]) return;
+
+    accounts[name].banned=true;
+
+    accounts[name].permanent =
+        type==="permanent";
+
+    saveAccounts();
+
+    refreshAdmin();
+
+    toast(
+        "🚫 " +
+        name +
+        " has been banned."
+    );
+
+}
+
+
+function trollAccount(){
+
+    if(!isAdmin()) return;
+
+    const name =
+        document.getElementById(
+            "trollAccount"
+        ).value;
+
+    if(!accounts[name]) return;
+
+    accounts[name].troll =
+        !accounts[name].troll;
+
+    saveAccounts();
+
+    refreshAdmin();
+
+    toast(
+        "😂 Troll mode changed for " +
+        name
+    );
+
+}
+
+
+function sendGlobalMessage(){
+
+    if(!isAdmin()) return;
+
+    const message =
+        document.getElementById(
+            "globalMessage"
+        ).value.trim();
+
+    if(!message){
+
+        toast("Enter a message.");
+        return;
+
+    }
+
+    localStorage.setItem(
+        "SWUL_GLOBAL_MESSAGE",
+        message
+    );
+
+    document.getElementById(
+        "globalMessage"
+    ).value="";
+
+    toast(
+        "📢 Message sent to all game."
+    );
+
+}
+
+
+function approveAppeal(index){
+
+    if(!isAdmin()) return;
+
+    appeals[index].status =
+        "Reviewed";
+
+    saveAppeals();
+
+    refreshAdmin();
+
+    toast(
+        "Appeal marked as reviewed."
+    );
+
+}
+
+
+/* =========================================================
    MODAL
-========================= */
+========================================================= */
 
-function popup(title, text) {
+function closeModal(){
 
-    document.getElementById("modalTitle")
-        .textContent = title;
+    document
+        .getElementById("modal")
+        .classList.add("hidden");
 
-    document.getElementById("modalText")
-        .textContent = text;
-
-    document.getElementById("modal")
-        .classList.add("show");
 }
 
-function closeModal() {
 
-    document.getElementById("modal")
-        .classList.remove("show");
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+    const el =
+        document.getElementById("toast");
+
+    el.textContent=message;
+
+    el.classList.remove("hidden");
+
+    setTimeout(()=>{
+
+        el.classList.add("hidden");
+
+    },3000);
+
 }
 
-/* =========================
-   SAVE BEFORE EXIT
-========================= */
+
+/* =========================================================
+   AUTO REFRESH
+========================================================= */
+
+setInterval(()=>{
+
+    if(currentUser &&
+       accounts[currentUser]){
+
+        updateResources();
+
+    }
+
+},1000);
+
+
+/* =========================================================
+   GLOBAL MESSAGE
+========================================================= */
 
 window.addEventListener(
-    "beforeunload",
-    () => {
-        saveCurrentUser();
+    "storage",
+    event=>{
+
+        if(
+            event.key ===
+            "SWUL_GLOBAL_MESSAGE"
+        ){
+
+            if(event.newValue){
+
+                toast(
+                    "📢 ADMIN: " +
+                    event.newValue
+                );
+
+            }
+
+        }
+
     }
 );
-
-/* =========================
-   INITIAL RENDER
-========================= */
-
-renderSpells();
 
 </script>
 
