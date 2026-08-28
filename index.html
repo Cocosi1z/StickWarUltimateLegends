@@ -1,18 +1,22 @@
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SWUL - Stick War Ultimate Legends</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 body{
     font-family:Arial,Helvetica,sans-serif;
     background:
-        radial-gradient(circle at top,#28374b,#101722 55%,#070b10);
+        radial-gradient(circle at top,#26344d 0%,#101722 45%,#080c12 100%);
     color:white;
     min-height:100vh;
 }
@@ -23,39 +27,8 @@ button{
     font-weight:bold;
 }
 
-.hidden{display:none!important}
-
-#loading{
-    position:fixed;
-    inset:0;
-    background:#080d13;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-}
-
-.loader{
-    text-align:center;
-}
-
-.loader h1{
-    font-size:42px;
-    color:#ffd54a;
-}
-
-.spinner{
-    width:55px;
-    height:55px;
-    border:6px solid #333;
-    border-top-color:#ffd54a;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-    margin:25px auto;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
+.hidden{
+    display:none!important;
 }
 
 /* LOGIN */
@@ -63,80 +36,73 @@ button{
 #loginScreen{
     min-height:100vh;
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     padding:20px;
 }
 
-.loginBox{
-    width:430px;
-    max-width:100%;
-    background:rgba(15,22,32,.96);
-    border:2px solid #38495d;
-    border-radius:18px;
-    padding:30px;
-    box-shadow:0 20px 70px #000;
+.login-box{
+    width:100%;
+    max-width:480px;
+    background:rgba(20,28,40,.96);
+    border:2px solid #394961;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+    text-align:center;
 }
 
 .logo{
-    text-align:center;
-    margin-bottom:25px;
+    font-size:42px;
+    font-weight:900;
+    margin-bottom:8px;
 }
 
-.logo h1{
-    font-size:38px;
-    color:#ffd54a;
+.version{
+    color:#aeb9ca;
+    margin-bottom:30px;
 }
 
-.logo p{
-    color:#aeb9c8;
-    margin-top:7px;
-}
-
-.input{
+.login-box input{
     width:100%;
     padding:14px;
     margin:7px 0;
     border-radius:10px;
-    border:1px solid #445466;
-    background:#101821;
+    border:1px solid #46546b;
+    background:#0d141e;
     color:white;
-    outline:none;
+    font-size:16px;
 }
 
-.input:focus{
-    border-color:#ffd54a;
+.login-buttons{
+    display:grid;
+    gap:10px;
+    margin-top:15px;
 }
 
 .btn{
-    width:100%;
-    padding:14px;
-    margin-top:9px;
+    padding:14px 18px;
     border-radius:10px;
-    background:#d99b20;
-    color:#111;
-    font-size:15px;
+    background:#34445e;
+    color:white;
+    transition:.2s;
 }
 
 .btn:hover{
-    background:#ffd54a;
+    transform:translateY(-2px);
+    filter:brightness(1.2);
 }
 
-.btn.secondary{
-    background:#263548;
-    color:white;
+.btn-primary{
+    background:#c58a28;
 }
 
-.btn.red{
-    background:#a72b2b;
-    color:white;
+.btn-green{
+    background:#26754d;
 }
 
-.message{
-    min-height:25px;
-    text-align:center;
-    margin-top:12px;
-    color:#ff7676;
+.btn-red{
+    background:#8e3030;
 }
 
 /* GAME */
@@ -145,24 +111,27 @@ button{
     min-height:100vh;
 }
 
-.topbar{
+header{
+    background:rgba(11,16,24,.96);
+    border-bottom:1px solid #344055;
+    padding:14px 20px;
     position:sticky;
     top:0;
-    z-index:50;
-    background:rgba(7,11,16,.96);
-    border-bottom:1px solid #334151;
-    padding:12px 18px;
+    z-index:100;
+}
+
+.topbar{
+    max-width:1400px;
+    margin:auto;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
     gap:15px;
-    flex-wrap:wrap;
 }
 
 .brand{
-    color:#ffd54a;
     font-size:24px;
-    font-weight:bold;
+    font-weight:900;
 }
 
 .stats{
@@ -172,38 +141,41 @@ button{
 }
 
 .stat{
-    background:#172230;
-    padding:9px 13px;
-    border-radius:9px;
-    border:1px solid #334457;
+    background:#1b2534;
+    border:1px solid #35445b;
+    border-radius:10px;
+    padding:8px 12px;
 }
 
 .nav{
-    background:#111923;
-    border-bottom:1px solid #293645;
-    padding:10px;
+    max-width:1400px;
+    margin:12px auto 0;
     display:flex;
-    gap:7px;
     flex-wrap:wrap;
+    gap:7px;
 }
 
 .nav button{
+    background:#202c3d;
+    color:white;
     padding:10px 13px;
     border-radius:8px;
-    background:#202d3d;
-    color:#dce4ee;
 }
 
-.nav button:hover,
-.nav button.active{
-    background:#d99b20;
-    color:#111;
+.nav button:hover{
+    background:#34445c;
 }
 
-.content{
-    max-width:1250px;
+.nav .admin-button{
+    background:#703c9a;
+}
+
+/* CONTENT */
+
+main{
+    max-width:1400px;
     margin:auto;
-    padding:25px;
+    padding:25px 20px 60px;
 }
 
 .page{
@@ -214,911 +186,783 @@ button{
     display:block;
 }
 
-.pageTitle{
-    font-size:30px;
-    margin-bottom:20px;
-    color:#ffd54a;
-}
-
-.panel{
-    background:rgba(17,26,37,.94);
-    border:1px solid #344557;
-    border-radius:14px;
-    padding:20px;
-    margin-bottom:18px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-    gap:15px;
-}
-
-.card{
-    background:#182433;
-    border:1px solid #394c61;
-    border-radius:13px;
-    padding:18px;
-}
-
-.card h3{
-    color:#ffd54a;
-    margin-bottom:9px;
-}
-
-.card p{
-    color:#aebdcd;
-    line-height:1.5;
-}
-
-.card button{
-    width:100%;
-    margin-top:12px;
-    padding:11px;
-    border-radius:8px;
-    background:#d99b20;
-}
-
-/* HOME */
-
 .hero{
-    padding:35px;
-    border-radius:18px;
     background:
-        linear-gradient(135deg,rgba(40,57,78,.9),rgba(12,18,27,.95));
-    border:1px solid #43566c;
+        linear-gradient(135deg,rgba(54,69,94,.9),rgba(15,21,30,.95));
+    border:1px solid #43536c;
+    border-radius:18px;
+    padding:35px;
     margin-bottom:20px;
 }
 
 .hero h1{
     font-size:38px;
-    color:#ffd54a;
     margin-bottom:10px;
 }
 
 .hero p{
-    color:#b9c5d2;
+    color:#bac5d5;
 }
 
-/* TABLE */
-
-.tableWrap{
-    overflow:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,td{
-    padding:12px;
-    border-bottom:1px solid #344252;
-    text-align:left;
-}
-
-th{
-    color:#ffd54a;
-}
-
-/* ADMIN */
-
-.adminBox{
-    border:2px solid #a77a19;
-    background:linear-gradient(135deg,#211d10,#111923);
-}
-
-.adminBadge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:7px;
-    background:#d99b20;
-    color:#111;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.adminGrid{
+.grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:15px;
 }
 
-.adminAction{
-    background:#172331;
-    border:1px solid #405269;
+.card{
+    background:#172131;
+    border:1px solid #35445a;
+    border-radius:15px;
+    padding:20px;
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#aeb9ca;
+    line-height:1.5;
+    margin-bottom:15px;
+}
+
+.big-icon{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+/* CAMPAIGN */
+
+.campaign-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.locked{
+    opacity:.55;
+}
+
+.mission-number{
+    font-size:13px;
+    color:#9eabc0;
+    margin-bottom:5px;
+}
+
+/* ARMORY */
+
+.item{
+    background:#131c29;
+    border:1px solid #36455c;
     border-radius:12px;
     padding:15px;
 }
 
-.adminAction h3{
-    color:#ffd54a;
-    margin-bottom:10px;
+.item h3{
+    margin-bottom:6px;
 }
 
-.adminAction button{
-    margin-top:8px;
-    width:100%;
-    padding:11px;
-    border-radius:8px;
-    background:#33465d;
-    color:white;
+.item small{
+    color:#9eabc0;
 }
 
-.adminAction button:hover{
-    background:#d99b20;
-    color:#111;
+.equipped{
+    border-color:#c58a28;
 }
 
-.accountRow{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-    padding:12px;
-    border-bottom:1px solid #354354;
-}
+/* ADMIN */
 
-.accountInfo strong{
-    color:#ffd54a;
-}
-
-.smallBtn{
-    padding:7px 10px;
-    border-radius:7px;
-    background:#33465d;
-    color:white;
-    margin:2px;
-}
-
-.smallBtn.red{
-    background:#8f2929;
-}
-
-.smallBtn.green{
-    background:#26723d;
-}
-
-.smallBtn.gold{
-    background:#d99b20;
-    color:#111;
-}
-
-#toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    background:#162231;
-    border:1px solid #4d6177;
-    padding:14px 18px;
+.admin-warning{
+    background:#4c2525;
+    border:1px solid #8e4545;
+    padding:15px;
     border-radius:10px;
-    box-shadow:0 10px 35px #000;
-    display:none;
-    z-index:10000;
+    margin-bottom:20px;
 }
 
-.globalNotice{
-    background:#5c4310;
-    border-bottom:1px solid #a77a19;
-    padding:10px;
+.admin-section{
+    margin-top:20px;
+}
+
+.admin-section h2{
+    margin-bottom:12px;
+}
+
+textarea{
+    width:100%;
+    min-height:120px;
+    resize:vertical;
+    background:#0b121b;
+    border:1px solid #405069;
+    border-radius:10px;
+    padding:12px;
+    color:white;
+}
+
+select{
+    width:100%;
+    padding:12px;
+    background:#0b121b;
+    color:white;
+    border:1px solid #405069;
+    border-radius:10px;
+    margin:8px 0;
+}
+
+.admin-log{
+    background:#0b121b;
+    border:1px solid #334158;
+    border-radius:10px;
+    padding:15px;
+    min-height:100px;
+    white-space:pre-wrap;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:500;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    background:#172131;
+    border:1px solid #485871;
+    border-radius:15px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+footer{
     text-align:center;
-    color:#ffe9a3;
+    color:#77869d;
+    padding:25px;
 }
-
-/* MOBILE */
 
 @media(max-width:700px){
-    .hero h1{font-size:28px}
-    .content{padding:14px}
-    .topbar{align-items:flex-start}
+    .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .hero h1{
+        font-size:29px;
+    }
+
+    .login-box{
+        padding:25px 18px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
-<div id="loading">
-    <div class="loader">
-        <h1>⚔️ SWUL</h1>
-        <div class="spinner"></div>
-        <p>Loading Stick War Ultimate Legends...</p>
-    </div>
-</div>
+<!-- ================= LOGIN ================= -->
 
-<!-- LOGIN -->
 <section id="loginScreen">
 
-    <div class="loginBox">
+<div class="login-box">
 
-        <div class="logo">
-            <h1>⚔️ SWUL</h1>
-            <p>Stick War Ultimate Legends v.2026.27.8</p>
-        </div>
+    <div class="logo">⚔️ SWUL</div>
+    <div class="version">Stick War Ultimate Legends v.2026.27.8</div>
 
-        <input id="loginUser" class="input" placeholder="Username">
+    <h2>ACCOUNT LOGIN</h2>
 
-        <input id="loginPass"
-               class="input"
-               type="password"
-               placeholder="Password">
+    <input id="loginUsername" type="text" placeholder="Username">
+    <input id="loginPassword" type="password" placeholder="Password">
 
-        <button class="btn" onclick="login()">LOGIN</button>
-
-        <button class="btn secondary"
-                onclick="showCreate()">
-            CREATE ACCOUNT
-        </button>
-
-        <button class="btn secondary"
-                onclick="guestLogin()">
-            PLAY AS GUEST
-        </button>
-
-        <div id="loginMessage" class="message"></div>
-
-        <div id="createBox" class="hidden">
-
-            <hr style="margin:20px 0;border-color:#344252">
-
-            <h3 style="color:#ffd54a;margin-bottom:10px">
-                CREATE ACCOUNT
-            </h3>
-
-            <input id="createUser"
-                   class="input"
-                   placeholder="New username">
-
-            <input id="createPass"
-                   class="input"
-                   type="password"
-                   placeholder="New password">
-
-            <button class="btn"
-                    onclick="createAccount()">
-                CREATE
-            </button>
-
-        </div>
-
+    <div class="login-buttons">
+        <button class="btn btn-primary" onclick="login()">LOGIN</button>
+        <button class="btn" onclick="createAccount()">CREATE ACCOUNT</button>
+        <button class="btn-green btn" onclick="playGuest()">PLAY AS GUEST</button>
     </div>
+
+    <p id="loginMessage" style="margin-top:15px;color:#ff7777;"></p>
+
+</div>
 
 </section>
 
-<!-- GAME -->
-<div id="game" class="hidden">
 
-    <div id="globalNotice"
-         class="globalNotice hidden"></div>
+<!-- ================= GAME ================= -->
 
-    <header class="topbar">
+<section id="game" class="hidden">
 
-        <div class="brand">
-            ⚔️ SWUL
-        </div>
+<header>
 
-        <div class="stats">
-            <div class="stat">
-                💰 <span id="gold">0</span>
-            </div>
+<div class="topbar">
 
-            <div class="stat">
-                💎 <span id="gems">0</span>
-            </div>
+    <div class="brand">⚔️ SWUL</div>
 
-            <div class="stat">
-                👤 <span id="username">Guest</span>
-            </div>
-        </div>
-
-    </header>
-
-    <nav class="nav">
-
-        <button onclick="openPage('home',this)">🏠 Home</button>
-
-        <button onclick="openPage('campaign',this)">
-            ⚔️ Campaign
-        </button>
-
-        <button onclick="openPage('mission',this)">
-            🗺️ Mission
-        </button>
-
-        <button onclick="openPage('armory',this)">
-            🛡️ Armory
-        </button>
-
-        <button onclick="openPage('shop',this)">
-            🛒 Shop
-        </button>
-
-        <button onclick="openPage('events',this)">
-            🎉 Events
-        </button>
-
-        <button onclick="openPage('leaderboard',this)">
-            🏆 Leaderboard
-        </button>
-
-        <button onclick="openPage('codes',this)">
-            🔑 Codes
-        </button>
-
-        <button onclick="openPage('appeal',this)">
-            📩 Appeal
-        </button>
-
-        <button id="adminNav"
-                class="hidden"
-                onclick="openPage('admin',this)">
-            👑 Admin Panel
-        </button>
-
-        <button onclick="logout()">
-            🚪 Logout
-        </button>
-
-    </nav>
-
-    <main class="content">
-
-        <!-- HOME -->
-        <section id="home" class="page active">
-
-            <div class="hero">
-
-                <h1>⚔️ Stick War Ultimate Legends</h1>
-
-                <p>
-                    Welcome to SWUL v.2026.27.8.
-                    Build your army, unlock skins,
-                    complete campaigns and become a legend.
-                </p>
-
-            </div>
-
-            <div class="grid">
-
-                <div class="card">
-                    <h3>⚔️ Campaign</h3>
-                    <p>
-                        Complete 10 campaigns and
-                        follow the SWUL story.
-                    </p>
-                    <button onclick="go('campaign')">
-                        PLAY
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>🗺️ Mission</h3>
-                    <p>
-                        10 challenge maps with
-                        scouting reports.
-                    </p>
-                    <button onclick="go('mission')">
-                        PLAY
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>🛡️ Armory</h3>
-                    <p>
-                        Equip units with armor,
-                        skins and special equipment.
-                    </p>
-                    <button onclick="go('armory')">
-                        OPEN
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>🎉 Events</h3>
-                    <p>
-                        Complete events and collect
-                        free rewards.
-                    </p>
-                    <button onclick="go('events')">
-                        EVENTS
-                    </button>
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- CAMPAIGN -->
-        <section id="campaign" class="page">
-
-            <h1 class="pageTitle">⚔️ Campaign</h1>
-
-            <div class="panel">
-
-                <p style="color:#b9c5d2;margin-bottom:15px">
-                    Each campaign introduces a new creature,
-                    battle and approximately 20 seconds of story.
-                    Complete all 10 campaigns to finish the chapter.
-                </p>
-
-                <div class="grid" id="campaignGrid"></div>
-
-            </div>
-
-        </section>
-
-        <!-- MISSION -->
-        <section id="mission" class="page">
-
-            <h1 class="pageTitle">🗺️ Mission</h1>
-
-            <div class="panel">
-
-                <p style="color:#b9c5d2;margin-bottom:15px">
-                    Complete 10 missions. Every mission has
-                    a scouting report. Completing all 10 maps
-                    awards a special skin.
-                </p>
-
-                <div class="grid" id="missionGrid"></div>
-
-            </div>
-
-            <div class="panel">
-
-                <h2 style="color:#ffd54a">
-                    🔒 NEXT UPDATE
-                </h2>
-
-                <p style="margin-top:8px;color:#aebdcd">
-                    Complete the available mission content.
-                    More missions will unlock in a future update.
-                </p>
-
-            </div>
-
-        </section>
-
-        <!-- ARMORY -->
-        <section id="armory" class="page">
-
-            <h1 class="pageTitle">🛡️ Armory</h1>
-
-            <div class="panel">
-
-                <h2 style="color:#ffd54a;margin-bottom:15px">
-                    Units & Skins
-                </h2>
-
-                <div class="grid" id="armoryGrid"></div>
-
-            </div>
-
-            <div class="panel">
-
-                <h2 style="color:#ffd54a;margin-bottom:15px">
-                    Armor
-                </h2>
-
-                <div class="grid" id="armorGrid"></div>
-
-            </div>
-
-        </section>
-
-        <!-- SHOP -->
-        <section id="shop" class="page">
-
-            <h1 class="pageTitle">🛒 Shop</h1>
-
-            <div class="grid">
-
-                <div class="card">
-                    <h3>💎 100 Gems</h3>
-                    <p>Price: 1000 Gold</p>
-                    <button onclick="buyGems(100,1000)">
-                        BUY
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>💎 500 Gems</h3>
-                    <p>Price: 4500 Gold</p>
-                    <button onclick="buyGems(500,4500)">
-                        BUY
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>⚔️ Starter Skin</h3>
-                    <p>Special cosmetic item.</p>
-                    <button onclick="buyItem('Starter Skin',500)">
-                        500 GOLD
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>🛡️ Knight Armor</h3>
-                    <p>Protect your army.</p>
-                    <button onclick="buyItem('Knight Armor',1000)">
-                        1000 GOLD
-                    </button>
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- EVENTS -->
-        <section id="events" class="page">
-
-            <h1 class="pageTitle">🎉 Events</h1>
-
-            <div class="grid">
-
-                <div class="card">
-                    <h3>🔥 Daily Reward</h3>
-                    <p>Claim your daily reward.</p>
-                    <button onclick="claimDaily()">
-                        CLAIM
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>⚔️ Warrior Event</h3>
-                    <p>Reward: 500 Gold</p>
-                    <button onclick="claimEvent('warrior')">
-                        CLAIM
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>💎 Gem Event</h3>
-                    <p>Reward: 50 Gems</p>
-                    <button onclick="claimEvent('gem')">
-                        CLAIM
-                    </button>
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- LEADERBOARD -->
-        <section id="leaderboard" class="page">
-
-            <h1 class="pageTitle">🏆 Leaderboard</h1>
-
-            <div class="panel tableWrap">
-
-                <table>
-
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Player</th>
-                            <th>Gold</th>
-                            <th>Gems</th>
-                            <th>Campaign</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="leaderboardBody"></tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-        <!-- CODES -->
-        <section id="codes" class="page">
-
-            <h1 class="pageTitle">🔑 Codes</h1>
-
-            <div class="panel">
-
-                <input id="codeInput"
-                       class="input"
-                       placeholder="Enter code">
-
-                <button class="btn"
-                        onclick="redeemCode()">
-                    REDEEM CODE
-                </button>
-
-                <p id="codeMessage"
-                   style="margin-top:12px;color:#aebdcd">
-                </p>
-
-            </div>
-
-        </section>
-
-        <!-- APPEAL -->
-        <section id="appeal" class="page">
-
-            <h1 class="pageTitle">📩 Appeal</h1>
-
-            <div class="panel">
-
-                <p style="color:#b9c5d2;margin-bottom:12px">
-                    If your account has been banned,
-                    you can submit an appeal.
-                </p>
-
-                <textarea id="appealText"
-                          class="input"
-                          rows="7"
-                          placeholder="Write your appeal..."></textarea>
-
-                <button class="btn"
-                        onclick="sendAppeal()">
-                    SEND APPEAL
-                </button>
-
-            </div>
-
-        </section>
-
-        <!-- ADMIN -->
-        <section id="admin" class="page">
-
-            <h1 class="pageTitle">👑 Admin Panel</h1>
-
-            <div class="panel adminBox">
-
-                <span class="adminBadge">
-                    ADMIN ACCESS
-                </span>
-
-                <h2>
-                    Welcome, Administrator
-                </h2>
-
-                <p style="color:#aebdcd;margin-top:8px">
-                    Manage accounts, rewards, codes,
-                    bans, appeals and global messages.
-                </p>
-
-            </div>
-
-            <div class="adminGrid">
-
-                <!-- GLOBAL TEXT -->
-                <div class="adminAction">
-
-                    <h3>📢 Global Text</h3>
-
-                    <input id="globalText"
-                           class="input"
-                           placeholder="Message to all players">
-
-                    <button onclick="adminGlobalText()">
-                        SEND TEXT TO ALL GAME
-                    </button>
-
-                    <button onclick="clearGlobalText()">
-                        CLEAR GLOBAL TEXT
-                    </button>
-
-                </div>
-
-                <!-- CREATE CODE -->
-                <div class="adminAction">
-
-                    <h3>🔑 Create Code</h3>
-
-                    <input id="newCode"
-                           class="input"
-                           placeholder="Code">
-
-                    <input id="codeGold"
-                           class="input"
-                           type="number"
-                           placeholder="Gold reward">
-
-                    <input id="codeGems"
-                           class="input"
-                           type="number"
-                           placeholder="Gem reward">
-
-                    <button onclick="createCode()">
-                        CREATE CODE
-                    </button>
-
-                </div>
-
-                <!-- GIFT -->
-                <div class="adminAction">
-
-                    <h3>🎁 Gift Account</h3>
-
-                    <select id="giftAccount"
-                            class="input">
-                    </select>
-
-                    <input id="giftGold"
-                           class="input"
-                           type="number"
-                           placeholder="Gold">
-
-                    <input id="giftGems"
-                           class="input"
-                           type="number"
-                           placeholder="Gems">
-
-                    <button onclick="adminGift()">
-                        GIFT TO ACCOUNT
-                    </button>
-
-                </div>
-
-                <!-- BAN -->
-                <div class="adminAction">
-
-                    <h3>🚫 Ban Account</h3>
-
-                    <select id="banAccount"
-                            class="input">
-                    </select>
-
-                    <button onclick="banSelected(false)">
-                        BAN TEMPORARILY
-                    </button>
-
-                    <button onclick="banSelected(true)">
-                        BAN PERMANENTLY
-                    </button>
-
-                    <button onclick="unbanSelected()">
-                        UNBAN
-                    </button>
-
-                </div>
-
-                <!-- RESOURCES -->
-                <div class="adminAction">
-
-                    <h3>💰 Resources</h3>
-
-                    <select id="resourceAccount"
-                            class="input">
-                    </select>
-
-                    <input id="resourceGold"
-                           class="input"
-                           type="number"
-                           placeholder="Gold amount">
-
-                    <input id="resourceGems"
-                           class="input"
-                           type="number"
-                           placeholder="Gem amount">
-
-                    <button onclick="adminResources()">
-                        GIVE RESOURCES
-                    </button>
-
-                </div>
-
-                <!-- ITEM -->
-                <div class="adminAction">
-
-                    <h3>🛡️ Items</h3>
-
-                    <select id="itemAccount"
-                            class="input">
-                    </select>
-
-                    <input id="itemName"
-                           class="input"
-                           placeholder="Skin / Armor / Unit">
-
-                    <button onclick="adminItem()">
-                        GIVE ITEM
-                    </button>
-
-                </div>
-
-            </div>
-
-            <!-- ACCOUNTS -->
-            <div class="panel" style="margin-top:18px">
-
-                <h2 style="color:#ffd54a;margin-bottom:15px">
-                    👤 Account List
-                </h2>
-
-                <div id="accountList"></div>
-
-            </div>
-
-            <!-- APPEALS -->
-            <div class="panel">
-
-                <h2 style="color:#ffd54a;margin-bottom:15px">
-                    📩 Appeal Inbox
-                </h2>
-
-                <div id="appealList"></div>
-
-            </div>
-
-        </section>
-
-    </main>
+    <div class="stats">
+        <div class="stat">💰 <span id="gold">0</span></div>
+        <div class="stat">💎 <span id="gems">0</span></div>
+        <div class="stat">👤 <span id="usernameDisplay">Guest</span></div>
+    </div>
 
 </div>
 
-<div id="toast"></div>
+<nav class="nav">
+
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('campaign')">⚔️ Campaign</button>
+    <button onclick="showPage('mission')">🗺️ Mission</button>
+    <button onclick="showPage('armory')">🛡️ Armory</button>
+    <button onclick="showPage('shop')">🛒 Shop</button>
+    <button onclick="showPage('events')">🎉 Events</button>
+    <button onclick="showPage('leaderboard')">🏆 Leaderboard</button>
+    <button onclick="showPage('codes')">🔑 Codes</button>
+    <button onclick="showPage('appeal')">📩 Appeal</button>
+
+    <!-- CHỈ ADMIN MỚI THẤY -->
+    <button id="adminNavButton"
+            class="admin-button hidden"
+            onclick="openAdminPanel()">
+        👑 Admin Panel
+    </button>
+
+    <button class="btn-red" onclick="logout()">🚪 Logout</button>
+
+</nav>
+
+</header>
+
+
+<main>
+
+<!-- ================= HOME ================= -->
+
+<div id="page-home" class="page active">
+
+<div class="hero">
+
+    <h1>⚔️ Stick War Ultimate Legends</h1>
+
+    <p>
+        Chào mừng đến với SWUL v.2026.27.8!
+        Xây dựng đội quân, hoàn thành Campaign,
+        mở khóa trang bị và trở thành Ultimate Legend.
+    </p>
+
+</div>
+
+<div class="grid">
+
+    <div class="card">
+        <div class="big-icon">⚔️</div>
+        <h3>Campaign</h3>
+        <p>10 Campaign, mỗi Campaign có một vùng đất và câu chuyện riêng.</p>
+        <button class="btn btn-primary" onclick="showPage('campaign')">
+            PLAY CAMPAIGN
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="big-icon">🗺️</div>
+        <h3>Mission</h3>
+        <p>10 Mission với Scouting Report và phần thưởng skin.</p>
+        <button class="btn" onclick="showPage('mission')">
+            VIEW MISSIONS
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="big-icon">🛡️</div>
+        <h3>Armory</h3>
+        <p>Trang bị và skin cho các chiến binh của bạn.</p>
+        <button class="btn" onclick="showPage('armory')">
+            OPEN ARMORY
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="big-icon">🎉</div>
+        <h3>Events</h3>
+        <p>Tham gia Events để nhận phần thưởng.</p>
+        <button class="btn" onclick="showPage('events')">
+            EVENTS
+        </button>
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= CAMPAIGN ================= -->
+
+<div id="page-campaign" class="page">
+
+<div class="hero">
+
+<h1>⚔️ CAMPAIGN</h1>
+
+<p>
+10 Campaign chính. Mỗi Campaign là một vùng đất.
+Sau mỗi màn sẽ có đoạn cốt truyện khoảng 20 giây.
+Hoàn thành toàn bộ 10 Campaign để kết thúc câu chuyện.
+</p>
+
+</div>
+
+<div class="grid" id="campaignList"></div>
+
+</div>
+
+
+<!-- ================= MISSION ================= -->
+
+<div id="page-mission" class="page">
+
+<div class="hero">
+
+<h1>🗺️ MISSION</h1>
+
+<p>
+Mission gồm 10 map. Mỗi map có Scouting Report.
+Hoàn thành đủ 10 Mission để nhận 1 skin đặc biệt.
+</p>
+
+</div>
+
+<div class="grid" id="missionList"></div>
+
+</div>
+
+
+<!-- ================= ARMORY ================= -->
+
+<div id="page-armory" class="page">
+
+<div class="hero">
+
+<h1>🛡️ ARMORY</h1>
+
+<p>
+Trang bị và skin cho từng loại chiến binh.
+</p>
+
+</div>
+
+<div class="grid" id="armoryList"></div>
+
+</div>
+
+
+<!-- ================= SHOP ================= -->
+
+<div id="page-shop" class="page">
+
+<div class="hero">
+
+<h1>🛒 SHOP</h1>
+
+<p>Mua vật phẩm bằng Gold hoặc Gems.</p>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>💎 1,000 Gems</h3>
+<p>Gói Gems cơ bản.</p>
+<button class="btn btn-primary" onclick="buyItem(1000,0)">
+BUY
+</button>
+</div>
+
+<div class="card">
+<h3>💰 10,000 Gold</h3>
+<p>Gói Gold.</p>
+<button class="btn btn-primary" onclick="buyItem(0,10000)">
+BUY
+</button>
+</div>
+
+<div class="card">
+<h3>🛡️ Knight Skin</h3>
+<p>Skin dành cho Swordwrath.</p>
+<button class="btn" onclick="buySkin('Knight Skin')">
+BUY SKIN
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= EVENTS ================= -->
+
+<div id="page-events" class="page">
+
+<div class="hero">
+
+<h1>🎉 EVENTS</h1>
+
+<p>Events đặc biệt — nhận phần thưởng miễn phí.</p>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>🎁 Daily Reward</h3>
+<p>Phần thưởng đăng nhập hàng ngày.</p>
+<button class="btn btn-primary" onclick="claimDaily()">
+CLAIM REWARD
+</button>
+</div>
+
+<div class="card">
+<h3>🔥 Launch Event</h3>
+<p>Sự kiện ra mắt SWUL.</p>
+<button class="btn" onclick="claimLaunch()">
+CLAIM
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= LEADERBOARD ================= -->
+
+<div id="page-leaderboard" class="page">
+
+<div class="hero">
+
+<h1>🏆 LEADERBOARD</h1>
+
+<p>Những người chơi hàng đầu.</p>
+
+</div>
+
+<div class="card">
+
+<table style="width:100%;border-collapse:collapse;">
+
+<thead>
+<tr>
+<th style="padding:12px;text-align:left;">#</th>
+<th style="padding:12px;text-align:left;">Player</th>
+<th style="padding:12px;text-align:left;">Score</th>
+</tr>
+</thead>
+
+<tbody id="leaderboardBody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ================= CODES ================= -->
+
+<div id="page-codes" class="page">
+
+<div class="hero">
+
+<h1>🔑 CODES</h1>
+
+<p>Nhập Code để nhận phần thưởng.</p>
+
+</div>
+
+<div class="card">
+
+<input id="codeInput"
+       placeholder="Enter code..."
+       style="width:100%;padding:13px;border-radius:8px;border:1px solid #405069;background:#0b121b;color:white;">
+
+<br><br>
+
+<button class="btn btn-primary" onclick="redeemCode()">
+REDEEM CODE
+</button>
+
+<p id="codeMessage" style="margin-top:15px;"></p>
+
+</div>
+
+</div>
+
+
+<!-- ================= APPEAL ================= -->
+
+<div id="page-appeal" class="page">
+
+<div class="hero">
+
+<h1>📩 Appeal</h1>
+
+<p>
+If your account has been banned, you can submit an appeal.
+</p>
+
+</div>
+
+<div class="card">
+
+<textarea id="appealText"
+placeholder="Write your appeal here..."></textarea>
+
+<br><br>
+
+<button class="btn btn-primary" onclick="sendAppeal()">
+SEND APPEAL
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= ADMIN ================= -->
+
+<div id="page-admin" class="page">
+
+<div class="hero">
+
+<h1>👑 ADMIN PANEL</h1>
+
+<p>SWUL Administrator Control Center</p>
+
+</div>
+
+<div class="admin-warning">
+
+⚠️ KHU VỰC ADMIN — Chỉ tài khoản Administrator mới có quyền truy cập.
+
+</div>
+
+
+<!-- CREATE CODE -->
+
+<div class="card admin-section">
+
+<h2>🔑 CREATE CODE</h2>
+
+<input id="newCode"
+       placeholder="Code name..."
+       style="width:100%;padding:12px;margin:8px 0;background:#0b121b;color:white;border:1px solid #405069;border-radius:8px;">
+
+<input id="codeRewardGold"
+       type="number"
+       placeholder="Gold reward"
+       style="width:100%;padding:12px;margin:8px 0;background:#0b121b;color:white;border:1px solid #405069;border-radius:8px;">
+
+<input id="codeRewardGems"
+       type="number"
+       placeholder="Gems reward"
+       style="width:100%;padding:12px;margin:8px 0;background:#0b121b;color:white;border:1px solid #405069;border-radius:8px;">
+
+<button class="btn btn-primary" onclick="adminCreateCode()">
+CREATE CODE
+</button>
+
+</div>
+
+
+<!-- GIFT -->
+
+<div class="card admin-section">
+
+<h2>🎁 GIFT TO ACCOUNT</h2>
+
+<select id="giftAccount"></select>
+
+<input id="giftGold"
+       type="number"
+       placeholder="Gold"
+       style="width:100%;padding:12px;margin:8px 0;background:#0b121b;color:white;border:1px solid #405069;border-radius:8px;">
+
+<input id="giftGems"
+       type="number"
+       placeholder="Gems"
+       style="width:100%;padding:12px;margin:8px 0;background:#0b121b;color:white;border:1px solid #405069;border-radius:8px;">
+
+<button class="btn btn-green" onclick="adminGift()">
+SEND GIFT
+</button>
+
+</div>
+
+
+<!-- BAN -->
+
+<div class="card admin-section">
+
+<h2>🚫 ACCOUNT MODERATION</h2>
+
+<select id="banAccount"></select>
+
+<select id="banType">
+<option value="normal">Normal Ban</option>
+<option value="permanent">Permanent Ban</option>
+</select>
+
+<button class="btn btn-red" onclick="adminBan()">
+BAN ACCOUNT
+</button>
+
+<button class="btn" onclick="adminUnban()">
+UNBAN ACCOUNT
+</button>
+
+</div>
+
+
+<!-- TEXT TO ALL -->
+
+<div class="card admin-section">
+
+<h2>📢 TEXT TO ALL GAME</h2>
+
+<textarea id="globalMessage"
+placeholder="Message to all players..."></textarea>
+
+<br><br>
+
+<button class="btn btn-primary" onclick="adminGlobalMessage()">
+SEND TO ALL
+</button>
+
+</div>
+
+
+<!-- ACCOUNT LIST -->
+
+<div class="card admin-section">
+
+<h2>👥 ACCOUNT LIST</h2>
+
+<div id="accountList" class="admin-log"></div>
+
+</div>
+
+
+<!-- LOG -->
+
+<div class="card admin-section">
+
+<h2>📜 ADMIN LOG</h2>
+
+<div id="adminLog" class="admin-log">
+Admin system ready.
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+
+<footer>
+SWUL v.2026.27.8 — Stick War Ultimate Legends
+</footer>
+
+</section>
+
+
+<!-- ================= MODAL ================= -->
+
+<div id="storyModal" class="modal hidden">
+
+<div class="modal-box">
+
+<h2 id="storyTitle">📖 Story</h2>
+
+<p id="storyText" style="line-height:1.6;color:#c4cedc;"></p>
+
+<br>
+
+<button class="btn btn-primary" onclick="closeStory()">
+CONTINUE
+</button>
+
+</div>
+
+</div>
+
 
 <script>
 
 /* =========================================================
-   DATABASE - LOCAL FRONTEND DEMO
+   DATABASE FRONTEND
 ========================================================= */
 
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "AdLegend2026";
-
-let accounts =
-    JSON.parse(localStorage.getItem("SWUL_ACCOUNTS") || "null");
-
-let codes =
-    JSON.parse(localStorage.getItem("SWUL_CODES") || "null");
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "AdLegend2026";
 
 let currentUser = null;
 
-if(!accounts){
+let accounts = JSON.parse(
+    localStorage.getItem("SWUL_ACCOUNTS") || "{}"
+);
 
-    accounts = {
-        admin:{
-            username:"admin",
-            password:ADMIN_PASS,
-            gold:999999999,
-            gems:999999999,
-            campaign:10,
-            missions:10,
-            items:[
-                "Iron Armor",
-                "Knight Armor",
-                "Dragon Armor",
-                "Shadow Armor",
-                "Royal Armor",
-                "Titan Armor"
-            ],
-            banned:false,
-            permanent:false,
-            appeals:[],
-            guest:false
-        }
+let codes = JSON.parse(
+    localStorage.getItem("SWUL_CODES") || "{}"
+);
+
+let leaderboard = JSON.parse(
+    localStorage.getItem("SWUL_LEADERBOARD") || "[]"
+);
+
+
+/* =========================================================
+   DEFAULT ADMIN
+========================================================= */
+
+if(!accounts.admin){
+
+    accounts.admin = {
+        username:"admin",
+        password:ADMIN_PASSWORD,
+
+        isAdmin:true,
+        isGuest:false,
+        banned:false,
+        permanentBan:false,
+
+        gold:999999999,
+        gems:999999999,
+
+        campaign:0,
+        mission:0,
+
+        skins:[],
+        claimedDaily:false
     };
 
     saveAccounts();
 }
 
-if(!codes){
-
-    codes = {
-        "SWUL2026":{
-            gold:5000,
-            gems:100,
-            used:[]
-        },
-        "WELCOME":{
-            gold:1000,
-            gems:25,
-            used:[]
-        }
-    };
-
-    saveCodes();
-}
 
 /* =========================================================
-   SAVE
+   STORAGE
 ========================================================= */
 
 function saveAccounts(){
@@ -1139,20 +983,15 @@ function saveCodes(){
 
 }
 
-/* =========================================================
-   LOADING
-========================================================= */
+function saveLeaderboard(){
 
-window.addEventListener("load",()=>{
+    localStorage.setItem(
+        "SWUL_LEADERBOARD",
+        JSON.stringify(leaderboard)
+    );
 
-    setTimeout(()=>{
+}
 
-        document.getElementById("loading")
-            .classList.add("hidden");
-
-    },700);
-
-});
 
 /* =========================================================
    LOGIN
@@ -1160,155 +999,159 @@ window.addEventListener("load",()=>{
 
 function login(){
 
-    const u =
-        document.getElementById("loginUser")
-            .value.trim();
+    const username =
+        document.getElementById("loginUsername").value.trim();
 
-    const p =
-        document.getElementById("loginPass")
-            .value;
+    const password =
+        document.getElementById("loginPassword").value;
 
-    const msg =
+    const message =
         document.getElementById("loginMessage");
 
-    if(!u || !p){
+    if(!username || !password){
 
-        msg.textContent =
-            "Please enter username and password.";
-
-        return;
-    }
-
-    const acc = accounts[u];
-
-    if(!acc || acc.password !== p){
-
-        msg.textContent =
-            "Invalid username or password.";
+        message.textContent =
+            "Vui lòng nhập Username và Password.";
 
         return;
     }
 
-    if(acc.banned){
+    const account = accounts[username];
 
-        msg.textContent =
-            acc.permanent
-            ? "This account is permanently banned."
-            : "This account is temporarily banned.";
+    if(!account){
+
+        message.textContent =
+            "Account không tồn tại.";
 
         return;
     }
 
-    currentUser = acc;
+    if(account.password !== password){
+
+        message.textContent =
+            "Sai Password.";
+
+        return;
+    }
+
+    if(account.banned){
+
+        message.textContent =
+            account.permanentBan
+            ? "Account đã bị Permanent Ban."
+            : "Account đã bị Ban.";
+
+        return;
+    }
+
+    currentUser = account;
 
     enterGame();
 
 }
+
 
 /* =========================================================
    CREATE ACCOUNT
 ========================================================= */
 
-function showCreate(){
-
-    document
-        .getElementById("createBox")
-        .classList.toggle("hidden");
-
-}
-
 function createAccount(){
 
-    const u =
-        document.getElementById("createUser")
-            .value.trim();
+    const username =
+        document.getElementById("loginUsername").value.trim();
 
-    const p =
-        document.getElementById("createPass")
-            .value;
+    const password =
+        document.getElementById("loginPassword").value;
 
-    const msg =
+    const message =
         document.getElementById("loginMessage");
 
-    if(u.length < 3){
+    if(!username || !password){
 
-        msg.textContent =
-            "Username must have at least 3 characters.";
-
-        return;
-    }
-
-    if(p.length < 4){
-
-        msg.textContent =
-            "Password must have at least 4 characters.";
+        message.textContent =
+            "Nhập Username và Password để tạo account.";
 
         return;
     }
 
-    if(accounts[u]){
+    if(username.toLowerCase() === "admin"){
 
-        msg.textContent =
-            "Username already exists.";
+        message.textContent =
+            "Username admin đã được bảo vệ.";
 
         return;
     }
 
-    accounts[u] = {
+    if(accounts[username]){
 
-        username:u,
-        password:p,
-        gold:1000,
-        gems:25,
-        campaign:0,
-        missions:0,
-        items:[],
+        message.textContent =
+            "Username đã tồn tại.";
+
+        return;
+    }
+
+    accounts[username] = {
+
+        username:username,
+        password:password,
+
+        isAdmin:false,
+        isGuest:false,
+
         banned:false,
-        permanent:false,
-        appeals:[],
-        guest:false
+        permanentBan:false,
 
+        gold:1000,
+        gems:100,
+
+        campaign:0,
+        mission:0,
+
+        skins:[],
+
+        claimedDaily:false
     };
 
     saveAccounts();
 
-    msg.style.color = "#71e28a";
+    message.style.color = "#65d68b";
 
-    msg.textContent =
-        "Account created! You can now login.";
-
-    document.getElementById("createUser").value="";
-    document.getElementById("createPass").value="";
-
-    refreshAdmin();
+    message.textContent =
+        "Tạo account thành công! Hãy LOGIN.";
 
 }
+
 
 /* =========================================================
    GUEST
 ========================================================= */
 
-function guestLogin(){
+function playGuest(){
 
     currentUser = {
 
         username:"Guest",
         password:"",
-        gold:500,
-        gems:10,
-        campaign:0,
-        missions:0,
-        items:[],
-        banned:false,
-        permanent:false,
-        appeals:[],
-        guest:true
+        isGuest:true,
+        isAdmin:false,
 
+        banned:false,
+        permanentBan:false,
+
+        gold:0,
+        gems:0,
+
+        campaign:0,
+        mission:0,
+
+        skins:[],
+        claimedDaily:false
     };
 
     enterGame();
 
 }
+
 
 /* =========================================================
    ENTER GAME
@@ -1324,315 +1167,334 @@ function enterGame(){
         .getElementById("game")
         .classList.remove("hidden");
 
-    updateUI();
-
-    buildCampaign();
-    buildMissions();
-    buildArmory();
-    updateLeaderboard();
-
-    if(isAdmin()){
-
-        document
-            .getElementById("adminNav")
-            .classList.remove("hidden");
-
-        refreshAdmin();
-
-    }else{
-
-        document
-            .getElementById("adminNav")
-            .classList.add("hidden");
-
-    }
-
-    openPage("home");
-
-}
-
-/* =========================================================
-   ADMIN CHECK
-========================================================= */
-
-function isAdmin(){
-
-    return currentUser &&
-           !currentUser.guest &&
-           currentUser.username === ADMIN_USER &&
-           currentUser.password === ADMIN_PASS;
-
-}
-
-/* =========================================================
-   UI
-========================================================= */
-
-function updateUI(){
-
-    document.getElementById("username")
+    document
+        .getElementById("usernameDisplay")
         .textContent = currentUser.username;
 
-    document.getElementById("gold")
-        .textContent =
-        Number(currentUser.gold || 0).toLocaleString();
+    updateStats();
 
-    document.getElementById("gems")
-        .textContent =
-        Number(currentUser.gems || 0).toLocaleString();
+    updateAdminVisibility();
 
-    const notice =
-        localStorage.getItem("SWUL_GLOBAL_TEXT");
+    renderCampaigns();
 
-    const box =
-        document.getElementById("globalNotice");
+    renderMissions();
 
-    if(notice){
+    renderArmory();
 
-        box.textContent = "📢 " + notice;
-        box.classList.remove("hidden");
+    renderLeaderboard();
+
+    renderAdminAccounts();
+
+    showPage("home");
+
+}
+
+
+/* =========================================================
+   ADMIN VISIBILITY
+========================================================= */
+
+function updateAdminVisibility(){
+
+    const adminButton =
+        document.getElementById("adminNavButton");
+
+    /*
+       QUAN TRỌNG:
+       Chỉ isAdmin === true mới thấy Admin Panel.
+    */
+
+    if(
+        currentUser &&
+        currentUser.isAdmin === true &&
+        currentUser.isGuest !== true
+    ){
+
+        adminButton.classList.remove("hidden");
 
     }else{
 
-        box.classList.add("hidden");
+        adminButton.classList.add("hidden");
 
+        document
+            .getElementById("page-admin")
+            .classList.remove("active");
     }
 
 }
 
+
 /* =========================================================
-   NAVIGATION
+   ADMIN PANEL SECURITY
 ========================================================= */
 
-function openPage(id,button){
+function openAdminPanel(){
+
+    if(
+        !currentUser ||
+        currentUser.isAdmin !== true ||
+        currentUser.isGuest === true
+    ){
+
+        alert("⛔ ACCESS DENIED");
+
+        showPage("home");
+
+        return;
+    }
+
+    showPage("admin");
+
+    renderAdminAccounts();
+
+}
+
+
+/* =========================================================
+   PAGE SYSTEM
+========================================================= */
+
+function showPage(page){
+
+    /*
+       Bảo vệ Admin Page
+    */
+
+    if(page === "admin"){
+
+        if(
+            !currentUser ||
+            currentUser.isAdmin !== true ||
+            currentUser.isGuest === true
+        ){
+
+            alert("⛔ Admin Only!");
+
+            return;
+        }
+    }
 
     document
         .querySelectorAll(".page")
-        .forEach(p=>p.classList.remove("active"));
+        .forEach(p => p.classList.remove("active"));
 
-    const page =
-        document.getElementById(id);
+    const target =
+        document.getElementById("page-" + page);
 
-    if(!page) return;
+    if(target){
 
-    if(id==="admin" && !isAdmin()){
-
-        showToast("Admin access denied.");
-
-        return;
+        target.classList.add("active");
 
     }
 
-    page.classList.add("active");
+}
 
-    document
-        .querySelectorAll(".nav button")
-        .forEach(b=>b.classList.remove("active"));
 
-    if(button)
-        button.classList.add("active");
+/* =========================================================
+   STATS
+========================================================= */
 
-    if(id==="leaderboard")
-        updateLeaderboard();
+function updateStats(){
 
-    if(id==="admin")
-        refreshAdmin();
+    document.getElementById("gold").textContent =
+        Number(currentUser.gold || 0).toLocaleString();
+
+    document.getElementById("gems").textContent =
+        Number(currentUser.gems || 0).toLocaleString();
 
 }
 
-function go(id){
-
-    const buttons =
-        document.querySelectorAll(".nav button");
-
-    for(const b of buttons){
-
-        if(
-            b.textContent.toLowerCase()
-             .includes(id.toLowerCase())
-        ){
-
-            openPage(id,b);
-            return;
-
-        }
-
-    }
-
-    openPage(id);
-
-}
 
 /* =========================================================
    CAMPAIGN
 ========================================================= */
 
 const campaignNames = [
-
-    "The First Recruit",
-    "The Spear Returns",
-    "Rise of the Archers",
-    "The Lost Mage",
-    "The Giant Awakens",
-    "Shadow Attack",
-    "Battle of the Valley",
-    "Siege of the Empire",
-    "The Titan's March",
-    "The Final War"
-
+    "The Beginning",
+    "The Spear Tribe",
+    "The Archidon Lands",
+    "The Frozen Kingdom",
+    "The Shadow Territory",
+    "The Magic Kingdom",
+    "The Giant War",
+    "The Royal Battle",
+    "The Final Army",
+    "The Ultimate War"
 ];
 
-const campaignCreatures = [
-
-    "Swordwrath",
-    "Spearton",
-    "Archidon",
-    "Magikill",
-    "Giant",
-    "Shadow",
-    "Giant Lord",
-    "Titan",
-    "Royal Guard",
-    "Final Boss"
-
+const campaignStories = [
+    "Một đạo quân mới bắt đầu hành trình thống nhất vùng đất.",
+    "Người chơi gặp bộ tộc Spearton và phải giành được lòng tin của họ.",
+    "Vùng đất Archidon đang bị đe dọa bởi một đạo quân bí ẩn.",
+    "Một vương quốc băng giá xuất hiện ở phía Bắc.",
+    "Bóng tối lan rộng và một thế lực nguy hiểm bắt đầu thức tỉnh.",
+    "Những pháp sư mạnh mẽ tham gia cuộc chiến.",
+    "Những Giant xuất hiện và thay đổi hoàn toàn chiến trường.",
+    "Quân đội Hoàng gia tiến vào cuộc chiến.",
+    "Hai đạo quân lớn chuẩn bị cho trận chiến cuối cùng.",
+    "Trận chiến Ultimate War quyết định số phận toàn bộ vương quốc."
 ];
 
-function buildCampaign(){
 
-    const grid =
-        document.getElementById("campaignGrid");
+function renderCampaigns(){
 
-    grid.innerHTML="";
+    const container =
+        document.getElementById("campaignList");
 
-    campaignNames.forEach((name,i)=>{
+    container.innerHTML = "";
+
+    for(let i=0;i<10;i++){
 
         const unlocked =
-            i <= currentUser.campaign;
+            i <= Number(currentUser.campaign || 0);
 
         const card =
             document.createElement("div");
 
-        card.className="card";
+        card.className =
+            "card campaign-card " +
+            (unlocked ? "" : "locked");
 
-        card.innerHTML=`
+        card.innerHTML = `
+
+            <div class="mission-number">
+                CAMPAIGN ${i+1}
+            </div>
 
             <h3>
-                Campaign ${i+1}
+                ${unlocked ? "⚔️" : "🔒"}
+                ${campaignNames[i]}
             </h3>
 
             <p>
-                ${name}
-            </p>
-
-            <p style="margin-top:8px">
-                🐾 Recruit:
-                ${campaignCreatures[i]}
-            </p>
-
-            <p style="margin-top:8px">
-                ${unlocked ? "🟢 UNLOCKED" : "🔒 LOCKED"}
+                ${unlocked
+                    ? "Campaign đã mở."
+                    : "Hoàn thành Campaign trước để mở."}
             </p>
 
             <button
+                class="btn ${unlocked ? "btn-primary" : ""}"
                 ${unlocked ? "" : "disabled"}
                 onclick="playCampaign(${i})">
 
                 ${unlocked ? "PLAY" : "LOCKED"}
 
             </button>
+
         `;
 
-        grid.appendChild(card);
+        container.appendChild(card);
 
-    });
+    }
 
 }
 
-function playCampaign(i){
 
-    if(i > currentUser.campaign){
+function playCampaign(index){
 
-        showToast("Complete previous campaign first.");
+    if(index > Number(currentUser.campaign || 0)){
+
+        alert("🔒 Campaign này chưa mở.");
 
         return;
-
     }
 
-    if(i===currentUser.campaign &&
-       currentUser.campaign < 10){
+    showStory(
+        "CAMPAIGN " + (index+1),
+        campaignStories[index]
+    );
 
-        currentUser.campaign++;
+    /*
+       Demo: hoàn thành Campaign
+    */
 
-        currentUser.gold += 500;
-        currentUser.gems += 10;
+    if(index === currentUser.campaign){
 
-        if(!currentUser.items)
-            currentUser.items=[];
+        currentUser.campaign =
+            Math.min(9,currentUser.campaign + 1);
 
-        currentUser.items.push(
-            campaignCreatures[i]
-        );
+        if(!currentUser.isGuest){
 
-        if(!currentUser.guest)
+            accounts[currentUser.username] =
+                currentUser;
+
             saveAccounts();
-
-        updateUI();
-        buildCampaign();
-        updateLeaderboard();
-
-        showToast(
-            "Campaign complete! Story unlocked: 20s"
-        );
-
-        if(currentUser.campaign===10){
-
-            showToast(
-                "🏆 Campaign story completed!"
-            );
-
         }
 
+        renderCampaigns();
     }
 
 }
 
+
 /* =========================================================
-   MISSIONS
+   STORY
 ========================================================= */
 
-function buildMissions(){
+function showStory(title,text){
 
-    const grid =
-        document.getElementById("missionGrid");
+    document.getElementById("storyTitle")
+        .textContent = "📖 " + title;
 
-    grid.innerHTML="";
+    document.getElementById("storyText")
+        .textContent = text;
 
-    for(let i=1;i<=10;i++){
+    document
+        .getElementById("storyModal")
+        .classList.remove("hidden");
+
+}
+
+function closeStory(){
+
+    document
+        .getElementById("storyModal")
+        .classList.add("hidden");
+
+}
+
+
+/* =========================================================
+   MISSION
+========================================================= */
+
+function renderMissions(){
+
+    const container =
+        document.getElementById("missionList");
+
+    container.innerHTML = "";
+
+    for(let i=0;i<10;i++){
 
         const unlocked =
-            i <= currentUser.missions + 1;
+            i <= Number(currentUser.mission || 0);
 
         const card =
             document.createElement("div");
 
-        card.className="card";
+        card.className =
+            "card " + (unlocked ? "" : "locked");
 
-        card.innerHTML=`
+        card.innerHTML = `
 
-            <h3>Mission ${i}</h3>
+            <div class="mission-number">
+                MISSION ${i+1}
+            </div>
+
+            <h3>
+                ${unlocked ? "🗺️" : "🔒"}
+                Map ${i+1}
+            </h3>
 
             <p>
-                📡 Scouting Report:
-                Enemy forces detected.
-            </p>
-
-            <p style="margin-top:8px">
-                ${unlocked
-                    ? "🟢 READY"
-                    : "🔒 LOCKED"}
+                📋 Scouting Report:
+                Enemy army detected.
+                Prepare your troops.
             </p>
 
             <button
+                class="btn ${unlocked ? "btn-primary" : ""}"
                 ${unlocked ? "" : "disabled"}
                 onclick="playMission(${i})">
 
@@ -1642,253 +1504,210 @@ function buildMissions(){
 
         `;
 
-        grid.appendChild(card);
+        container.appendChild(card);
 
     }
 
 }
 
-function playMission(i){
 
-    if(i !== currentUser.missions + 1){
+function playMission(index){
 
-        showToast(
-            "Complete missions in order."
-        );
+    if(index > Number(currentUser.mission || 0)){
+
+        alert("🔒 Mission này chưa mở.");
 
         return;
-
     }
 
-    currentUser.missions++;
+    alert(
+        "🗺️ Mission " +
+        (index+1) +
+        " completed!\n\n" +
+        "📋 Scouting Report complete."
+    );
 
-    currentUser.gold += 300;
+    if(index === currentUser.mission){
 
-    if(currentUser.missions===10){
+        currentUser.mission =
+            Math.min(9,currentUser.mission + 1);
 
-        currentUser.gems += 100;
+        if(currentUser.mission === 9){
 
-        currentUser.items.push(
-            "Mission Master Skin"
-        );
+            currentUser.skins.push(
+                "Mission 10 Completion Skin"
+            );
 
-        showToast(
-            "🏆 All 10 missions complete! Skin unlocked!"
-        );
+            alert(
+                "🎉 Bạn đã hoàn thành 10 Mission!\n" +
+                "🎨 Skin đặc biệt đã được mở khóa!"
+            );
+        }
 
-    }else{
+        if(!currentUser.isGuest){
 
-        showToast(
-            "Mission complete! +300 Gold"
-        );
+            accounts[currentUser.username] =
+                currentUser;
 
+            saveAccounts();
+        }
+
+        renderMissions();
+        renderArmory();
     }
-
-    if(!currentUser.guest)
-        saveAccounts();
-
-    updateUI();
-    buildMissions();
-    updateLeaderboard();
 
 }
+
 
 /* =========================================================
    ARMORY
 ========================================================= */
 
-const units = [
+const armoryItems = [
 
-    "Swordwrath",
-    "Archidon",
-    "Spearton",
-    "Magikill",
-    "Giant"
-
-];
-
-const skins = [
-
-    "Iron Skin",
-    "Knight Skin",
-    "Dragon Skin",
-    "Shadow Skin",
-    "Royal Skin",
-    "Titan Skin",
-    "Giant Lord Skin"
+    ["⚔️","Swordwrath","Iron Warrior Skin"],
+    ["🏹","Archidon","Royal Archer Skin"],
+    ["🛡️","Spearton","Knight Spearton Skin"],
+    ["🔮","Magikill","Arcane Mage Skin"],
+    ["👹","Giant","Titan Giant Skin"]
 
 ];
 
-const armors = [
+function renderArmory(){
 
-    "Iron Armor",
-    "Knight Armor",
-    "Dragon Armor",
-    "Shadow Armor",
-    "Royal Armor",
-    "Titan Armor"
+    const container =
+        document.getElementById("armoryList");
 
-];
+    container.innerHTML = "";
 
-function buildArmory(){
+    armoryItems.forEach(item => {
 
-    const grid =
-        document.getElementById("armoryGrid");
-
-    grid.innerHTML="";
-
-    units.forEach(unit=>{
+        const owned =
+            currentUser.skins.includes(item[2]);
 
         const card =
             document.createElement("div");
 
-        card.className="card";
+        card.className =
+            "item " + (owned ? "equipped" : "");
 
-        const owned =
-            currentUser.items &&
-            currentUser.items.includes(unit);
+        card.innerHTML = `
 
-        card.innerHTML=`
+            <div class="big-icon">
+                ${item[0]}
+            </div>
 
-            <h3>⚔️ ${unit}</h3>
+            <h3>${item[1]}</h3>
 
-            <p>
-                ${owned
-                    ? "🟢 Unlocked"
-                    : "🔒 Locked"}
-            </p>
+            <small>${item[2]}</small>
 
-            <button
-                onclick="equipItem('${unit}')">
+            <br><br>
 
-                ${owned ? "EQUIP" : "LOCKED"}
-
-            </button>
-
-        `;
-
-        grid.appendChild(card);
-
-    });
-
-    const armorGrid =
-        document.getElementById("armorGrid");
-
-    armorGrid.innerHTML="";
-
-    armors.forEach(item=>{
-
-        const owned =
-            currentUser.items &&
-            currentUser.items.includes(item);
-
-        const card =
-            document.createElement("div");
-
-        card.className="card";
-
-        card.innerHTML=`
-
-            <h3>🛡️ ${item}</h3>
-
-            <p>
-                ${owned
-                    ? "🟢 Owned"
-                    : "🔒 Locked"}
-            </p>
-
-            <button
-                onclick="equipItem('${item}')">
-
-                ${owned ? "EQUIP" : "LOCKED"}
-
-            </button>
+            ${
+                owned
+                ? '<button class="btn btn-green">OWNED</button>'
+                : '<button class="btn" onclick="buySkin(\''+
+                    item[2].replace(/'/g,"\\'")+
+                    '\')">BUY</button>'
+            }
 
         `;
 
-        armorGrid.appendChild(card);
+        container.appendChild(card);
 
     });
 
 }
 
-/* =========================================================
-   EQUIPMENT
-========================================================= */
-
-function equipItem(item){
-
-    if(!currentUser.items.includes(item)){
-
-        showToast(
-            "You do not own this item."
-        );
-
-        return;
-
-    }
-
-    showToast(
-        "Equipped: " + item
-    );
-
-}
 
 /* =========================================================
    SHOP
 ========================================================= */
 
-function buyGems(gems,cost){
+function buyItem(gems,gold){
 
-    if(currentUser.gold < cost){
+    if(currentUser.isGuest){
 
-        showToast("Not enough Gold.");
+        alert("Guest không thể mua vật phẩm.");
 
         return;
-
     }
 
-    currentUser.gold -= cost;
-    currentUser.gems += gems;
+    /*
+       Demo shop
+    */
 
-    saveCurrent();
+    if(gems > 0){
 
-    updateUI();
+        if(currentUser.gold < 500){
 
-    showToast(
-        `Purchased ${gems} Gems!`
-    );
+            alert("Không đủ Gold.");
+
+            return;
+        }
+
+        currentUser.gold -= 500;
+        currentUser.gems += gems;
+
+    }else{
+
+        if(currentUser.gems < 10){
+
+            alert("Không đủ Gems.");
+
+            return;
+        }
+
+        currentUser.gems -= 10;
+        currentUser.gold += gold;
+    }
+
+    saveCurrentUser();
+
+    updateStats();
+
+    alert("✅ Purchase successful!");
 
 }
 
-function buyItem(item,cost){
 
-    if(currentUser.gold < cost){
+function buySkin(skin){
 
-        showToast("Not enough Gold.");
+    if(currentUser.isGuest){
+
+        alert("Guest không thể mua skin.");
 
         return;
-
     }
 
-    currentUser.gold -= cost;
+    if(currentUser.skins.includes(skin)){
 
-    if(!currentUser.items)
-        currentUser.items=[];
+        alert("Bạn đã sở hữu skin này.");
 
-    if(!currentUser.items.includes(item))
-        currentUser.items.push(item);
+        return;
+    }
 
-    saveCurrent();
+    if(currentUser.gems < 50){
 
-    updateUI();
-    buildArmory();
+        alert("Cần 50 Gems.");
 
-    showToast(
-        "Purchased " + item
-    );
+        return;
+    }
+
+    currentUser.gems -= 50;
+
+    currentUser.skins.push(skin);
+
+    saveCurrentUser();
+
+    updateStats();
+
+    renderArmory();
+
+    alert("🎨 Skin unlocked!");
 
 }
+
 
 /* =========================================================
    EVENTS
@@ -1896,106 +1715,61 @@ function buyItem(item,cost){
 
 function claimDaily(){
 
-    if(currentUser.dailyClaim){
+    if(currentUser.claimedDaily){
 
-        showToast(
-            "Daily reward already claimed."
-        );
+        alert("Bạn đã nhận Daily Reward hôm nay.");
 
         return;
-
     }
 
-    currentUser.dailyClaim=true;
+    currentUser.claimedDaily = true;
+
     currentUser.gold += 500;
+    currentUser.gems += 25;
 
-    saveCurrent();
-    updateUI();
+    saveCurrentUser();
 
-    showToast(
-        "🎁 Daily reward: +500 Gold"
+    updateStats();
+
+    alert(
+        "🎁 Daily Reward!\n" +
+        "+500 Gold\n" +
+        "+25 Gems"
     );
 
 }
 
-function claimEvent(type){
 
-    const key =
-        "event_" + type;
+function claimLaunch(){
 
-    if(currentUser[key]){
+    if(currentUser.skins.includes("Launch Event Skin")){
 
-        showToast(
-            "Reward already claimed."
-        );
+        alert("Bạn đã nhận phần thưởng.");
 
         return;
-
     }
 
-    currentUser[key]=true;
+    currentUser.gems += 100;
 
-    if(type==="warrior")
-        currentUser.gold += 500;
+    currentUser.skins.push("Launch Event Skin");
 
-    if(type==="gem")
-        currentUser.gems += 50;
+    saveCurrentUser();
 
-    saveCurrent();
-    updateUI();
+    updateStats();
 
-    showToast(
-        "🎉 Event reward claimed!"
+    renderArmory();
+
+    alert(
+        "🎉 Launch Event Reward!\n" +
+        "+100 Gems\n" +
+        "🎨 Launch Event Skin"
     );
 
 }
 
-/* =========================================================
-   LEADERBOARD
-========================================================= */
-
-function updateLeaderboard(){
-
-    const body =
-        document.getElementById(
-            "leaderboardBody"
-        );
-
-    if(!body) return;
-
-    const list =
-        Object.values(accounts)
-        .sort(
-            (a,b)=>
-                (b.campaign-b.campaign) ||
-                ((b.gold||0)-(a.gold||0))
-        );
-
-    body.innerHTML="";
-
-    list.forEach((acc,i)=>{
-
-        const tr =
-            document.createElement("tr");
-
-        tr.innerHTML=`
-
-            <td>${i+1}</td>
-            <td>👤 ${escapeHTML(acc.username)}</td>
-            <td>${Number(acc.gold||0).toLocaleString()}</td>
-            <td>${Number(acc.gems||0).toLocaleString()}</td>
-            <td>${acc.campaign||0}/10</td>
-
-        `;
-
-        body.appendChild(tr);
-
-    });
-
-}
 
 /* =========================================================
-   CODE REDEEM
+   CODES
 ========================================================= */
 
 function redeemCode(){
@@ -2009,47 +1783,56 @@ function redeemCode(){
     const code =
         input.value.trim().toUpperCase();
 
+    if(!code){
+
+        message.textContent =
+            "Nhập code.";
+
+        return;
+    }
+
     if(!codes[code]){
 
         message.textContent =
-            "Invalid code.";
+            "❌ Code không tồn tại.";
 
         return;
-
     }
 
-    if(codes[code].used.includes(
-        currentUser.username
-    )){
+    const data = codes[code];
+
+    if(
+        currentUser.usedCodes &&
+        currentUser.usedCodes.includes(code)
+    ){
 
         message.textContent =
-            "You already used this code.";
+            "❌ Bạn đã dùng code này.";
 
         return;
-
     }
 
-    currentUser.gold +=
-        Number(codes[code].gold || 0);
+    if(!currentUser.usedCodes){
 
-    currentUser.gems +=
-        Number(codes[code].gems || 0);
+        currentUser.usedCodes = [];
+    }
 
-    codes[code].used.push(
-        currentUser.username
-    );
+    currentUser.usedCodes.push(code);
 
-    saveCodes();
-    saveCurrent();
+    currentUser.gold += Number(data.gold || 0);
+    currentUser.gems += Number(data.gems || 0);
 
-    updateUI();
+    saveCurrentUser();
 
-    message.style.color="#71e28a";
+    updateStats();
+
+    message.style.color = "#65d68b";
 
     message.textContent =
-        `Code redeemed! +${codes[code].gold} Gold +${codes[code].gems} Gems`;
+        "✅ Code redeemed!";
 
 }
+
 
 /* =========================================================
    APPEAL
@@ -2057,218 +1840,244 @@ function redeemCode(){
 
 function sendAppeal(){
 
-    if(currentUser.guest){
-
-        showToast(
-            "Guest accounts cannot submit appeals."
-        );
-
-        return;
-
-    }
-
     const text =
         document.getElementById("appealText")
-            .value.trim();
+        .value.trim();
 
     if(!text){
 
-        showToast(
-            "Write your appeal first."
-        );
+        alert("Hãy nhập nội dung Appeal.");
 
         return;
-
     }
 
-    if(!currentUser.appeals)
-        currentUser.appeals=[];
+    const appeals =
+        JSON.parse(
+            localStorage.getItem("SWUL_APPEALS") || "[]"
+        );
 
-    currentUser.appeals.push({
+    appeals.push({
 
+        username:currentUser.username,
         text:text,
-        status:"Pending",
         time:new Date().toLocaleString()
 
     });
 
-    saveCurrent();
-
-    document.getElementById("appealText")
-        .value="";
-
-    showToast(
-        "📩 Appeal sent to Admin."
+    localStorage.setItem(
+        "SWUL_APPEALS",
+        JSON.stringify(appeals)
     );
 
-    refreshAdmin();
+    document.getElementById("appealText").value = "";
+
+    alert("📩 Appeal đã được gửi đến Admin.");
 
 }
 
-/* =========================================================
-   ADMIN REFRESH
-========================================================= */
-
-function refreshAdmin(){
-
-    if(!isAdmin()) return;
-
-    populateAccountSelects();
-    renderAccounts();
-    renderAppeals();
-
-}
 
 /* =========================================================
-   ACCOUNT SELECTS
+   LEADERBOARD
 ========================================================= */
 
-function populateAccountSelects(){
+function renderLeaderboard(){
 
-    const ids = [
+    const body =
+        document.getElementById("leaderboardBody");
 
-        "giftAccount",
-        "banAccount",
-        "resourceAccount",
-        "itemAccount"
+    body.innerHTML = "";
 
-    ];
+    let list = Object.values(accounts)
+        .filter(a => !a.isGuest)
+        .map(a => ({
 
-    ids.forEach(id=>{
+            username:a.username,
+            score:
+                Number(a.campaign || 0) * 1000 +
+                Number(a.mission || 0) * 100 +
+                Number(a.gems || 0)
 
-        const select =
-            document.getElementById(id);
+        }));
 
-        if(!select) return;
+    list.sort((a,b) => b.score-a.score);
 
-        const old =
-            select.value;
+    list.forEach((player,index) => {
 
-        select.innerHTML="";
+        const tr =
+            document.createElement("tr");
 
-        Object.keys(accounts)
-            .forEach(username=>{
+        tr.innerHTML = `
 
-                const option =
-                    document.createElement("option");
+            <td style="padding:12px;">
+                ${index+1}
+            </td>
 
-                option.value=username;
-                option.textContent=username;
+            <td style="padding:12px;">
+                ${escapeHTML(player.username)}
+            </td>
 
-                select.appendChild(option);
+            <td style="padding:12px;">
+                ${player.score.toLocaleString()}
+            </td>
 
-            });
+        `;
 
-        if(accounts[old])
-            select.value=old;
+        body.appendChild(tr);
 
     });
 
 }
+
 
 /* =========================================================
    ADMIN ACCOUNT LIST
 ========================================================= */
 
-function renderAccounts(){
+function renderAdminAccounts(){
 
-    const box =
-        document.getElementById(
-            "accountList"
-        );
+    const list =
+        document.getElementById("accountList");
 
-    if(!box) return;
+    const giftSelect =
+        document.getElementById("giftAccount");
 
-    box.innerHTML="";
+    const banSelect =
+        document.getElementById("banAccount");
 
-    Object.values(accounts)
-        .forEach(acc=>{
+    if(!list || !giftSelect || !banSelect){
 
-            const row =
-                document.createElement("div");
+        return;
+    }
 
-            row.className="accountRow";
+    list.innerHTML = "";
 
-            let status =
-                acc.banned
-                ? (
-                    acc.permanent
-                    ? "🔴 PERMANENT BAN"
-                    : "🟠 BANNED"
-                  )
-                : "🟢 ACTIVE";
+    giftSelect.innerHTML = "";
+    banSelect.innerHTML = "";
 
-            row.innerHTML=`
+    Object.values(accounts).forEach(account => {
 
-                <div class="accountInfo">
+        list.innerHTML +=
 
-                    👤 <strong>
-                        ${escapeHTML(acc.username)}
-                    </strong>
+            "👤 " +
+            escapeHTML(account.username) +
+            " | " +
+            (account.isAdmin ? "👑 ADMIN" : "PLAYER") +
+            " | " +
+            (account.banned ? "🚫 BANNED" : "✅ ACTIVE") +
+            " | 💰 " +
+            Number(account.gold || 0).toLocaleString() +
+            " | 💎 " +
+            Number(account.gems || 0).toLocaleString() +
+            "\n";
 
-                    <br>
 
-                    💰 ${Number(acc.gold||0).toLocaleString()}
-                    &nbsp;
-                    💎 ${Number(acc.gems||0).toLocaleString()}
+        if(account.username !== "admin"){
 
-                    <br>
+            const option1 =
+                document.createElement("option");
 
-                    ${status}
+            option1.value =
+                account.username;
 
-                </div>
+            option1.textContent =
+                account.username;
 
-                <div>
+            giftSelect.appendChild(option1);
 
-                    <button
-                        class="smallBtn gold"
-                        onclick="selectAdminAccount('${escapeAttr(acc.username)}')">
-                        SELECT
-                    </button>
 
-                    <button
-                        class="smallBtn red"
-                        onclick="adminDelete('${escapeAttr(acc.username)}')">
-                        DELETE
-                    </button>
+            const option2 =
+                document.createElement("option");
 
-                </div>
+            option2.value =
+                account.username;
 
-            `;
+            option2.textContent =
+                account.username;
 
-            box.appendChild(row);
+            banSelect.appendChild(option2);
 
-        });
-
-}
-
-/* =========================================================
-   SELECT ACCOUNT
-========================================================= */
-
-function selectAdminAccount(username){
-
-    [
-        "giftAccount",
-        "banAccount",
-        "resourceAccount",
-        "itemAccount"
-
-    ].forEach(id=>{
-
-        const el =
-            document.getElementById(id);
-
-        if(el)
-            el.value=username;
+        }
 
     });
 
-    showToast(
-        "Selected account: " + username
-    );
+}
+
+
+/* =========================================================
+   ADMIN SECURITY HELPER
+========================================================= */
+
+function requireAdmin(){
+
+    if(
+        !currentUser ||
+        currentUser.isAdmin !== true ||
+        currentUser.isGuest === true
+    ){
+
+        alert("⛔ ADMIN ACCESS DENIED");
+
+        return false;
+    }
+
+    return true;
 
 }
+
+
+/* =========================================================
+   ADMIN CREATE CODE
+========================================================= */
+
+function adminCreateCode(){
+
+    if(!requireAdmin()) return;
+
+    let code =
+        document.getElementById("newCode")
+        .value.trim().toUpperCase();
+
+    const gold =
+        Number(
+            document.getElementById("codeRewardGold").value
+        ) || 0;
+
+    const gems =
+        Number(
+            document.getElementById("codeRewardGems").value
+        ) || 0;
+
+    if(!code){
+
+        alert("Nhập Code.");
+
+        return;
+    }
+
+    codes[code] = {
+
+        gold:gold,
+        gems:gems,
+        createdBy:"admin",
+        createdAt:new Date().toLocaleString()
+
+    };
+
+    saveCodes();
+
+    adminLog(
+        "Created code " +
+        code +
+        " | Gold: " +
+        gold +
+        " | Gems: " +
+        gems
+    );
+
+    alert("✅ Code created!");
+
+}
+
 
 /* =========================================================
    ADMIN GIFT
@@ -2276,459 +2085,211 @@ function selectAdminAccount(username){
 
 function adminGift(){
 
+    if(!requireAdmin()) return;
+
     const username =
-        document.getElementById(
-            "giftAccount"
-        ).value;
+        document.getElementById("giftAccount").value;
 
     const gold =
         Number(
-            document.getElementById(
-                "giftGold"
-            ).value || 0
-        );
+            document.getElementById("giftGold").value
+        ) || 0;
 
     const gems =
         Number(
-            document.getElementById(
-                "giftGems"
-            ).value || 0
-        );
+            document.getElementById("giftGems").value
+        ) || 0;
 
-    if(!accounts[username]) return;
+    if(!accounts[username]){
+
+        alert("Account không tồn tại.");
+
+        return;
+    }
 
     accounts[username].gold += gold;
     accounts[username].gems += gems;
 
     saveAccounts();
-    refreshAdmin();
 
-    if(
-        currentUser.username===username
-    ){
-
-        currentUser=accounts[username];
-        updateUI();
-
-    }
-
-    showToast(
-        `🎁 Gifted ${username}`
+    adminLog(
+        "Gift sent to " +
+        username +
+        " | +" +
+        gold +
+        " Gold | +" +
+        gems +
+        " Gems"
     );
 
+    alert("🎁 Gift sent!");
+
+    renderAdminAccounts();
+
 }
+
 
 /* =========================================================
    ADMIN BAN
 ========================================================= */
 
-function banSelected(permanent){
+function adminBan(){
+
+    if(!requireAdmin()) return;
 
     const username =
-        document.getElementById(
-            "banAccount"
-        ).value;
+        document.getElementById("banAccount").value;
 
-    if(username==="admin"){
+    const type =
+        document.getElementById("banType").value;
 
-        showToast(
-            "Admin account cannot be banned."
-        );
+    if(!accounts[username]){
+
+        alert("Account không tồn tại.");
 
         return;
-
     }
 
-    if(!accounts[username]) return;
+    accounts[username].banned = true;
 
-    accounts[username].banned=true;
-    accounts[username].permanent=permanent;
+    accounts[username].permanentBan =
+        type === "permanent";
 
     saveAccounts();
-    refreshAdmin();
 
-    showToast(
-        permanent
-        ? "🔨 Permanent ban applied."
-        : "🚫 Temporary ban applied."
+    adminLog(
+        "Banned " +
+        username +
+        " | Type: " +
+        type
     );
+
+    alert("🚫 Account đã bị ban.");
+
+    renderAdminAccounts();
 
 }
 
-function unbanSelected(){
-
-    const username =
-        document.getElementById(
-            "banAccount"
-        ).value;
-
-    if(!accounts[username]) return;
-
-    accounts[username].banned=false;
-    accounts[username].permanent=false;
-
-    saveAccounts();
-    refreshAdmin();
-
-    showToast(
-        "🟢 Account unbanned."
-    );
-
-}
 
 /* =========================================================
-   ADMIN RESOURCES
+   ADMIN UNBAN
 ========================================================= */
 
-function adminResources(){
+function adminUnban(){
+
+    if(!requireAdmin()) return;
 
     const username =
-        document.getElementById(
-            "resourceAccount"
-        ).value;
+        document.getElementById("banAccount").value;
 
-    const gold =
-        Number(
-            document.getElementById(
-                "resourceGold"
-            ).value || 0
-        );
+    if(!accounts[username]){
 
-    const gems =
-        Number(
-            document.getElementById(
-                "resourceGems"
-            ).value || 0
-        );
-
-    if(!accounts[username]) return;
-
-    accounts[username].gold += gold;
-    accounts[username].gems += gems;
-
-    saveAccounts();
-    refreshAdmin();
-
-    if(currentUser.username===username){
-
-        currentUser=accounts[username];
-        updateUI();
-
-    }
-
-    showToast(
-        "💰 Resources added."
-    );
-
-}
-
-/* =========================================================
-   ADMIN ITEM
-========================================================= */
-
-function adminItem(){
-
-    const username =
-        document.getElementById(
-            "itemAccount"
-        ).value;
-
-    const item =
-        document.getElementById(
-            "itemName"
-        ).value.trim();
-
-    if(!accounts[username] || !item)
-        return;
-
-    if(!accounts[username].items)
-        accounts[username].items=[];
-
-    if(!accounts[username].items.includes(item))
-        accounts[username].items.push(item);
-
-    saveAccounts();
-    refreshAdmin();
-
-    if(currentUser.username===username){
-
-        currentUser=accounts[username];
-        buildArmory();
-
-    }
-
-    showToast(
-        "🛡️ Item gifted."
-    );
-
-}
-
-/* =========================================================
-   ADMIN CREATE CODE
-========================================================= */
-
-function createCode(){
-
-    const code =
-        document.getElementById(
-            "newCode"
-        ).value.trim().toUpperCase();
-
-    const gold =
-        Number(
-            document.getElementById(
-                "codeGold"
-            ).value || 0
-        );
-
-    const gems =
-        Number(
-            document.getElementById(
-                "codeGems"
-            ).value || 0
-        );
-
-    if(!code){
-
-        showToast(
-            "Enter a code."
-        );
+        alert("Account không tồn tại.");
 
         return;
-
     }
 
-    codes[code]={
+    accounts[username].banned = false;
+    accounts[username].permanentBan = false;
 
-        gold:gold,
-        gems:gems,
-        used:[]
+    saveAccounts();
 
-    };
-
-    saveCodes();
-
-    document.getElementById("newCode")
-        .value="";
-
-    showToast(
-        "🔑 Code created: " + code
+    adminLog(
+        "Unbanned " +
+        username
     );
+
+    alert("✅ Account đã được unbanned.");
+
+    renderAdminAccounts();
 
 }
 
+
 /* =========================================================
-   ADMIN GLOBAL TEXT
+   ADMIN GLOBAL MESSAGE
 ========================================================= */
 
-function adminGlobalText(){
+function adminGlobalMessage(){
+
+    if(!requireAdmin()) return;
 
     const text =
-        document.getElementById(
-            "globalText"
-        ).value.trim();
+        document.getElementById("globalMessage")
+        .value.trim();
 
     if(!text){
 
-        showToast(
-            "Enter a message."
-        );
+        alert("Nhập message.");
 
         return;
-
     }
 
     localStorage.setItem(
-        "SWUL_GLOBAL_TEXT",
+        "SWUL_GLOBAL_MESSAGE",
+        JSON.stringify({
+
+            text:text,
+            sender:"admin",
+            time:new Date().toLocaleString()
+
+        })
+    );
+
+    adminLog(
+        "Global message sent: " +
         text
     );
 
-    updateUI();
+    document.getElementById("globalMessage")
+        .value = "";
 
-    showToast(
-        "📢 Global message sent."
-    );
-
-}
-
-function clearGlobalText(){
-
-    localStorage.removeItem(
-        "SWUL_GLOBAL_TEXT"
-    );
-
-    updateUI();
-
-    showToast(
-        "Global message cleared."
-    );
+    alert("📢 Message đã được gửi tới toàn game.");
 
 }
+
 
 /* =========================================================
-   ADMIN DELETE
+   ADMIN LOG
 ========================================================= */
 
-function adminDelete(username){
+function adminLog(text){
 
-    if(username==="admin"){
+    const log =
+        document.getElementById("adminLog");
 
-        showToast(
-            "The admin account cannot be deleted."
-        );
+    const now =
+        new Date().toLocaleString();
 
-        return;
-
-    }
-
-    if(!confirm(
-        "Delete account " +
-        username +
-        "?"
-    )) return;
-
-    delete accounts[username];
-
-    saveAccounts();
-    refreshAdmin();
-    updateLeaderboard();
-
-    showToast(
-        "Account deleted."
-    );
+    log.textContent =
+        "[" + now + "] " +
+        text +
+        "\n" +
+        log.textContent;
 
 }
 
+
 /* =========================================================
-   ADMIN APPEALS
+   SAVE CURRENT USER
 ========================================================= */
 
-function renderAppeals(){
+function saveCurrentUser(){
 
-    const box =
-        document.getElementById(
-            "appealList"
-        );
+    if(
+        currentUser &&
+        !currentUser.isGuest
+    ){
 
-    if(!box) return;
+        accounts[currentUser.username] =
+            currentUser;
 
-    box.innerHTML="";
-
-    let count=0;
-
-    Object.values(accounts)
-        .forEach(acc=>{
-
-            if(!acc.appeals)
-                return;
-
-            acc.appeals.forEach((appeal,index)=>{
-
-                count++;
-
-                const row =
-                    document.createElement("div");
-
-                row.className="accountRow";
-
-                row.innerHTML=`
-
-                    <div>
-
-                        <strong style="color:#ffd54a">
-                            👤 ${escapeHTML(acc.username)}
-                        </strong>
-
-                        <br>
-
-                        <span style="color:#aebdcd">
-                            ${escapeHTML(appeal.text)}
-                        </span>
-
-                        <br>
-
-                        <small>
-                            ${appeal.time}
-                            —
-                            ${appeal.status}
-                        </small>
-
-                    </div>
-
-                    <div>
-
-                        <button
-                            class="smallBtn green"
-                            onclick="resolveAppeal('${escapeAttr(acc.username)}',${index},'Accepted')">
-                            ACCEPT
-                        </button>
-
-                        <button
-                            class="smallBtn red"
-                            onclick="resolveAppeal('${escapeAttr(acc.username)}',${index},'Rejected')">
-                            REJECT
-                        </button>
-
-                    </div>
-
-                `;
-
-                box.appendChild(row);
-
-            });
-
-        });
-
-    if(count===0){
-
-        box.innerHTML =
-            "<p style='color:#8796a7'>No appeals.</p>";
+        saveAccounts();
 
     }
 
 }
 
-function resolveAppeal(username,index,status){
-
-    if(!accounts[username] ||
-       !accounts[username].appeals[index])
-        return;
-
-    accounts[username]
-        .appeals[index]
-        .status=status;
-
-    if(status==="Accepted"){
-
-        accounts[username].banned=false;
-        accounts[username].permanent=false;
-
-    }
-
-    saveAccounts();
-    refreshAdmin();
-
-    showToast(
-        "Appeal " + status
-    );
-
-}
-
-/* =========================================================
-   SAVE CURRENT
-========================================================= */
-
-function saveCurrent(){
-
-    if(currentUser.guest)
-        return;
-
-    accounts[currentUser.username] =
-        currentUser;
-
-    saveAccounts();
-
-}
 
 /* =========================================================
    LOGOUT
@@ -2736,7 +2297,7 @@ function saveCurrent(){
 
 function logout(){
 
-    currentUser=null;
+    currentUser = null;
 
     document
         .getElementById("game")
@@ -2747,66 +2308,51 @@ function logout(){
         .classList.remove("hidden");
 
     document
-        .getElementById("loginUser")
-        .value="";
+        .getElementById("loginUsername")
+        .value = "";
 
     document
-        .getElementById("loginPass")
-        .value="";
+        .getElementById("loginPassword")
+        .value = "";
 
 }
+
 
 /* =========================================================
-   TOAST
+   HTML ESCAPE
 ========================================================= */
 
-let toastTimer;
+function escapeHTML(text){
 
-function showToast(text){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent=text;
-    toast.style.display="block";
-
-    clearTimeout(toastTimer);
-
-    toastTimer =
-        setTimeout(()=>{
-
-            toast.style.display="none";
-
-        },3000);
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
+
 
 /* =========================================================
-   SECURITY / DISPLAY HELPERS
+   INIT
 ========================================================= */
 
-function escapeHTML(str){
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+        /*
+           Đảm bảo Admin Panel bị ẩn
+           trước khi đăng nhập.
+        */
 
-}
+        document
+            .getElementById("adminNavButton")
+            .classList.add("hidden");
 
-function escapeAttr(str){
-
-    return String(str)
-        .replaceAll("\\","\\\\")
-        .replaceAll("'","\\'");
-
-}
-
-/* =========================================================
-   START
-========================================================= */
+    }
+);
 
 </script>
 
