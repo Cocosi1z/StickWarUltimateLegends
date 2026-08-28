@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stick War Ultimate Legends</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top, #303030 0%, #151515 45%, #080808 100%);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+.screen {
+    display: none;
+    min-height: 100vh;
+    padding: 25px;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+#loadingScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(#111, #252525);
+}
+
+.loading-box h1 {
+    font-size: 42px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.loading-box p {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.loading-bar {
+    width: 320px;
+    height: 12px;
+    background: #333;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.loading-progress {
+    width: 0%;
+    height: 100%;
+    background: #f5c542;
+    animation: load 2s forwards;
+}
+
+@keyframes load {
+    to { width: 100%; }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(20,20,20,.92);
+    border: 1px solid #444;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.resources {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.resource {
+    background: #252525;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+/* =========================
+   HOME
+========================= */
+
+.home-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.hero {
+    text-align: center;
+    padding: 35px 10px 28px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 6vw, 68px);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 4px 15px black;
+}
+
+.hero .version {
+    color: #aaa;
+    margin-top: 8px;
+}
+
+.play-button {
+    margin-top: 25px;
+    width: min(420px, 90%);
+    padding: 18px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(#d9a928, #8f6813);
+    border: 2px solid #f4d06b;
+    border-radius: 15px;
+    box-shadow: 0 7px 0 #4c3508, 0 15px 30px rgba(0,0,0,.4);
+    transition: .15s;
+}
+
+.play-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.12);
+}
+
+.play-button:active {
+    transform: translateY(5px);
+    box-shadow: 0 2px 0 #4c3508;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 13px;
+    max-width: 1050px;
+    margin: auto;
+}
+
+.menu-button {
+    min-height: 74px;
+    border: 1px solid #4b4b4b;
+    background: linear-gradient(#292929, #181818);
+    color: white;
+    border-radius: 13px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: .15s;
+}
+
+.menu-button:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(#383838, #202020);
+    border-color: #777;
+}
+
+.menu-button.gold {
+    border-color: #9b781e;
+}
+
+.menu-button.blue {
+    border-color: #3f78a6;
+}
+
+.menu-button.red {
+    border-color: #8c3e3e;
+}
+
+.announcement {
+    max-width: 1050px;
+    margin: 25px auto 0;
+    padding: 15px;
+    border: 1px solid #494949;
+    background: rgba(20,20,20,.75);
+    border-radius: 12px;
+    color: #ddd;
+}
+
+/* =========================
+   GENERAL PANEL
+========================= */
+
+.panel {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.panel-header h2 {
+    font-size: 32px;
+}
+
+.back-button {
+    background: #292929;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 10px;
+    padding: 10px 16px;
+}
+
+.back-button:hover {
+    background: #3a3a3a;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: linear-gradient(145deg, #292929, #171717);
+    border: 1px solid #444;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+}
+
+.card h3 {
+    margin-bottom: 9px;
+}
+
+.card p {
+    color: #aaa;
+    line-height: 1.5;
+}
+
+.card button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 11px;
+    border-radius: 9px;
+    border: 1px solid #555;
+    background: #303030;
+    color: white;
+}
+
+.card button:hover {
+    background: #414141;
+}
+
+.progress {
+    height: 10px;
+    background: #333;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #d6aa35;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.auth-box {
+    max-width: 430px;
+    margin: 70px auto;
+    background: #1c1c1c;
+    border: 1px solid #4b4b4b;
+    border-radius: 18px;
+    padding: 28px;
+}
+
+.auth-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 12px;
+    background: #101010;
+    border: 1px solid #4a4a4a;
+    border-radius: 9px;
+    color: white;
+    outline: none;
+}
+
+.auth-actions {
+    display: grid;
+    gap: 10px;
+}
+
+.primary {
+    padding: 13px;
+    border-radius: 9px;
+    border: 1px solid #c7a02e;
+    background: #92721e;
+    color: white;
+    font-weight: bold;
+}
+
+.secondary {
+    padding: 13px;
+    border-radius: 9px;
+    border: 1px solid #555;
+    background: #2b2b2b;
+    color: white;
+}
+
+.small-note {
+    color: #888;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 14px;
+}
+
+/* =========================
+   ARMORY
+========================= */
+
+.character-preview {
+    min-height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    background:
+        radial-gradient(circle, #3b3b3b, #151515 70%);
+    border-radius: 15px;
+    border: 1px solid #444;
+    margin-bottom: 18px;
+}
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+.leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+    background: #191919;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.leaderboard th,
+.leaderboard td {
+    padding: 14px;
+    border-bottom: 1px solid #333;
+    text-align: left;
+}
+
+.leaderboard th {
+    background: #292929;
+}
+
+.leaderboard tr.current {
+    background: #423716;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(500px, 100%);
+    background: #202020;
+    border: 1px solid #555;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+}
+
+.modal-box h2 {
+    margin-bottom: 12px;
+}
+
+.modal-box p {
+    color: #bbb;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+    .screen {
+        padding: 13px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .hero {
+        padding-top: 18px;
+    }
+
+    .hero h1 {
+        letter-spacing: 1px;
+    }
+
+    .panel-header h2 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<section id="loadingScreen" class="screen active">
+    <div class="loading-box">
+        <h1>SWUL</h1>
+        <p>Stick War Ultimate Legends v.2026.27.8</p>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<section id="loginScreen" class="screen">
+    <div class="auth-box">
+        <h2>⚔️ ACCOUNT LOGIN</h2>
+
+        <input id="loginUsername"
+               class="input"
+               placeholder="Username">
+
+        <input id="loginPassword"
+               class="input"
+               type="password"
+               placeholder="Password">
+
+        <div class="auth-actions">
+            <button class="primary" onclick="login()">
+                LOGIN
+            </button>
+
+            <button class="secondary" onclick="showScreen('registerScreen')">
+                CREATE ACCOUNT
+            </button>
+
+            <button class="secondary" onclick="guestLogin()">
+                PLAY AS GUEST
+            </button>
+        </div>
+
+        <p class="small-note">
+            Demo frontend account system.
+        </p>
+    </div>
+</section>
+
+<!-- =========================
+     REGISTER
+========================= -->
+
+<section id="registerScreen" class="screen">
+    <div class="auth-box">
+        <h2>👤 CREATE ACCOUNT</h2>
+
+        <input id="registerUsername"
+               class="input"
+               placeholder="Username">
+
+        <input id="registerPassword"
+               class="input"
+               type="password"
+               placeholder="Password">
+
+        <div class="auth-actions">
+            <button class="primary" onclick="registerAccount()">
+                CREATE ACCOUNT
+            </button>
+
+            <button class="secondary" onclick="showScreen('loginScreen')">
+                BACK TO LOGIN
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section id="homeScreen" class="screen">
+
+    <div class="home-container">
+
+        <div class="topbar">
+            <div class="logo">
+                ⚔️ SWUL
+            </div>
+
+            <div class="resources">
+                <div class="resource">
+                    💰 <span id="goldDisplay">0</span>
+                </div>
+
+                <div class="resource">
+                    💎 <span id="gemsDisplay">0</span>
+                </div>
+
+                <div class="resource">
+                    👤 <span id="playerDisplay">Guest</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero">
+
+            <h1>
+                Stick War<br>
+                Ultimate Legends
+            </h1>
+
+            <div class="version">
+                v.2026.27.8
+            </div>
+
+            <button class="play-button"
+                    onclick="startGame()">
+                ▶ PLAY
+            </button>
+
+        </div>
+
+        <div class="menu-grid">
+
+            <button class="menu-button gold"
+                    onclick="showScreen('campaignScreen')">
+                ⚔️ CAMPAIGN
+            </button>
+
+            <button class="menu-button blue"
+                    onclick="showScreen('missionsScreen')">
+                🎯 MISSIONS
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('armoryScreen')">
+                🎒 ARMORY
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('shopScreen')">
+                🏪 SHOP
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('spellsScreen')">
+                ✨ SPELLS
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('royalsScreen')">
+                👑 ROYALS
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('upgradesScreen')">
+                ⬆️ UPGRADES
+            </button>
+
+            <button class="menu-button gold"
+                    onclick="showScreen('eventsScreen')">
+                🎉 EVENTS
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('leaderboardScreen')">
+                🏆 LEADERBOARD
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('mailboxScreen')">
+                📬 MAILBOX
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('codesScreen')">
+                🔑 CODES
+            </button>
+
+            <button class="menu-button"
+                    onclick="showScreen('settingsScreen')">
+                ⚙️ SETTINGS
+            </button>
+        </div>
+
+        <div class="announcement">
+            📢 <strong>Announcement:</strong>
+            Welcome to Stick War Ultimate Legends!
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     CAMPAIGN
+========================= -->
+
+<section id="campaignScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>⚔️ CAMPAIGN</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards" id="campaignCards"></div>
+
+</div>
+</section>
+
+<!-- =========================
+     MISSIONS
+========================= -->
+
+<section id="missionsScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>🎯 MISSIONS</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="card">
+        <h3>📜 Scouting Report</h3>
+        <p>
+            Each Mission map contains a Scouting Report
+            before battle.
+        </p>
+    </div>
+
+    <br>
+
+    <div class="cards" id="missionCards"></div>
+
+</div>
+</section>
+
+<!-- =========================
+     ARMORY
+========================= -->
+
+<section id="armoryScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>🎒 ARMORY</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="character-preview">
+        ⚔️
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>⚔️ Swordwrath</h3>
+            <p>Skins, armor and weapons.</p>
+            <button onclick="equipItem('Swordwrath Skin')">
+                EQUIP
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🏹 Archidon</h3>
+            <p>Custom equipment and skins.</p>
+            <button onclick="equipItem('Archidon Skin')">
+                EQUIP
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ Spearton</h3>
+            <p>Armor and weapon customization.</p>
+            <button onclick="equipItem('Spearton Armor')">
+                EQUIP
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🧙 Magikill</h3>
+            <p>Magic equipment and skins.</p>
+            <button onclick="equipItem('Magikill Skin')">
+                EQUIP
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>👹 Giant</h3>
+            <p>Titan equipment and special skins.</p>
+            <button onclick="equipItem('Titan Skin')">
+                EQUIP
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     SHOP
+========================= -->
+
+<section id="shopScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>🏪 SHOP</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>🛡️ Iron Armor</h3>
+            <p>Basic protection.</p>
+            <button onclick="buyItem('Iron Armor', 500)">
+                BUY — 500 GOLD
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>⚔️ Knight Armor</h3>
+            <p>Stronger protection.</p>
+            <button onclick="buyItem('Knight Armor', 1500)">
+                BUY — 1,500 GOLD
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🐉 Dragon Armor</h3>
+            <p>Powerful legendary armor.</p>
+            <button onclick="buyItem('Dragon Armor', 5000)">
+                BUY — 5,000 GOLD
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>👑 Royal Armor</h3>
+            <p>Royal equipment.</p>
+            <button onclick="buyItem('Royal Armor', 8000)">
+                BUY — 8,000 GOLD
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🔥 Titan Armor</h3>
+            <p>Ultimate equipment.</p>
+            <button onclick="buyItem('Titan Armor', 15000)">
+                BUY — 15,000 GOLD
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     EVENTS
+========================= -->
+
+<section id="eventsScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>🎉 EVENTS</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>🔥 Titan Week</h3>
+            <p>
+                Complete 5 battles.
+            </p>
+
+            <div class="progress">
+                <div class="progress-bar"
+                     style="width: 80%;">
+                </div>
+            </div>
+
+            <p style="margin-top:10px;">
+                Progress: 4 / 5
+            </p>
+
+            <button onclick="claimEvent('Titan Week')">
+                🎁 CLAIM REWARD
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>📅 Daily Login</h3>
+            <p>
+                Login today to receive your reward.
+            </p>
+
+            <button onclick="claimEvent('Daily Login')">
+                🎁 CLAIM
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     LEADERBOARD
+========================= -->
+
+<section id="leaderboardScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>🏆 LEADERBOARD</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <table class="leaderboard">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>PLAYER</th>
+                <th>SCORE</th>
+                <th>LEVEL</th>
+            </tr>
+        </thead>
+
+        <tbody id="leaderboardBody"></tbody>
+    </table>
+
+</div>
+</section>
+
+<!-- =========================
+     CODES
+========================= -->
+
+<section id="codesScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>🔑 CODES</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="auth-box" style="margin:20px auto;">
+
+        <input id="codeInput"
+               class="input"
+               placeholder="Enter code">
+
+        <button class="primary"
+                onclick="redeemCode()">
+            REDEEM CODE
+        </button>
+
+        <p class="small-note">
+            Enter a valid SWUL code to receive rewards.
+        </p>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     SPELLS
+========================= -->
+
+<section id="spellsScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>✨ SPELLS</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards" id="spellCards"></div>
+
+</div>
+</section>
+
+<!-- =========================
+     ROYALS
+========================= -->
+
+<section id="royalsScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>👑 ROYALS</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>⚔️ Xiphos</h3>
+            <p>Royal warrior.</p>
+            <button onclick="selectRoyal('Xiphos')">
+                SELECT
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🏹 Kytchu</h3>
+            <p>Royal archer.</p>
+            <button onclick="selectRoyal('Kytchu')">
+                SELECT
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🗡️ Atreyos</h3>
+            <p>Elite royal fighter.</p>
+            <button onclick="selectRoyal('Atreyos')">
+                SELECT
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>👑 Icaron</h3>
+            <p>Royal champion.</p>
+            <button onclick="selectRoyal('Icaron')">
+                SELECT
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🔥 Thera</h3>
+            <p>Powerful royal.</p>
+            <button onclick="selectRoyal('Thera')">
+                SELECT
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Adicai</h3>
+            <p>Legendary royal.</p>
+            <button onclick="selectRoyal('Adicai')">
+                SELECT
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     UPGRADES
+========================= -->
+
+<section id="upgradesScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>⬆️ UPGRADES</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>⚔️ Unit Upgrade</h3>
+            <p>Increase unit attack and health.</p>
+            <button onclick="upgrade('Unit')">
+                UPGRADE
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>👑 Royal Upgrade</h3>
+            <p>Improve Royal abilities.</p>
+            <button onclick="upgrade('Royal')">
+                UPGRADE
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🛡️ Armor Upgrade</h3>
+            <p>Increase defense.</p>
+            <button onclick="upgrade('Armor')">
+                UPGRADE
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>✨ Spell Upgrade</h3>
+            <p>Improve spell power.</p>
+            <button onclick="upgrade('Spell')">
+                UPGRADE
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     MAILBOX
+========================= -->
+
+<section id="mailboxScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>📬 MAILBOX</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>🎁 Welcome Gift</h3>
+            <p>
+                Welcome to Stick War Ultimate Legends!
+            </p>
+
+            <button onclick="claimGift()">
+                CLAIM
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     SETTINGS
+========================= -->
+
+<section id="settingsScreen" class="screen">
+<div class="panel">
+
+    <div class="panel-header">
+        <h2>⚙️ SETTINGS</h2>
+        <button class="back-button" onclick="goHome()">🏠 HOME</button>
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>🎵 Music</h3>
+            <p>Game music.</p>
+            <button onclick="toggleSetting('Music')">
+                ON / OFF
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🔊 Sound Effects</h3>
+            <p>Battle sound effects.</p>
+            <button onclick="toggleSetting('SFX')">
+                ON / OFF
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🖥️ Graphics</h3>
+            <p>Graphics quality.</p>
+            <button onclick="toggleSetting('Graphics')">
+                CHANGE
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>🚪 Account</h3>
+            <p>Log out of this account.</p>
+            <button onclick="logout()">
+                LOGOUT
+            </button>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div id="modal" class="modal">
+    <div class="modal-box">
+        <h2 id="modalTitle">Message</h2>
+        <p id="modalText"></p>
+
+        <button class="primary"
+                onclick="closeModal()">
+            OK
+        </button>
+    </div>
+</div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   SWUL FRONTEND
+========================================================= */
+
+const STORAGE_KEY = "swul_accounts_v1";
+
+let currentUser = null;
+
+const defaultAccount = {
+    username: "Guest",
+    password: "",
+    gold: 10000,
+    gems: 500,
+    score: 0,
+    level: 1,
+    campaign: 0,
+    missions: 0,
+    inventory: [],
+    claimedEvents: [],
+    claimedGifts: []
+};
+
+/* =========================
+   DATABASE LOCAL
+========================= */
+
+function getAccounts() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function saveAccounts(accounts) {
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(accounts)
+    );
+}
+
+function saveCurrentUser() {
+
+    if (!currentUser) return;
+
+    if (currentUser.username === "Guest") return;
+
+    const accounts = getAccounts();
+
+    const index = accounts.findIndex(
+        a => a.username === currentUser.username
+    );
+
+    if (index !== -1) {
+        accounts[index] = currentUser;
+        saveAccounts(accounts);
+    }
+}
+
+/* =========================
+   SCREEN SYSTEM
+========================= */
+
+function showScreen(id) {
+
+    document.querySelectorAll(".screen")
+        .forEach(screen => {
+            screen.classList.remove("active");
+        });
+
+    const target = document.getElementById(id);
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+    updateUI();
+
+    if (id === "campaignScreen") {
+        renderCampaign();
+    }
+
+    if (id === "missionsScreen") {
+        renderMissions();
+    }
+
+    if (id === "leaderboardScreen") {
+        renderLeaderboard();
+    }
+}
+
+function goHome() {
+    showScreen("homeScreen");
+}
+
+/* =========================
+   LOADING
+========================= */
+
+setTimeout(() => {
+    showScreen("loginScreen");
+}, 2200);
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+    const username =
+        document.getElementById("loginUsername")
+        .value.trim();
+
+    const password =
+        document.getElementById("loginPassword")
+        .value;
+
+    if (!username || !password) {
+        popup(
+            "LOGIN",
+            "Please enter username and password."
+        );
+        return;
+    }
+
+    const accounts = getAccounts();
+
+    const account = accounts.find(
+        a =>
+            a.username === username &&
+            a.password === password
+    );
+
+    if (!account) {
+        popup(
+            "LOGIN FAILED",
+            "Account not found or password is incorrect."
+        );
+        return;
+    }
+
+    currentUser = account;
+
+    popup(
+        "WELCOME",
+        "Welcome back, " + username + "!"
+    );
+
+    setTimeout(goHome, 700);
+}
+
+function registerAccount() {
+
+    const username =
+        document.getElementById("registerUsername")
+        .value.trim();
+
+    const password =
+        document.getElementById("registerPassword")
+        .value;
+
+    if (username.length < 3) {
+        popup(
+            "CREATE ACCOUNT",
+            "Username must contain at least 3 characters."
+        );
+        return;
+    }
+
+    if (password.length < 4) {
+        popup(
+            "CREATE ACCOUNT",
+            "Password must contain at least 4 characters."
+        );
+        return;
+    }
+
+    const accounts = getAccounts();
+
+    if (
+        accounts.some(
+            a => a.username.toLowerCase() === username.toLowerCase()
+        )
+    ) {
+        popup(
+            "CREATE ACCOUNT",
+            "That username already exists."
+        );
+        return;
+    }
+
+    const account = {
+        ...defaultAccount,
+        username,
+        password
+    };
+
+    accounts.push(account);
+
+    saveAccounts(accounts);
+
+    currentUser = account;
+
+    popup(
+        "ACCOUNT CREATED",
+        "Your SWUL account has been created."
+    );
+
+    setTimeout(goHome, 700);
+}
+
+function guestLogin() {
+
+    currentUser = {
+        ...defaultAccount,
+        username: "Guest"
+    };
+
+    goHome();
+}
+
+function logout() {
+
+    saveCurrentUser();
+
+    currentUser = null;
+
+    showScreen("loginScreen");
+}
+
+/* =========================
+   UI
+========================= */
+
+function updateUI() {
+
+    if (!currentUser) return;
+
+    document.getElementById("goldDisplay")
+        .textContent =
+        Number(currentUser.gold || 0)
+        .toLocaleString();
+
+    document.getElementById("gemsDisplay")
+        .textContent =
+        Number(currentUser.gems || 0)
+        .toLocaleString();
+
+    document.getElementById("playerDisplay")
+        .textContent =
+        currentUser.username;
+}
+
+/* =========================
+   PLAY
+========================= */
+
+function startGame() {
+
+    popup(
+        "⚔️ BATTLE",
+        "Battle system is the next module. The SWUL Home system is ready!"
+    );
+}
+
+/* =========================
+   CAMPAIGN
+========================= */
+
+const campaignNames = [
+    "The Beginning",
+    "The Archer",
+    "The Spearton",
+    "The Golem",
+    "The Beast",
+    "The Shadow",
+    "The Royal",
+    "The Titan",
+    "The Final Army",
+    "The Last Battle"
+];
+
+const campaignCreatures = [
+    "🐴",
+    "🐉",
+    "🦅",
+    "🗿",
+    "🐺",
+    "👹",
+    "🦁",
+    "🔥",
+    "⚡",
+    "👑"
+];
+
+function renderCampaign() {
+
+    const container =
+        document.getElementById("campaignCards");
+
+    container.innerHTML = "";
+
+    campaignNames.forEach((name, index) => {
+
+        const unlocked =
+            index <= Number(currentUser.campaign || 0);
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>
+                ${campaignCreatures[index]}
+                Campaign ${index + 1}
+            </h3>
+
+            <p>${name}</p>
+
+            <p style="margin-top:8px;">
+                ${
+                    unlocked
+                    ? "🟢 UNLOCKED"
+                    : "🔒 LOCKED"
+                }
+            </p>
+
+            <div class="progress">
+                <div class="progress-bar"
+                     style="width:${unlocked ? 100 : 0}%;">
+                </div>
+            </div>
+
+            <button
+                onclick="playCampaign(${index})"
+                ${unlocked ? "" : "disabled"}>
+                ${
+                    unlocked
+                    ? "PLAY"
+                    : "LOCKED"
+                }
+            </button>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+function playCampaign(index) {
+
+    if (
+        index >
+        Number(currentUser.campaign || 0)
+    ) {
+        popup(
+            "LOCKED",
+            "Complete the previous Campaign first."
+        );
+        return;
+    }
+
+    popup(
+        "CAMPAIGN " + (index + 1),
+        "Battle loading... After victory, this Campaign will unlock its creature and story."
+    );
+}
+
+/* =========================
+   MISSIONS
+========================= */
+
+function renderMissions() {
+
+    const container =
+        document.getElementById("missionCards");
+
+    container.innerHTML = "";
+
+    for (let i = 1; i <= 10; i++) {
+
+        const completed =
+            i <= Number(currentUser.missions || 0);
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>🎯 Mission ${i}</h3>
+
+            <p>
+                📜 Scouting Report available
+            </p>
+
+            <p style="margin-top:8px;">
+                ${
+                    completed
+                    ? "🏆 COMPLETED"
+                    : "⚔️ READY"
+                }
+            </p>
+
+            <button onclick="playMission(${i})">
+                ${
+                    completed
+                    ? "REPLAY"
+                    : "SCOUT"
+                }
+            </button>
+        `;
+
+        container.appendChild(card);
+    }
+}
+
+function playMission(number) {
+
+    popup(
+        "📜 SCOUTING REPORT",
+        "Enemy forces detected on Mission Map " +
+        number +
+        ". Prepare your army!"
+    );
+}
+
+/* =========================
+   SPELLS
+========================= */
+
+const spells = [
+    "Lightning",
+    "Meteor",
+    "Fireball",
+    "Freeze",
+    "Heal",
+    "Rage",
+    "Shield",
+    "Tornado",
+    "Earthquake",
+    "Poison",
+    "Clone",
+    "Teleport",
+    "Arrow Rain",
+    "Darkness",
+    "Thunder Storm",
+    "Time Stop",
+    "Stone Skin",
+    "Speed",
+    "Summon"
+];
+
+function renderSpells() {
+
+    const container =
+        document.getElementById("spellCards");
+
+    container.innerHTML = "";
+
+    spells.forEach((spell, index) => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>✨ ${spell}</h3>
+            <p>Spell ${index + 1} of 19.</p>
+            <button onclick="selectSpell('${spell}')">
+                SELECT
+            </button>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+function selectSpell(spell) {
+
+    popup(
+        "SPELL SELECTED",
+        spell + " selected."
+    );
+}
+
+/* =========================
+   ARMORY
+========================= */
+
+function equipItem(item) {
+
+    if (!currentUser.inventory) {
+        currentUser.inventory = [];
+    }
+
+    if (!currentUser.inventory.includes(item)) {
+        currentUser.inventory.push(item);
+    }
+
+    saveCurrentUser();
+
+    popup(
+        "ARMORY",
+        item + " equipped!"
+    );
+}
+
+/* =========================
+   SHOP
+========================= */
+
+function buyItem(item, price) {
+
+    if (currentUser.gold < price) {
+
+        popup(
+            "SHOP",
+            "Not enough Gold."
+        );
+
+        return;
+    }
+
+    currentUser.gold -= price;
+
+    if (!currentUser.inventory) {
+        currentUser.inventory = [];
+    }
+
+    currentUser.inventory.push(item);
+
+    saveCurrentUser();
+
+    updateUI();
+
+    popup(
+        "PURCHASE COMPLETE",
+        "You bought " + item + "."
+    );
+}
+
+/* =========================
+   EVENTS
+========================= */
+
+function claimEvent(eventName) {
+
+    if (!currentUser.claimedEvents) {
+        currentUser.claimedEvents = [];
+    }
+
+    if (
+        currentUser.claimedEvents.includes(eventName)
+    ) {
+        popup(
+            "EVENT",
+            "You already claimed this reward."
+        );
+        return;
+    }
+
+    currentUser.claimedEvents.push(eventName);
+
+    currentUser.gems += 100;
+
+    saveCurrentUser();
+
+    updateUI();
+
+    popup(
+        "🎁 REWARD",
+        "You received 100 Gems from " +
+        eventName + "!"
+    );
+}
+
+/* =========================
+   GIFTS
+========================= */
+
+function claimGift() {
+
+    if (!currentUser.claimedGifts) {
+        currentUser.claimedGifts = [];
+    }
+
+    if (
+        currentUser.claimedGifts.includes("Welcome Gift")
+    ) {
+        popup(
+            "GIFT",
+            "This gift has already been claimed."
+        );
+        return;
+    }
+
+    currentUser.claimedGifts.push("Welcome Gift");
+
+    currentUser.gold += 1000;
+    currentUser.gems += 50;
+
+    saveCurrentUser();
+
+    updateUI();
+
+    popup(
+        "🎁 GIFT CLAIMED",
+        "You received 1,000 Gold and 50 Gems!"
+    );
+}
+
+/* =========================
+   CODES
+========================= */
+
+const demoCodes = {
+    "SWUL2026": {
+        gold: 5000,
+        gems: 100
+    },
+
+    "TITANFREE": {
+        gold: 1000,
+        gems: 500
+    }
+};
+
+function redeemCode() {
+
+    const input =
+        document.getElementById("codeInput");
+
+    const code =
+        input.value.trim().toUpperCase();
+
+    if (!code) {
+        popup(
+            "CODE",
+            "Enter a code."
+        );
+        return;
+    }
+
+    const reward =
+        demoCodes[code];
+
+    if (!reward) {
+        popup(
+            "INVALID CODE",
+            "This code is not valid."
+        );
+        return;
+    }
+
+    currentUser.gold += reward.gold;
+    currentUser.gems += reward.gems;
+
+    saveCurrentUser();
+
+    updateUI();
+
+    input.value = "";
+
+    popup(
+        "🎁 CODE REDEEMED",
+        "You received " +
+        reward.gold.toLocaleString() +
+        " Gold and " +
+        reward.gems +
+        " Gems!"
+    );
+}
+
+/* =========================
+   ROYALS
+========================= */
+
+function selectRoyal(name) {
+
+    popup(
+        "👑 ROYAL",
+        name + " selected."
+    );
+}
+
+/* =========================
+   UPGRADES
+========================= */
+
+function upgrade(type) {
+
+    const cost = 500;
+
+    if (currentUser.gold < cost) {
+
+        popup(
+            "UPGRADE",
+            "You need 500 Gold."
+        );
+
+        return;
+    }
+
+    currentUser.gold -= cost;
+
+    saveCurrentUser();
+
+    updateUI();
+
+    popup(
+        "UPGRADE",
+        type + " upgraded!"
+    );
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+function toggleSetting(name) {
+
+    popup(
+        "SETTINGS",
+        name + " setting changed."
+    );
+}
+
+function toggleSetting(name) {
+
+    popup(
+        "SETTINGS",
+        name + " setting changed."
+    );
+}
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+function renderLeaderboard() {
+
+    const body =
+        document.getElementById("leaderboardBody");
+
+    const accounts = getAccounts();
+
+    let leaderboard = [
+        {
+            username: "Giffon",
+            score: 985420,
+            level: 87
+        },
+        {
+            username: "TinGaming",
+            score: 920100,
+            level: 82
+        },
+        {
+            username: "Khoa",
+            score: 875600,
+            level: 79
+        },
+        {
+            username: "Player123",
+            score: 721500,
+            level: 70
+        }
+    ];
+
+    accounts.forEach(account => {
+
+        leaderboard.push({
+            username: account.username,
+            score: account.score || 0,
+            level: account.level || 1
+        });
+
+    });
+
+    leaderboard.sort(
+        (a,b) => b.score - a.score
+    );
+
+    body.innerHTML = "";
+
+    leaderboard.forEach((player, index) => {
+
+        const row =
+            document.createElement("tr");
+
+        if (
+            currentUser &&
+            player.username === currentUser.username
+        ) {
+            row.className = "current";
+        }
+
+        row.innerHTML = `
+            <td>
+                ${
+                    index === 0 ? "🥇" :
+                    index === 1 ? "🥈" :
+                    index === 2 ? "🥉" :
+                    index + 1
+                }
+            </td>
+
+            <td>${escapeHTML(player.username)}</td>
+
+            <td>${Number(player.score).toLocaleString()}</td>
+
+            <td>${player.level}</td>
+        `;
+
+        body.appendChild(row);
+    });
+}
+
+/* =========================
+   HTML SECURITY
+========================= */
+
+function escapeHTML(text) {
+
+    return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+/* =========================
+   MODAL
+========================= */
+
+function popup(title, text) {
+
+    document.getElementById("modalTitle")
+        .textContent = title;
+
+    document.getElementById("modalText")
+        .textContent = text;
+
+    document.getElementById("modal")
+        .classList.add("show");
+}
+
+function closeModal() {
+
+    document.getElementById("modal")
+        .classList.remove("show");
+}
+
+/* =========================
+   SAVE BEFORE EXIT
+========================= */
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+        saveCurrentUser();
+    }
+);
+
+/* =========================
+   INITIAL RENDER
+========================= */
+
+renderSpells();
+
+</script>
+
+</body>
+</html>
