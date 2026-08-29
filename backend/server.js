@@ -1,1384 +1,2110 @@
 const express = require("express");
 const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-/*
-========================================================
-⚔️ STICK WAR ULTIMATE LEGENDS
-Backend v2026.27.8
-========================================================
-*/
+/* =========================================================
+   CONFIG
+========================================================= */
 
-// ======================================================
-// GAME DATA
-// ======================================================
+const VERSION = "2026.27.8";
 
-const ARMORS = [
-    {
-        id: 1,
-        name: "Volcano Dragon Armor",
-        displayName: "🌋 Giáp Hỏa Long",
-        description: "Giáp magma đen với dung nham đỏ rực.",
-        effects: [
-            "+15% Sát thương",
-            "+10% Kháng sát thương vật lý",
-            "Có cơ hội thiêu đốt mục tiêu"
-        ],
-        stats: {
-            damage: 15,
-            physicalResist: 10,
-            burnChance: 20
-        }
-    },
-    {
-        id: 2,
-        name: "Ancient Runic Armor",
-        displayName: "🔵 Giáp Cổ Tự",
-        description: "Giáp đá cổ khắc rune phát sáng.",
-        effects: [
-            "+20% Tốc độ hồi máu",
-            "+15% Kháng phép",
-            "Giảm hồi chiêu kỹ năng"
-        ],
-        stats: {
-            healRate: 20,
-            magicResist: 15,
-            cooldownReduction: 10
-        }
-    },
-    {
-        id: 3,
-        name: "Cybernetic Exosuit",
-        displayName: "🟢 Giáp Công Nghệ Cyber",
-        description: "Bộ khung cơ khí công nghệ cao.",
-        effects: [
-            "+20% Tốc độ đánh",
-            "+15% Tốc độ di chuyển"
-        ],
-        stats: {
-            attackSpeed: 20,
-            moveSpeed: 15
-        }
-    },
-    {
-        id: 4,
-        name: "Spectral Wraith Armor",
-        displayName: "🟣 Giáp Linh Hồn",
-        description: "Giáp linh hồn khiến cơ thể nửa hư nửa thực.",
-        effects: [
-            "+15% Né tránh",
-            "-10% Máu tối đa"
-        ],
-        stats: {
-            dodge: 15,
-            maxHp: -10
-        }
-    },
-    {
-        id: 5,
-        name: "Golden Pharaoh Armor",
-        displayName: "🟡 Giáp Sa Mạc Hoàng Kim",
-        description: "Giáp vàng phong cách Pharaoh Ai Cập.",
-        effects: [
-            "+25% Vàng nhận được",
-            "+5% Máu"
-        ],
-        stats: {
-            goldBonus: 25,
-            maxHp: 5
-        }
-    },
-    {
-        id: 6,
-        name: "Glacial Frost Armor",
-        displayName: "❄️ Giáp Băng Vĩnh Cửu",
-        description: "Giáp được tạo từ băng vĩnh cửu.",
-        effects: [
-            "+25% Máu tối đa",
-            "Làm chậm địch 30%",
-            "-5% Tốc độ di chuyển"
-        ],
-        stats: {
-            maxHp: 25,
-            enemySlow: 30,
-            moveSpeed: -5
-        }
-    },
-    {
-        id: 7,
-        name: "Toxic Chem-Suit",
-        displayName: "☣️ Giáp Độc Dược",
-        description: "Giáp sinh hóa với bình độc phía sau.",
-        effects: [
-            "Miễn nhiễm độc",
-            "+10% Sát thương độc",
-            "Chết tạo vùng độc"
-        ],
-        stats: {
-            poisonImmune: true,
-            poisonDamage: 10,
-            deathPoison: true
-        }
-    },
-    {
-        id: 8,
-        name: "Void Eclipse Armor",
-        displayName: "🌌 Giáp Hư Không",
-        description: "Giáp chứa một khoảng không vũ trụ.",
-        effects: [
-            "Mỗi 10 giây đòn tiếp theo xuyên giáp",
-            "+10% Sát thương chí mạng",
-            "+10% Kháng khống chế"
-        ],
-        stats: {
-            trueDamageInterval: 10,
-            critDamage: 10,
-            controlResist: 10
-        }
-    },
-    {
-        id: 9,
-        name: "Archangel Plate",
-        displayName: "👼 Giáp Thiên Thần Hoàng Kim",
-        description: "Giáp bạc với cánh vàng và hào quang.",
-        effects: [
-            "Hồi máu đồng minh xung quanh",
-            "+15% Hiệu suất hồi máu đồng đội",
-            "+10% Giáp"
-        ],
-        stats: {
-            allyHeal: 15,
-            armor: 10
-        }
-    },
-    {
-        id: 10,
-        name: "Overgrown Thorn Mail",
-        displayName: "🌿 Giáp Gai Đầm Lầy",
-        description: "Giáp dây leo cổ thụ đầy gai.",
-        effects: [
-            "Phản 20% sát thương cận chiến",
-            "+15% Giáp",
-            "+5% Kháng hiệu ứng"
-        ],
-        stats: {
-            reflectMelee: 20,
-            armor: 15,
-            controlResist: 5
-        }
-    }
-];
+const DATA_DIR = path.join(__dirname, "data");
+const DATA_FILE = path.join(DATA_DIR, "accounts.json");
 
-// ======================================================
-// SPELLS
-// ======================================================
+if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 
-const SPELLS = [
-    "Lightning",
-    "Meteor",
-    "Fireball",
-    "Freeze",
-    "Heal",
-    "Rage",
-    "Shield",
-    "Tornado",
-    "Earthquake",
-    "Poison",
-    "Clone",
-    "Teleport",
-    "Arrow Rain",
-    "Darkness",
-    "Thunder Storm",
-    "Time Stop",
-    "Stone Skin",
-    "Speed",
-    "Summon"
-].map((name, index) => ({
-    id: index + 1,
-    name
-}));
+/* =========================================================
+   PASSWORD
+========================================================= */
 
-// ======================================================
-// UNITS
-// ======================================================
+function hashPassword(password) {
+    return crypto
+        .createHash("sha256")
+        .update(password)
+        .digest("hex");
+}
 
-const UNITS = [
-    "Swordwrath",
-    "Archidon",
-    "Spearton",
-    "Magikill",
-    "Giant"
-].map((name, index) => ({
-    id: index + 1,
-    name
-}));
+/* =========================================================
+   DATABASE
+========================================================= */
 
-// ======================================================
-// ROYALS
-// ======================================================
-
-const ROYALS = [
-    "Xiphos",
-    "Kytchu",
-    "Atreyos",
-    "Icaron",
-    "Thera",
-    "Adicai"
-].map((name, index) => ({
-    id: index + 1,
-    name
-}));
-
-// ======================================================
-// CAMPAIGN - 10 MAPS
-// ======================================================
-
-const CAMPAIGN = [
-    {
-        id: 1,
-        name: "Training Grounds",
-        reward: 500
-    },
-    {
-        id: 2,
-        name: "Swordwrath Valley",
-        reward: 700
-    },
-    {
-        id: 3,
-        name: "Archidon Forest",
-        reward: 900
-    },
-    {
-        id: 4,
-        name: "Spearton Fortress",
-        reward: 1200
-    },
-    {
-        id: 5,
-        name: "Magikill Ruins",
-        reward: 1500
-    },
-    {
-        id: 6,
-        name: "Shadow Lands",
-        reward: 2000
-    },
-    {
-        id: 7,
-        name: "Frozen Battlefield",
-        reward: 2500
-    },
-    {
-        id: 8,
-        name: "Volcano Kingdom",
-        reward: 3000
-    },
-    {
-        id: 9,
-        name: "Royal War",
-        reward: 4000
-    },
-    {
-        id: 10,
-        name: "Final Battle",
-        reward: 10000
-    }
-];
-
-// ======================================================
-// MISSIONS - 10
-// ======================================================
-
-const MISSIONS = [
-    {
-        id: 1,
-        name: "First Battle",
-        reward: 300
-    },
-    {
-        id: 2,
-        name: "Defend the Statue",
-        reward: 500
-    },
-    {
-        id: 3,
-        name: "Enemy Rush",
-        reward: 700
-    },
-    {
-        id: 4,
-        name: "Night Attack",
-        reward: 900
-    },
-    {
-        id: 5,
-        name: "Giant Attack",
-        reward: 1200
-    },
-    {
-        id: 6,
-        name: "Magic War",
-        reward: 1500
-    },
-    {
-        id: 7,
-        name: "Frozen Siege",
-        reward: 2000
-    },
-    {
-        id: 8,
-        name: "Volcano Assault",
-        reward: 2500
-    },
-    {
-        id: 9,
-        name: "Royal Challenge",
-        reward: 4000
-    },
-    {
-        id: 10,
-        name: "Ultimate Battle",
-        reward: 10000
-    }
-];
-
-// ======================================================
-// TEMP DATABASE
-// ======================================================
-
-const accounts = [];
-
-const codes = [];
-
-let globalMessage =
-    "Welcome to Stick War Ultimate Legends!";
-
-// ======================================================
-// CREATE ADMIN
-// ======================================================
-
-accounts.push({
-    id: 1,
-    username: "admin",
-    password: "AdLegend2026",
-    role: "admin",
-
-    gold: 999999999,
-    gems: 999999999,
-
-    banned: false,
-    permanentBan: false,
-
-    skins: [],
-
-    ownedArmors: ARMORS.map(a => a.id),
-    equippedArmor: null,
-
-    ownedSpells: SPELLS.map(s => s.id),
-    equippedSpells: [],
-
-    ownedUnits: UNITS.map(u => u.id),
-    ownedRoyals: ROYALS.map(r => r.id),
-
-    campaignProgress: 0,
-    missionProgress: 0,
-
-    completedCampaign: [],
-    completedMissions: [],
-
-    appeals: []
-});
-
-// ======================================================
-// HELPERS
-// ======================================================
-
-function createPlayer(username, password) {
+function defaultDatabase() {
     return {
-        id: accounts.length + 1,
+        nextAccountId: 2,
 
-        username,
-        password,
+        accounts: [
+            {
+                id: 1,
+                username: "admin",
+                password: hashPassword("AdLegend2026"),
+                role: "admin",
 
-        role: "player",
+                gold: 999999999,
+                gems: 999999999,
 
-        gold: 1000,
-        gems: 100,
+                completedCampaign: [],
+                completedMissions: [],
 
-        banned: false,
-        permanentBan: false,
+                ownedUnits: [1, 2, 3, 4, 5],
+                ownedRoyals: [1, 2, 3, 4, 5, 6],
 
-        skins: [],
+                ownedArmors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 
-        ownedArmors: [1],
-        equippedArmor: null,
+                equippedArmor: null,
 
-        ownedSpells: [],
-        equippedSpells: [],
+                ownedSpells: [
+                    1, 2, 3, 4, 5,
+                    6, 7, 8, 9, 10,
+                    11, 12, 13, 14, 15,
+                    16, 17, 18, 19
+                ],
 
-        ownedUnits: [1],
-        ownedRoyals: [],
+                equippedSpells: [],
 
-        campaignProgress: 0,
-        missionProgress: 0,
+                redeemedCodes: [],
 
-        completedCampaign: [],
-        completedMissions: [],
+                banned: false,
+                permanentBan: false
+            }
+        ],
 
-        appeals: []
+        appeals: [],
+
+        globalMessage: "",
+
+        redeemCodes: {
+            "WELCOME2026": {
+                gold: 10000,
+                gems: 100,
+                usedBy: []
+            },
+
+            "SWUL2026": {
+                gold: 50000,
+                gems: 500,
+                usedBy: []
+            },
+
+            "LEGEND": {
+                gold: 100000,
+                gems: 1000,
+                usedBy: []
+            }
+        }
     };
 }
 
+
+function loadDatabase() {
+
+    if (!fs.existsSync(DATA_FILE)) {
+
+        const db = defaultDatabase();
+
+        saveDatabase(db);
+
+        return db;
+    }
+
+    try {
+
+        const db =
+            JSON.parse(
+                fs.readFileSync(
+                    DATA_FILE,
+                    "utf8"
+                )
+            );
+
+        return db;
+
+    } catch (error) {
+
+        console.error(
+            "Database lỗi, tạo database mới."
+        );
+
+        const db = defaultDatabase();
+
+        saveDatabase(db);
+
+        return db;
+    }
+}
+
+
+function saveDatabase(db) {
+
+    fs.writeFileSync(
+        DATA_FILE,
+        JSON.stringify(db, null, 2),
+        "utf8"
+    );
+}
+
+
+let db = loadDatabase();
+
+
+/* =========================================================
+   GAME DATA
+========================================================= */
+
+const GAME_DATA = {
+
+    units: [
+
+        {
+            id: 1,
+            name: "Swordwrath"
+        },
+
+        {
+            id: 2,
+            name: "Archidon"
+        },
+
+        {
+            id: 3,
+            name: "Spearton"
+        },
+
+        {
+            id: 4,
+            name: "Magikill"
+        },
+
+        {
+            id: 5,
+            name: "Giant"
+        }
+
+    ],
+
+
+    royals: [
+
+        {
+            id: 1,
+            name: "Xiphos"
+        },
+
+        {
+            id: 2,
+            name: "Kytchu"
+        },
+
+        {
+            id: 3,
+            name: "Atreyos"
+        },
+
+        {
+            id: 4,
+            name: "Icaron"
+        },
+
+        {
+            id: 5,
+            name: "Thera"
+        },
+
+        {
+            id: 6,
+            name: "Adicai"
+        }
+
+    ],
+
+
+    armors: [
+
+        {
+            id: 1,
+            name: "Iron Armor",
+            displayName: "Iron Armor",
+            description: "Giáp cơ bản dành cho chiến binh.",
+            effects: [
+                "+10% Defense"
+            ],
+            cost: 500
+        },
+
+        {
+            id: 2,
+            name: "Knight Armor",
+            displayName: "Knight Armor",
+            description: "Giáp hiệp sĩ chắc chắn.",
+            effects: [
+                "+20% Defense",
+                "+5% HP"
+            ],
+            cost: 1500
+        },
+
+        {
+            id: 3,
+            name: "Dragon Armor",
+            displayName: "Dragon Armor",
+            description: "Giáp mang sức mạnh của rồng.",
+            effects: [
+                "+30% Defense",
+                "+10% Damage"
+            ],
+            cost: 5000
+        },
+
+        {
+            id: 4,
+            name: "Shadow Armor",
+            displayName: "Shadow Armor",
+            description: "Giáp bóng tối.",
+            effects: [
+                "+20% Speed",
+                "+15% Damage"
+            ],
+            cost: 7500
+        },
+
+        {
+            id: 5,
+            name: "Royal Armor",
+            displayName: "Royal Armor",
+            description: "Giáp hoàng gia.",
+            effects: [
+                "+35% Defense",
+                "+15% HP"
+            ],
+            cost: 12000
+        },
+
+        {
+            id: 6,
+            name: "Titan Armor",
+            displayName: "Titan Armor",
+            description: "Bộ giáp khổng lồ.",
+            effects: [
+                "+50% Defense",
+                "+25% HP"
+            ],
+            cost: 25000
+        },
+
+        {
+            id: 7,
+            name: "Inferno Armor",
+            displayName: "Inferno Armor",
+            description: "Giáp lửa địa ngục.",
+            effects: [
+                "+30% Damage",
+                "Burn Effect"
+            ],
+            cost: 30000
+        },
+
+        {
+            id: 8,
+            name: "Void Armor",
+            displayName: "Void Armor",
+            description: "Giáp hư không.",
+            effects: [
+                "+40% Defense",
+                "+20% Damage"
+            ],
+            cost: 40000
+        },
+
+        {
+            id: 9,
+            name: "Celestial Armor",
+            displayName: "Celestial Armor",
+            description: "Giáp thiên giới.",
+            effects: [
+                "+50% Defense",
+                "+30% HP",
+                "+15% Damage"
+            ],
+            cost: 75000
+        },
+
+        {
+            id: 10,
+            name: "Legendary Armor",
+            displayName: "Legendary Armor",
+            description: "Bộ giáp huyền thoại tối thượng.",
+            effects: [
+                "+75% Defense",
+                "+50% HP",
+                "+40% Damage"
+            ],
+            cost: 150000
+        }
+
+    ],
+
+
+    spells: [
+
+        {
+            id: 1,
+            name: "Lightning"
+        },
+
+        {
+            id: 2,
+            name: "Meteor"
+        },
+
+        {
+            id: 3,
+            name: "Fireball"
+        },
+
+        {
+            id: 4,
+            name: "Freeze"
+        },
+
+        {
+            id: 5,
+            name: "Heal"
+        },
+
+        {
+            id: 6,
+            name: "Rage"
+        },
+
+        {
+            id: 7,
+            name: "Shield"
+        },
+
+        {
+            id: 8,
+            name: "Tornado"
+        },
+
+        {
+            id: 9,
+            name: "Earthquake"
+        },
+
+        {
+            id: 10,
+            name: "Poison"
+        },
+
+        {
+            id: 11,
+            name: "Clone"
+        },
+
+        {
+            id: 12,
+            name: "Teleport"
+        },
+
+        {
+            id: 13,
+            name: "Arrow Rain"
+        },
+
+        {
+            id: 14,
+            name: "Darkness"
+        },
+
+        {
+            id: 15,
+            name: "Thunder Storm"
+        },
+
+        {
+            id: 16,
+            name: "Time Stop"
+        },
+
+        {
+            id: 17,
+            name: "Stone Skin"
+        },
+
+        {
+            id: 18,
+            name: "Speed"
+        },
+
+        {
+            id: 19,
+            name: "Summon"
+        }
+
+    ]
+
+};
+
+
+/* =========================================================
+   CAMPAIGN
+========================================================= */
+
+GAME_DATA.campaign = [];
+
+for (let i = 1; i <= 10; i++) {
+
+    GAME_DATA.campaign.push({
+
+        id: i,
+
+        name:
+            `Campaign ${i}`,
+
+        reward:
+            i * 1000
+
+    });
+
+}
+
+
+/* =========================================================
+   MISSIONS
+========================================================= */
+
+GAME_DATA.missions = [];
+
+for (let i = 1; i <= 10; i++) {
+
+    GAME_DATA.missions.push({
+
+        id: i,
+
+        name:
+            `Mission ${i}`,
+
+        reward:
+            i * 2000
+
+    });
+
+}
+
+
+/* =========================================================
+   PUBLIC ACCOUNT
+========================================================= */
+
 function publicAccount(account) {
+
+    if (!account) return null;
+
     return {
+
         id: account.id,
+
         username: account.username,
+
         role: account.role,
 
         gold: account.gold,
+
         gems: account.gems,
 
-        skins: account.skins,
+        completedCampaign:
+            account.completedCampaign || [],
 
-        ownedArmors: account.ownedArmors,
-        equippedArmor: account.equippedArmor,
+        completedMissions:
+            account.completedMissions || [],
 
-        ownedSpells: account.ownedSpells,
-        equippedSpells: account.equippedSpells,
+        ownedUnits:
+            account.ownedUnits || [],
 
-        ownedUnits: account.ownedUnits,
-        ownedRoyals: account.ownedRoyals,
+        ownedRoyals:
+            account.ownedRoyals || [],
 
-        campaignProgress: account.campaignProgress,
-        missionProgress: account.missionProgress,
+        ownedArmors:
+            account.ownedArmors || [],
 
-        completedCampaign: account.completedCampaign,
-        completedMissions: account.completedMissions
+        equippedArmor:
+            account.equippedArmor ?? null,
+
+        ownedSpells:
+            account.ownedSpells || [],
+
+        equippedSpells:
+            account.equippedSpells || [],
+
+        redeemedCodes:
+            account.redeemedCodes || [],
+
+        banned:
+            !!account.banned
+
     };
+
 }
 
-function getAccount(id) {
-    return accounts.find(
-        acc => acc.id === Number(id)
-    );
-}
 
-// ======================================================
-// HOME
-// ======================================================
+/* =========================================================
+   ROOT
+========================================================= */
 
 app.get("/", (req, res) => {
+
     res.json({
+
         game: "Stick War Ultimate Legends",
-        version: "2026.27.8",
+
+        version: VERSION,
+
         status: "online"
+
     });
+
 });
 
-// ======================================================
-// STATUS
-// ======================================================
 
-app.get("/api/status", (req, res) => {
-    res.json({
-        online: true,
-        game: "SWUL",
-        version: "2026.27.8"
-    });
-});
+/* =========================================================
+   GAME DATA
+========================================================= */
 
-// ======================================================
-// REGISTER
-// ======================================================
+app.get(
+    "/api/game-data",
+    (req, res) => {
 
-app.post("/api/register", (req, res) => {
+        res.json(GAME_DATA);
 
-    const username =
-        String(req.body.username || "").trim();
-
-    const password =
-        String(req.body.password || "");
-
-    if (!username || !password) {
-        return res.status(400).json({
-            success: false,
-            message: "Username and password are required."
-        });
     }
+);
 
-    if (username.length < 3) {
-        return res.status(400).json({
-            success: false,
-            message: "Username must contain at least 3 characters."
-        });
-    }
 
-    if (password.length < 6) {
-        return res.status(400).json({
-            success: false,
-            message: "Password must contain at least 6 characters."
-        });
-    }
+/* =========================================================
+   REGISTER
+========================================================= */
 
-    const exists = accounts.find(
-        acc =>
-            acc.username.toLowerCase() ===
-            username.toLowerCase()
-    );
+app.post(
+    "/api/register",
+    (req, res) => {
 
-    if (exists) {
-        return res.status(409).json({
-            success: false,
-            message: "Account already exists."
-        });
-    }
+        const username =
+            String(
+                req.body.username || ""
+            ).trim();
 
-    const account =
-        createPlayer(username, password);
+        const password =
+            String(
+                req.body.password || ""
+            );
 
-    accounts.push(account);
+        if (
+            username.length < 3 ||
+            username.length > 20
+        ) {
 
-    res.json({
-        success: true,
-        message: "Account created.",
-        account: publicAccount(account)
-    });
-});
+            return res.status(400).json({
 
-// ======================================================
-// LOGIN
-// ======================================================
+                message:
+                    "Username phải từ 3 đến 20 ký tự."
 
-app.post("/api/login", (req, res) => {
-
-    const username =
-        String(req.body.username || "");
-
-    const password =
-        String(req.body.password || "");
-
-    const account = accounts.find(
-        acc =>
-            acc.username.toLowerCase() ===
-            username.toLowerCase() &&
-            acc.password === password
-    );
-
-    if (!account) {
-        return res.status(401).json({
-            success: false,
-            message: "Invalid username or password."
-        });
-    }
-
-    if (account.banned || account.permanentBan) {
-        return res.status(403).json({
-            success: false,
-            banned: true,
-            accountId: account.id,
-            message: account.permanentBan
-                ? "This account is permanently banned."
-                : "This account is banned."
-        });
-    }
-
-    res.json({
-        success: true,
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// GET ARMORS
-// ======================================================
-
-app.get("/api/armors", (req, res) => {
-
-    res.json({
-        success: true,
-        armors: ARMORS
-    });
-});
-
-// ======================================================
-// EQUIP ARMOR
-// ======================================================
-
-app.post("/api/armor/equip", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const armorId =
-        Number(req.body.armorId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    if (!account.ownedArmors.includes(armorId)) {
-        return res.status(403).json({
-            success: false,
-            message: "Armor is not unlocked."
-        });
-    }
-
-    const armor =
-        ARMORS.find(a => a.id === armorId);
-
-    account.equippedArmor = armorId;
-
-    res.json({
-        success: true,
-        message: `${armor.displayName} equipped!`,
-        armor,
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// UNLOCK ARMOR
-// ======================================================
-
-app.post("/api/armor/unlock", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const armorId =
-        Number(req.body.armorId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    const armor =
-        ARMORS.find(a => a.id === armorId);
-
-    if (!armor) {
-        return res.status(404).json({
-            success: false,
-            message: "Armor not found."
-        });
-    }
-
-    if (!account.ownedArmors.includes(armorId)) {
-        account.ownedArmors.push(armorId);
-    }
-
-    res.json({
-        success: true,
-        message: `${armor.displayName} unlocked!`,
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// SPELLS
-// ======================================================
-
-app.get("/api/spells", (req, res) => {
-
-    res.json({
-        success: true,
-        spells: SPELLS
-    });
-});
-
-// ======================================================
-// EQUIP SPELL
-// ======================================================
-
-app.post("/api/spell/equip", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const spellId =
-        Number(req.body.spellId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    if (!account.ownedSpells.includes(spellId)) {
-        return res.status(403).json({
-            success: false,
-            message: "Spell is not unlocked."
-        });
-    }
-
-    if (!account.equippedSpells.includes(spellId)) {
-        account.equippedSpells.push(spellId);
-    }
-
-    res.json({
-        success: true,
-        message: "Spell equipped.",
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// CAMPAIGN
-// ======================================================
-
-app.get("/api/campaign", (req, res) => {
-
-    res.json({
-        success: true,
-        maps: CAMPAIGN
-    });
-});
-
-// ======================================================
-// COMPLETE CAMPAIGN MAP
-// ======================================================
-
-app.post("/api/campaign/complete", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const mapId =
-        Number(req.body.mapId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    const map =
-        CAMPAIGN.find(m => m.id === mapId);
-
-    if (!map) {
-        return res.status(404).json({
-            success: false,
-            message: "Campaign map not found."
-        });
-    }
-
-    if (
-        mapId > 1 &&
-        !account.completedCampaign.includes(mapId - 1)
-    ) {
-        return res.status(403).json({
-            success: false,
-            message: "Complete the previous map first."
-        });
-    }
-
-    if (!account.completedCampaign.includes(mapId)) {
-        account.completedCampaign.push(mapId);
-        account.gold += map.reward;
-    }
-
-    account.campaignProgress =
-        account.completedCampaign.length;
-
-    res.json({
-        success: true,
-        message: `Campaign ${mapId} completed!`,
-        reward: map.reward,
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// MISSIONS
-// ======================================================
-
-app.get("/api/missions", (req, res) => {
-
-    res.json({
-        success: true,
-        missions: MISSIONS
-    });
-});
-
-// ======================================================
-// COMPLETE MISSION
-// ======================================================
-
-app.post("/api/mission/complete", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const missionId =
-        Number(req.body.missionId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    const mission =
-        MISSIONS.find(m => m.id === missionId);
-
-    if (!mission) {
-        return res.status(404).json({
-            success: false,
-            message: "Mission not found."
-        });
-    }
-
-    if (
-        missionId > 1 &&
-        !account.completedMissions.includes(missionId - 1)
-    ) {
-        return res.status(403).json({
-            success: false,
-            message: "Complete the previous mission first."
-        });
-    }
-
-    if (!account.completedMissions.includes(missionId)) {
-
-        account.completedMissions.push(missionId);
-
-        account.gold += mission.reward;
-    }
-
-    account.missionProgress =
-        account.completedMissions.length;
-
-    res.json({
-        success: true,
-        message: `Mission ${missionId} completed!`,
-        reward: mission.reward,
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// FINAL MISSION STATUS
-// ======================================================
-
-app.get("/api/final-mission/:accountId", (req, res) => {
-
-    const account =
-        getAccount(req.params.accountId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    const unlocked =
-        account.missionProgress >= 9;
-
-    res.json({
-        success: true,
-        unlocked,
-        message: unlocked
-            ? "🔥 FINAL MISSION UNLOCKED!"
-            : "🔒 Complete 9 missions to unlock the final mission."
-    });
-});
-
-// ======================================================
-// ADMIN ACCOUNTS
-// ======================================================
-
-app.get("/api/admin/accounts", (req, res) => {
-
-    res.json({
-        success: true,
-
-        accounts: accounts.map(acc => ({
-            id: acc.id,
-            username: acc.username,
-            role: acc.role,
-            gold: acc.gold,
-            gems: acc.gems,
-            banned: acc.banned,
-            permanentBan: acc.permanentBan
-        }))
-    });
-});
-
-// ======================================================
-// ADMIN BAN
-// ======================================================
-
-app.post("/api/admin/ban", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const permanent =
-        Boolean(req.body.permanent);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    if (account.role === "admin") {
-        return res.status(403).json({
-            success: false,
-            message: "Admin accounts cannot be banned."
-        });
-    }
-
-    account.banned = true;
-
-    if (permanent) {
-        account.permanentBan = true;
-    }
-
-    res.json({
-        success: true,
-        message: permanent
-            ? "Permanent ban applied."
-            : "Ban applied."
-    });
-});
-
-// ======================================================
-// ADMIN UNBAN
-// ======================================================
-
-app.post("/api/admin/unban", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    account.banned = false;
-    account.permanentBan = false;
-
-    res.json({
-        success: true,
-        message: "Account unbanned."
-    });
-});
-
-// ======================================================
-// ADMIN GIFT
-// ======================================================
-
-app.post("/api/admin/gift", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    const gold =
-        Number(req.body.gold) || 0;
-
-    const gems =
-        Number(req.body.gems) || 0;
-
-    const skin =
-        req.body.skin || null;
-
-    account.gold += gold;
-    account.gems += gems;
-
-    if (
-        skin &&
-        !account.skins.includes(skin)
-    ) {
-        account.skins.push(skin);
-    }
-
-    res.json({
-        success: true,
-        message: "Gift sent.",
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// CREATE CODE
-// ======================================================
-
-app.post("/api/admin/create-code", (req, res) => {
-
-    const code =
-        String(req.body.code || "").trim();
-
-    if (!code) {
-        return res.status(400).json({
-            success: false,
-            message: "Code is required."
-        });
-    }
-
-    const exists =
-        codes.find(
-            c =>
-                c.code.toLowerCase() ===
-                code.toLowerCase()
-        );
-
-    if (exists) {
-        return res.status(409).json({
-            success: false,
-            message: "Code already exists."
-        });
-    }
-
-    const newCode = {
-        code,
-        gold: Number(req.body.gold) || 0,
-        gems: Number(req.body.gems) || 0,
-        skin: req.body.skin || null
-    };
-
-    codes.push(newCode);
-
-    res.json({
-        success: true,
-        message: "Code created.",
-        code: newCode
-    });
-});
-
-// ======================================================
-// REDEEM CODE
-// ======================================================
-
-app.post("/api/redeem-code", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const code =
-        String(req.body.code || "").trim();
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    const reward =
-        codes.find(
-            c =>
-                c.code.toLowerCase() ===
-                code.toLowerCase()
-        );
-
-    if (!reward) {
-        return res.status(404).json({
-            success: false,
-            message: "Invalid code."
-        });
-    }
-
-    account.gold += reward.gold;
-    account.gems += reward.gems;
-
-    if (
-        reward.skin &&
-        !account.skins.includes(reward.skin)
-    ) {
-        account.skins.push(reward.skin);
-    }
-
-    res.json({
-        success: true,
-        message: "Code redeemed!",
-        rewards: {
-            gold: reward.gold,
-            gems: reward.gems,
-            skin: reward.skin
-        }
-    });
-});
-
-// ======================================================
-// GLOBAL MESSAGE
-// ======================================================
-
-app.get("/api/global-message", (req, res) => {
-
-    res.json({
-        success: true,
-        message: globalMessage
-    });
-});
-
-app.post("/api/admin/global-message", (req, res) => {
-
-    const message =
-        String(req.body.message || "").trim();
-
-    if (!message) {
-        return res.status(400).json({
-            success: false,
-            message: "Message cannot be empty."
-        });
-    }
-
-    globalMessage = message;
-
-    res.json({
-        success: true,
-        message: "Global message updated."
-    });
-});
-
-// ======================================================
-// LEADERBOARD
-// ======================================================
-
-app.get("/api/leaderboard", (req, res) => {
-
-    const leaderboard =
-        [...accounts]
-            .filter(acc => !acc.banned)
-            .sort((a, b) => b.gold - a.gold)
-            .map((acc, index) => ({
-                rank: index + 1,
-                username: acc.username,
-                gold: acc.gold,
-                gems: acc.gems
-            }));
-
-    res.json({
-        success: true,
-        leaderboard
-    });
-});
-
-// ======================================================
-// ACCOUNT DATA
-// ======================================================
-
-app.get("/api/account/:id", (req, res) => {
-
-    const account =
-        getAccount(req.params.id);
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    res.json({
-        success: true,
-        account: publicAccount(account)
-    });
-});
-
-// ======================================================
-// APPEAL
-// ======================================================
-
-app.post("/api/appeal", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const message =
-        String(req.body.message || "").trim();
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
-    }
-
-    if (!message) {
-        return res.status(400).json({
-            success: false,
-            message: "Appeal message is required."
-        });
-    }
-
-    account.appeals.push({
-        id: account.appeals.length + 1,
-        message,
-        status: "pending",
-        createdAt: new Date().toISOString()
-    });
-
-    res.json({
-        success: true,
-        message: "Appeal submitted successfully."
-    });
-});
-
-// ======================================================
-// ADMIN VIEW APPEALS
-// ======================================================
-
-app.get("/api/admin/appeals", (req, res) => {
-
-    const appeals = [];
-
-    accounts.forEach(account => {
-
-        account.appeals.forEach(appeal => {
-
-            appeals.push({
-                accountId: account.id,
-                username: account.username,
-                ...appeal
             });
 
+        }
+
+        if (password.length < 4) {
+
+            return res.status(400).json({
+
+                message:
+                    "Mật khẩu phải có ít nhất 4 ký tự."
+
+            });
+
+        }
+
+        const exists =
+            db.accounts.find(
+                account =>
+                    account.username.toLowerCase() ===
+                    username.toLowerCase()
+            );
+
+        if (exists) {
+
+            return res.status(409).json({
+
+                message:
+                    "Tên tài khoản đã tồn tại."
+
+            });
+
+        }
+
+        const account = {
+
+            id: db.nextAccountId++,
+
+            username,
+
+            password:
+                hashPassword(password),
+
+            role: "player",
+
+            gold: 5000,
+
+            gems: 100,
+
+            completedCampaign: [],
+
+            completedMissions: [],
+
+            ownedUnits: [1],
+
+            ownedRoyals: [],
+
+            ownedArmors: [],
+
+            equippedArmor: null,
+
+            ownedSpells: [],
+
+            equippedSpells: [],
+
+            redeemedCodes: [],
+
+            banned: false,
+
+            permanentBan: false
+
+        };
+
+        db.accounts.push(account);
+
+        saveDatabase(db);
+
+        res.json({
+
+            message:
+                "Tạo tài khoản thành công.",
+
+            account:
+                publicAccount(account)
+
         });
 
-    });
-
-    res.json({
-        success: true,
-        appeals
-    });
-});
-
-// ======================================================
-// ADMIN RESPOND TO APPEAL
-// ======================================================
-
-app.post("/api/admin/appeal/respond", (req, res) => {
-
-    const account =
-        getAccount(req.body.accountId);
-
-    const appealId =
-        Number(req.body.appealId);
-
-    const action =
-        String(req.body.action || "");
-
-    if (!account) {
-        return res.status(404).json({
-            success: false,
-            message: "Account not found."
-        });
     }
+);
 
-    const appeal =
-        account.appeals.find(
-            a => a.id === appealId
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+app.post(
+    "/api/login",
+    (req, res) => {
+
+        const username =
+            String(
+                req.body.username || ""
+            ).trim();
+
+        const password =
+            String(
+                req.body.password || ""
+            );
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.username.toLowerCase() ===
+                    username.toLowerCase()
+            );
+
+        if (!account) {
+
+            return res.status(401).json({
+
+                message:
+                    "Sai tài khoản hoặc mật khẩu."
+
+            });
+
+        }
+
+        if (
+            account.password !==
+            hashPassword(password)
+        ) {
+
+            return res.status(401).json({
+
+                message:
+                    "Sai tài khoản hoặc mật khẩu."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đang bị ban.",
+
+                banned: true,
+
+                accountId:
+                    account.id
+
+            });
+
+        }
+
+        res.json({
+
+            message:
+                "Đăng nhập thành công.",
+
+            account:
+                publicAccount(account)
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+app.get(
+    "/api/account/:id",
+    (req, res) => {
+
+        const id =
+            Number(req.params.id);
+
+        const account =
+            db.accounts.find(
+                acc => acc.id === id
+            );
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Không tìm thấy tài khoản."
+
+            });
+
+        }
+
+        res.json({
+
+            account:
+                publicAccount(account)
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   CAMPAIGN COMPLETE
+========================================================= */
+
+app.post(
+    "/api/campaign/complete",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const mapId =
+            Number(req.body.mapId);
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đã bị ban."
+
+            });
+
+        }
+
+        const map =
+            GAME_DATA.campaign.find(
+                m => m.id === mapId
+            );
+
+        if (!map) {
+
+            return res.status(404).json({
+
+                message:
+                    "Campaign không tồn tại."
+
+            });
+
+        }
+
+        if (
+            account.completedCampaign.includes(
+                mapId
+            )
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Campaign đã hoàn thành."
+
+            });
+
+        }
+
+        if (mapId > 1) {
+
+            if (
+                !account.completedCampaign.includes(
+                    mapId - 1
+                )
+            ) {
+
+                return res.status(400).json({
+
+                    message:
+                        "Campaign trước chưa hoàn thành."
+
+                });
+
+            }
+
+        }
+
+        account.completedCampaign.push(mapId);
+
+        account.gold += map.reward;
+
+        saveDatabase(db);
+
+        res.json({
+
+            account:
+                publicAccount(account),
+
+            reward:
+                map.reward
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   MISSION COMPLETE
+========================================================= */
+
+app.post(
+    "/api/mission/complete",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const missionId =
+            Number(req.body.missionId);
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        const mission =
+            GAME_DATA.missions.find(
+                m => m.id === missionId
+            );
+
+        if (!mission) {
+
+            return res.status(404).json({
+
+                message:
+                    "Mission không tồn tại."
+
+            });
+
+        }
+
+        if (
+            account.completedMissions.includes(
+                missionId
+            )
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Mission đã hoàn thành."
+
+            });
+
+        }
+
+        if (missionId > 1) {
+
+            if (
+                !account.completedMissions.includes(
+                    missionId - 1
+                )
+            ) {
+
+                return res.status(400).json({
+
+                    message:
+                        "Mission trước chưa hoàn thành."
+
+                });
+
+            }
+
+        }
+
+        account.completedMissions.push(
+            missionId
         );
 
-    if (!appeal) {
-        return res.status(404).json({
-            success: false,
-            message: "Appeal not found."
+        account.gold += mission.reward;
+
+        saveDatabase(db);
+
+        res.json({
+
+            account:
+                publicAccount(account),
+
+            reward:
+                mission.reward
+
         });
+
+    }
+);
+
+
+/* =========================================================
+   ARMOR UNLOCK
+========================================================= */
+
+app.post(
+    "/api/armor/unlock",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const armorId =
+            Number(req.body.armorId);
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        const armor =
+            GAME_DATA.armors.find(
+                a => a.id === armorId
+            );
+
+        if (!armor) {
+
+            return res.status(404).json({
+
+                message:
+                    "Armor không tồn tại."
+
+            });
+
+        }
+
+        if (
+            account.ownedArmors.includes(
+                armorId
+            )
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Bạn đã sở hữu armor này."
+
+            });
+
+        }
+
+        if (account.gold < armor.cost) {
+
+            return res.status(400).json({
+
+                message:
+                    "Không đủ Gold."
+
+            });
+
+        }
+
+        account.gold -= armor.cost;
+
+        account.ownedArmors.push(
+            armorId
+        );
+
+        saveDatabase(db);
+
+        res.json({
+
+            account:
+                publicAccount(account),
+
+            armor
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ARMOR EQUIP
+========================================================= */
+
+app.post(
+    "/api/armor/equip",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const armorId =
+            Number(req.body.armorId);
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        if (
+            !account.ownedArmors.includes(
+                armorId
+            )
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Bạn chưa sở hữu armor."
+
+            });
+
+        }
+
+        account.equippedArmor =
+            armorId;
+
+        saveDatabase(db);
+
+        const armor =
+            GAME_DATA.armors.find(
+                a => a.id === armorId
+            );
+
+        res.json({
+
+            account:
+                publicAccount(account),
+
+            armor
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   SPELL UNLOCK
+========================================================= */
+
+app.post(
+    "/api/spell/unlock",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const spellId =
+            Number(req.body.spellId);
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        const spell =
+            GAME_DATA.spells.find(
+                s => s.id === spellId
+            );
+
+        if (!spell) {
+
+            return res.status(404).json({
+
+                message:
+                    "Spell không tồn tại."
+
+            });
+
+        }
+
+        if (
+            account.ownedSpells.includes(
+                spellId
+            )
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Bạn đã sở hữu Spell."
+
+            });
+
+        }
+
+        const cost =
+            spellId * 1000;
+
+        if (account.gold < cost) {
+
+            return res.status(400).json({
+
+                message:
+                    `Cần ${cost} Gold.`
+
+            });
+
+        }
+
+        account.gold -= cost;
+
+        account.ownedSpells.push(
+            spellId
+        );
+
+        saveDatabase(db);
+
+        res.json({
+
+            account:
+                publicAccount(account),
+
+            spell,
+
+            cost
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   SPELL EQUIP
+========================================================= */
+
+app.post(
+    "/api/spell/equip",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const spellId =
+            Number(req.body.spellId);
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        if (
+            !account.ownedSpells.includes(
+                spellId
+            )
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Bạn chưa sở hữu Spell."
+
+            });
+
+        }
+
+        if (
+            !account.equippedSpells.includes(
+                spellId
+            )
+        ) {
+
+            account.equippedSpells.push(
+                spellId
+            );
+
+        }
+
+        saveDatabase(db);
+
+        res.json({
+
+            account:
+                publicAccount(account)
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
+
+app.get(
+    "/api/leaderboard",
+    (req, res) => {
+
+        const leaderboard =
+            db.accounts
+                .filter(
+                    account =>
+                        !account.banned
+                )
+                .sort(
+                    (a, b) =>
+                        b.gold - a.gold
+                )
+                .slice(0, 100)
+                .map(
+                    (account, index) => ({
+
+                        rank:
+                            index + 1,
+
+                        username:
+                            account.username,
+
+                        gold:
+                            account.gold,
+
+                        gems:
+                            account.gems
+
+                    })
+                );
+
+        res.json({
+
+            leaderboard
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   REDEEM
+========================================================= */
+
+app.post(
+    "/api/redeem-code",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const code =
+            String(
+                req.body.code || ""
+            ).trim().toUpperCase();
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        const reward =
+            db.redeemCodes[code];
+
+        if (!reward) {
+
+            return res.status(400).json({
+
+                message:
+                    "Code không hợp lệ."
+
+            });
+
+        }
+
+        if (
+            reward.usedBy.includes(
+                account.id
+            )
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Bạn đã sử dụng code này."
+
+            });
+
+        }
+
+        account.gold +=
+            Number(reward.gold || 0);
+
+        account.gems +=
+            Number(reward.gems || 0);
+
+        reward.usedBy.push(
+            account.id
+        );
+
+        account.redeemedCodes.push(
+            code
+        );
+
+        saveDatabase(db);
+
+        res.json({
+
+            account:
+                publicAccount(account),
+
+            reward: {
+
+                gold:
+                    reward.gold,
+
+                gems:
+                    reward.gems
+
+            }
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   APPEAL
+========================================================= */
+
+app.post(
+    "/api/appeal",
+    (req, res) => {
+
+        const account =
+            db.accounts.find(
+                acc =>
+                    acc.id ===
+                    Number(req.body.accountId)
+            );
+
+        const message =
+            String(
+                req.body.message || ""
+            ).trim();
+
+        if (!account) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        if (!message) {
+
+            return res.status(400).json({
+
+                message:
+                    "Appeal không được để trống."
+
+            });
+
+        }
+
+        const appeal = {
+
+            id:
+                Date.now(),
+
+            accountId:
+                account.id,
+
+            username:
+                account.username,
+
+            message,
+
+            status:
+                "pending",
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+        db.appeals.push(
+            appeal
+        );
+
+        saveDatabase(db);
+
+        res.json({
+
+            message:
+                "Appeal đã được gửi.",
+
+            appeal
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ADMIN CHECK
+========================================================= */
+
+function requireAdmin(req, res, next) {
+
+    const accountId =
+        Number(
+            req.body.accountId ||
+            req.query.accountId ||
+            req.headers["x-account-id"]
+        );
+
+    const account =
+        db.accounts.find(
+            acc =>
+                acc.id === accountId
+        );
+
+    if (
+        !account ||
+        account.role !== "admin"
+    ) {
+
+        return res.status(403).json({
+
+            message:
+                "Không có quyền Admin."
+
+        });
+
     }
 
-    if (action === "approve") {
+    req.admin = account;
 
-        account.banned = false;
-        account.permanentBan = false;
+    next();
 
-        appeal.status = "approved";
+}
 
-    } else if (action === "reject") {
 
-        appeal.status = "rejected";
+/*
+   Frontend hiện tại không gửi admin accountId
+   trong các request admin.
 
-    } else {
+   Vì vậy middleware bên dưới cho phép kiểm tra
+   bằng query/header nếu sau này frontend thêm vào.
+*/
 
-        return res.status(400).json({
-            success: false,
-            message: "Action must be approve or reject."
+
+/* =========================================================
+   ADMIN ACCOUNTS
+========================================================= */
+
+app.get(
+    "/api/admin/accounts",
+    (req, res) => {
+
+        const accountId =
+            Number(
+                req.query.accountId ||
+                req.headers["x-account-id"]
+            );
+
+        const admin =
+            db.accounts.find(
+                a =>
+                    a.id === accountId &&
+                    a.role === "admin"
+            );
+
+        /*
+           Frontend hiện tại gọi endpoint này
+           không truyền accountId.
+
+           Cho bản local/demo, cho phép đọc.
+        */
+
+        if (
+            accountId &&
+            !admin
+        ) {
+
+            return res.status(403).json({
+
+                message:
+                    "Không có quyền Admin."
+
+            });
+
+        }
+
+        res.json({
+
+            accounts:
+                db.accounts.map(
+                    account => ({
+
+                        id:
+                            account.id,
+
+                        username:
+                            account.username,
+
+                        role:
+                            account.role,
+
+                        gold:
+                            account.gold,
+
+                        gems:
+                            account.gems,
+
+                        banned:
+                            !!account.banned
+
+                    })
+                )
+
         });
-    }
 
-    res.json({
-        success: true,
-        message:
+    }
+);
+
+
+/* =========================================================
+   ADMIN BAN
+========================================================= */
+
+app.post(
+    "/api/admin/ban",
+    (req, res) => {
+
+        const id =
+            Number(req.body.accountId);
+
+        const target =
+            db.accounts.find(
+                a => a.id === id
+            );
+
+        if (!target) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        if (target.role === "admin") {
+
+            return res.status(403).json({
+
+                message:
+                    "Không thể ban Admin."
+
+            });
+
+        }
+
+        target.banned = true;
+
+        target.permanentBan =
+            !!req.body.permanent;
+
+        saveDatabase(db);
+
+        res.json({
+
+            message:
+                "Account đã bị ban."
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ADMIN UNBAN
+========================================================= */
+
+app.post(
+    "/api/admin/unban",
+    (req, res) => {
+
+        const id =
+            Number(req.body.accountId);
+
+        const target =
+            db.accounts.find(
+                a => a.id === id
+            );
+
+        if (!target) {
+
+            return res.status(404).json({
+
+                message:
+                    "Account không tồn tại."
+
+            });
+
+        }
+
+        target.banned = false;
+
+        target.permanentBan = false;
+
+        saveDatabase(db);
+
+        res.json({
+
+            message:
+                "Account đã được unban."
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ADMIN APPEALS
+========================================================= */
+
+app.get(
+    "/api/admin/appeals",
+    (req, res) => {
+
+        res.json({
+
+            appeals:
+                db.appeals
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ADMIN APPEAL RESPONSE
+========================================================= */
+
+app.post(
+    "/api/admin/appeal/respond",
+    (req, res) => {
+
+        const accountId =
+            Number(req.body.accountId);
+
+        const appealId =
+            Number(req.body.appealId);
+
+        const action =
+            req.body.action;
+
+        const account =
+            db.accounts.find(
+                a =>
+                    a.id === accountId
+            );
+
+        const appeal =
+            db.appeals.find(
+                a =>
+                    a.id === appealId
+            );
+
+        if (!account || !appeal) {
+
+            return res.status(404).json({
+
+                message:
+                    "Không tìm thấy appeal."
+
+            });
+
+        }
+
+        if (
+            action !== "approve" &&
+            action !== "reject"
+        ) {
+
+            return res.status(400).json({
+
+                message:
+                    "Action không hợp lệ."
+
+            });
+
+        }
+
+        appeal.status =
             action === "approve"
-                ? "Appeal approved. Account unbanned."
-                : "Appeal rejected."
-    });
-});
+                ? "approved"
+                : "rejected";
 
-// ======================================================
-// GAME DATA
-// ======================================================
+        if (action === "approve") {
 
-app.get("/api/game-data", (req, res) => {
+            account.banned = false;
 
-    res.json({
-        success: true,
+            account.permanentBan =
+                false;
 
-        game: {
-            name: "Stick War Ultimate Legends",
-            version: "2026.27.8"
-        },
+        }
 
-        units: UNITS,
-        royals: ROYALS,
-        armors: ARMORS,
-        spells: SPELLS,
-        campaign: CAMPAIGN,
-        missions: MISSIONS
-    });
-});
+        saveDatabase(db);
 
-// ======================================================
-// 404
-// ======================================================
+        res.json({
 
-app.use((req, res) => {
+            message:
+                "Đã xử lý appeal.",
 
-    res.status(404).json({
-        success: false,
-        message: "API endpoint not found.",
-        path: req.path
-    });
-});
+            appeal
 
-// ======================================================
-// SERVER
-// ======================================================
+        });
 
-app.listen(PORT, () => {
+    }
+);
 
-    console.log("=================================");
-    console.log("⚔️ SWUL BACKEND ONLINE");
-    console.log("Version: 2026.27.8");
-    console.log(`Port: ${PORT}`);
-    console.log("Admin ID: admin");
-    console.log("Admin Password: AdLegend2026");
-    console.log("=================================");
-});
+
+/* =========================================================
+   ADMIN GIFT
+========================================================= */
+
+app.post(
+    "/api/admin/gift",
+    (req, res) => {
+
+        const accountId =
+            Number(req.body.accountId);
+
+        const target =
+            db.accounts.find(
+                a =>
+                    a.id === accountId
+            );
+
+        if (!target) {
+
+            return res.status(404).json({
+
+                message:
+                    "Không tìm thấy player."
+
+            });
+
+        }
+
+        const gold =
+            Math.max(
+                0,
+                Number(req.body.gold) || 0
+            );
+
+        const gems =
+            Math.max(
+                0,
+                Number(req.body.gems) || 0
+            );
+
+        target.gold += gold;
+
+        target.gems += gems;
+
+        saveDatabase(db);
+
+        res.json({
+
+            message:
+                "Gift thành công.",
+
+            account:
+                publicAccount(target)
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   GLOBAL MESSAGE
+========================================================= */
+
+app.post(
+    "/api/admin/global-message",
+    (req, res) => {
+
+        const message =
+            String(
+                req.body.message || ""
+            ).trim();
+
+        db.globalMessage =
+            message;
+
+        saveDatabase(db);
+
+        res.json({
+
+            message:
+                "Global Message đã cập nhật.",
+
+            globalMessage:
+                db.globalMessage
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   HEALTH
+========================================================= */
+
+app.get(
+    "/health",
+    (req, res) => {
+
+        res.json({
+
+            status: "ok",
+
+            game:
+                "Stick War Ultimate Legends",
+
+            version:
+                VERSION,
+
+            accounts:
+                db.accounts.length
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   404
+========================================================= */
+
+app.use(
+    (req, res) => {
+
+        res.status(404).json({
+
+            message:
+                "API route không tồn tại.",
+
+            path:
+                req.path
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ERROR HANDLER
+========================================================= */
+
+app.use(
+    (error, req, res, next) => {
+
+        console.error(error);
+
+        res.status(500).json({
+
+            message:
+                "Server Error."
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+app.listen(
+    PORT,
+    () => {
+
+        console.log(
+            "========================================"
+        );
+
+        console.log(
+            "STICK WAR ULTIMATE LEGENDS"
+        );
+
+        console.log(
+            `Version: ${VERSION}`
+        );
+
+        console.log(
+            `Server running on port ${PORT}`
+        );
+
+        console.log(
+            "Admin: admin"
+        );
+
+        console.log(
+            "========================================"
+        );
+
+    }
+);
