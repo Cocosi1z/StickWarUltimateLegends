@@ -1,1038 +1,1033 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stick War Ultimate Legends</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stick War Ultimate Legends v2026.27.8</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
+:root{
+ --bg:#07090d;
+ --panel:#111722;
+ --panel2:#171e2a;
+ --line:#354052;
+ --gold:#e6b84b;
+ --gold2:#ffe08a;
+ --red:#d94b43;
+ --green:#54d78b;
+ --blue:#55a9ff;
+ --muted:#8995a8;
+ --white:#f4f7fb;
 }
 
-body{
-    background:#080b12;
-    color:white;
-    min-height:100vh;
+*{box-sizing:border-box}
+
+html,body{
+ margin:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ background:#05070a;
+ color:var(--white);
+ font-family:Arial,Helvetica,sans-serif;
 }
 
 button{
-    cursor:pointer;
-    border:0;
+ font:inherit;
+ border:0;
+ cursor:pointer;
 }
 
-.hidden{
-    display:none!important;
+.hidden{display:none!important}
+
+/* =====================================================
+   APP
+===================================================== */
+
+#app{
+ width:100%;
+ height:100%;
+ background:
+ radial-gradient(circle at 50% 0,#34475c 0,#111824 35%,#05070a 75%);
 }
 
-/* =========================
-   LOGIN
-========================= */
-
-#authScreen{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:
-        radial-gradient(circle at center,#26334f 0,#101522 45%,#05070b 100%);
+#top{
+ height:68px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 18px;
+ background:linear-gradient(#171e2a,#0b1017);
+ border-bottom:2px solid #303b4b;
+ box-shadow:0 5px 25px #000;
+ position:relative;
+ z-index:20;
 }
 
-.authBox{
-    width:420px;
-    max-width:92%;
-    padding:35px;
-    background:rgba(20,25,38,.97);
-    border:1px solid #394764;
-    border-radius:18px;
-    box-shadow:0 20px 70px #000;
-    text-align:center;
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
 }
 
 .logo{
-    font-size:34px;
-    font-weight:900;
-    margin-bottom:8px;
+ width:43px;
+ height:43px;
+ border-radius:10px;
+ display:grid;
+ place-items:center;
+ font-size:25px;
+ background:linear-gradient(145deg,#f4d56b,#8f5e18);
+ border:1px solid #ffe9a4;
+ box-shadow:inset 0 1px #fff8,0 3px 12px #000;
+}
+
+.brand b{
+ display:block;
+ font-size:18px;
+}
+
+.brand small{
+ display:block;
+ color:var(--muted);
+ margin-top:2px;
+}
+
+.resources{
+ display:flex;
+ align-items:center;
+ gap:7px;
+}
+
+.resource{
+ background:#151d29;
+ border:1px solid #354156;
+ border-radius:9px;
+ padding:8px 11px;
+ font-weight:bold;
+}
+
+.resource span{
+ color:var(--gold2);
+}
+
+.iconButton{
+ width:42px;
+ height:40px;
+ border-radius:9px;
+ background:#202a3a;
+ color:white;
+ border:1px solid #3b485d;
+}
+
+.iconButton:hover{
+ filter:brightness(1.2);
+}
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+
+#body{
+ height:calc(100% - 68px);
+ display:flex;
+}
+
+#sidebar{
+ width:220px;
+ padding:13px 10px;
+ overflow:auto;
+ background:linear-gradient(#111823,#090d13);
+ border-right:1px solid #303a4a;
+}
+
+.nav{
+ width:100%;
+ padding:12px;
+ margin-bottom:7px;
+ border-radius:9px;
+ background:#141c28;
+ color:#aeb9c9;
+ border:1px solid transparent;
+ text-align:left;
+}
+
+.nav:hover{
+ filter:brightness(1.15);
+}
+
+.nav.active{
+ color:white;
+ background:linear-gradient(90deg,#55431d,#20271e);
+ border-color:#80662b;
+}
+
+.nav .ico{
+ width:25px;
+ display:inline-block;
+}
+
+.nav small{
+ display:block;
+ margin-left:27px;
+ color:#718096;
+ margin-top:3px;
+}
+
+#content{
+ flex:1;
+ min-width:0;
+ overflow:auto;
+ padding:22px;
+}
+
+.view{
+ display:none;
+ max-width:1450px;
+ margin:auto;
+}
+
+.view.active{
+ display:block;
+}
+
+.title{
+ font-size:31px;
+ font-weight:900;
+ margin-bottom:4px;
 }
 
 .subtitle{
-    color:#9ba8bd;
-    margin-bottom:25px;
+ color:var(--muted);
+ margin-bottom:20px;
 }
 
-.authInput{
-    width:100%;
-    padding:14px;
-    margin:7px 0;
-    border-radius:9px;
-    border:1px solid #3b4860;
-    background:#0c111c;
-    color:white;
-    outline:none;
+/* =====================================================
+   COMMON
+===================================================== */
+
+.panel{
+ background:linear-gradient(145deg,#171f2b,#101620);
+ border:1px solid var(--line);
+ border-radius:14px;
+ padding:18px;
+ box-shadow:0 9px 30px #0005;
 }
-
-.mainBtn{
-    width:100%;
-    padding:14px;
-    margin-top:10px;
-    border-radius:9px;
-    background:#e5a91a;
-    color:#111;
-    font-weight:900;
-}
-
-.secondaryBtn{
-    width:100%;
-    padding:12px;
-    margin-top:8px;
-    border-radius:9px;
-    background:#293449;
-    color:white;
-}
-
-#authMessage{
-    margin-top:14px;
-    min-height:20px;
-    color:#ff7777;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-#gameScreen{
-    min-height:100vh;
-}
-
-.header{
-    height:70px;
-    background:#111725;
-    border-bottom:1px solid #2c3548;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-.headerTitle{
-    font-size:21px;
-    font-weight:900;
-}
-
-.playerInfo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.currency{
-    padding:8px 12px;
-    border-radius:8px;
-    background:#202a3d;
-}
-
-.logout{
-    background:#8c2630;
-    color:white;
-    padding:9px 13px;
-    border-radius:8px;
-}
-
-/* =========================
-   NAV
-========================= */
-
-.nav{
-    display:flex;
-    gap:8px;
-    padding:12px 15px;
-    overflow-x:auto;
-    background:#0d121d;
-    border-bottom:1px solid #242d3d;
-}
-
-.nav button{
-    white-space:nowrap;
-    background:#1c2637;
-    color:#cbd5e5;
-    padding:11px 15px;
-    border-radius:8px;
-}
-
-.nav button.active{
-    background:#e5a91a;
-    color:#111;
-    font-weight:bold;
-}
-
-/* =========================
-   CONTENT
-========================= */
-
-.content{
-    max-width:1400px;
-    margin:auto;
-    padding:25px;
-}
-
-.section{
-    display:none;
-}
-
-.section.active{
-    display:block;
-}
-
-.pageTitle{
-    font-size:30px;
-    margin-bottom:8px;
-}
-
-.pageDescription{
-    color:#8996aa;
-    margin-bottom:22px;
-}
-
-/* =========================
-   CARDS
-========================= */
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(225px,1fr));
+ gap:14px;
 }
 
-.card{
-    background:#141b29;
-    border:1px solid #2b3549;
-    border-radius:14px;
-    padding:18px;
+.goldBtn{
+ background:linear-gradient(#f3d16b,#a66e18);
+ color:#171109;
+ font-weight:900;
+ padding:11px 16px;
+ border-radius:8px;
+ border:1px solid #ffe59c;
+ box-shadow:0 3px 12px #0007;
 }
 
-.card h3{
-    margin-bottom:8px;
+.darkBtn{
+ background:#222d3e;
+ color:white;
+ border:1px solid #425068;
+ padding:10px 14px;
+ border-radius:8px;
 }
 
-.card p{
-    color:#99a5b8;
-    line-height:1.5;
+.redBtn{
+ background:#8e2d2b;
+ color:white;
+ padding:10px 14px;
+ border-radius:8px;
 }
 
-.card button{
-    width:100%;
-    margin-top:14px;
-    padding:11px;
-    border-radius:8px;
-    background:#e5a91a;
-    font-weight:bold;
+.greenBtn{
+ background:#246b48;
+ color:white;
+ padding:10px 14px;
+ border-radius:8px;
 }
 
-/* =========================
-   CAMPAIGN / MISSION
-========================= */
+/* =====================================================
+   HOME
+===================================================== */
 
-.levelCard{
-    position:relative;
-    overflow:hidden;
+.hero{
+ min-height:265px;
+ padding:30px;
+ border-radius:17px;
+ border:1px solid #44536a;
+ background:
+ linear-gradient(110deg,#182333e8,#0c1119ed),
+ radial-gradient(circle at 80% 30%,#8a671d55,transparent 42%);
+ position:relative;
+ overflow:hidden;
+ box-shadow:0 15px 50px #0009;
+}
+
+.hero:after{
+ content:"⚔";
+ position:absolute;
+ right:40px;
+ bottom:-70px;
+ font-size:310px;
+ opacity:.05;
+ transform:rotate(-15deg);
+}
+
+.hero h1{
+ font-size:43px;
+ margin:0 0 8px;
+}
+
+.hero p{
+ max-width:650px;
+ line-height:1.6;
+ color:#aab6c8;
+}
+
+.quick{
+ margin-top:22px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+ gap:12px;
+}
+
+.quick .panel{
+ text-align:center;
+}
+
+.quickIcon{
+ font-size:36px;
+}
+
+/* =====================================================
+   CAMPAIGN / MISSIONS
+===================================================== */
+
+.level{
+ position:relative;
+ overflow:hidden;
+ min-height:210px;
+}
+
+.level.locked{
+ opacity:.45;
+}
+
+.level.completed{
+ border-color:#3fa76d;
 }
 
 .levelNumber{
-    font-size:14px;
-    color:#e5a91a;
-    font-weight:bold;
-    margin-bottom:8px;
+ color:var(--gold2);
+ font-weight:900;
+ font-size:13px;
+ margin-bottom:8px;
+}
+
+.level h3{
+ margin:0 0 7px;
+ font-size:20px;
+}
+
+.level p{
+ color:#909caf;
+ min-height:38px;
 }
 
 .reward{
-    margin-top:10px;
-    color:#ffd75b;
+ color:#ffd968;
+ margin:9px 0;
 }
 
-.locked{
-    opacity:.45;
+.lock{
+ position:absolute;
+ right:15px;
+ top:15px;
+ font-size:25px;
 }
 
-.locked button{
-    background:#3a4250;
-    color:#9ba4b1;
-    cursor:not-allowed;
+.map{
+ height:45px;
+ margin-top:10px;
+ border-radius:8px;
+ border:1px solid #414d60;
+ background:
+ linear-gradient(90deg,#1c2d24,#25391f,#1b2a20);
+ position:relative;
+ overflow:hidden;
 }
 
-.completed{
-    border-color:#32bd72;
+.map:after{
+ content:"";
+ position:absolute;
+ left:0;
+ top:50%;
+ width:100%;
+ height:2px;
+ background:#7d754d;
+ opacity:.7;
 }
 
-.battleBtn{
-    background:#d94b36!important;
-    color:white;
-}
-
-/* =========================
+/* =====================================================
    ARMORY
-========================= */
+===================================================== */
 
-.armorCard{
-    min-height:260px;
+.armor{
+ min-height:310px;
 }
 
 .armorIcon{
-    font-size:42px;
-    margin-bottom:10px;
+ height:105px;
+ display:grid;
+ place-items:center;
+ font-size:70px;
+ border-radius:10px;
+ background:
+ radial-gradient(circle,#4e586733,transparent 60%),
+ linear-gradient(#202a39,#101620);
+ margin-bottom:13px;
 }
 
-.effect{
-    color:#72e4a0;
-    margin-top:7px;
-    font-size:14px;
+.rarity{
+ display:inline-block;
+ padding:4px 8px;
+ border-radius:6px;
+ font-size:11px;
+ font-weight:900;
+ margin-bottom:8px;
 }
 
-.stat{
-    color:#c7d0df;
-    font-size:13px;
-    margin-top:4px;
+.common{background:#4a535e}
+.uncommon{background:#276a43}
+.rare{background:#255e9d}
+.epic{background:#673b91}
+.legendary{background:#a3651a}
+.golden{background:#9b7717}
+.mythic{background:#9b263e}
+.limited{background:#6b2d80}
+
+.effects{
+ margin-top:9px;
+ color:#71e19b;
+ font-size:13px;
+ line-height:1.55;
 }
 
-/* =========================
-   SPELLS
-========================= */
+.equip{
+ margin-top:12px;
+ width:100%;
+}
 
-.spellCard{
-    text-align:center;
+/* =====================================================
+   SPELL
+===================================================== */
+
+.spell{
+ text-align:center;
+ min-height:185px;
 }
 
 .spellIcon{
-    font-size:40px;
+ font-size:48px;
+ margin-bottom:9px;
 }
 
-/* =========================
+.cooldown{
+ color:#8390a3;
+ font-size:12px;
+}
+
+/* =====================================================
+   UNITS
+===================================================== */
+
+.unit{
+ min-height:230px;
+}
+
+.unitVisual{
+ height:100px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:70px;
+ background:linear-gradient(#1b2533,#10151e);
+ border-radius:10px;
+ margin-bottom:12px;
+}
+
+.statline{
+ color:#9da9bb;
+ font-size:13px;
+ margin-top:5px;
+}
+
+/* =====================================================
    BATTLE
-========================= */
+===================================================== */
 
-#battleOverlay{
-    position:fixed;
-    inset:0;
-    background:#05070c;
-    z-index:500;
-    display:none;
+#battle{
+ position:fixed;
+ inset:0;
+ background:#05070a;
+ z-index:100;
+ display:none;
 }
 
-#battleOverlay.active{
-    display:block;
+#battle.active{
+ display:block;
 }
 
-.battleHeader{
-    height:65px;
-    background:#121827;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 20px;
+.battleTop{
+ height:62px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 15px;
+ background:#111823;
+ border-bottom:1px solid #354052;
 }
 
-.battleArea{
-    height:calc(100vh - 150px);
-    position:relative;
-    overflow:hidden;
-    background:
-        linear-gradient(#16233a 0%,#1d3550 52%,#182719 52%,#182719 100%);
+.battleTitle{
+ font-weight:900;
 }
 
-.battleGround{
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    height:48%;
-    background:
-        repeating-linear-gradient(
-            0deg,
-            #263c1e 0px,
-            #263c1e 10px,
-            #213519 10px,
-            #213519 20px
-        );
+.battleTop button{
+ padding:9px 13px;
+ border-radius:8px;
+ background:#8e2d2b;
+ color:white;
 }
 
-.base{
-    position:absolute;
-    bottom:22%;
-    width:110px;
-    height:150px;
-    border:5px solid #6f7887;
-    background:#343d4a;
-    border-radius:10px;
+#battleCanvas{
+ width:100%;
+ height:calc(100% - 145px);
+ display:block;
+ background:#162235;
 }
 
-.playerBase{
-    left:30px;
+.battleBottom{
+ height:83px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ gap:8px;
+ flex-wrap:wrap;
+ background:#101722;
+ border-top:1px solid #354052;
 }
 
-.enemyBase{
-    right:30px;
+.battleBottom button{
+ padding:10px 13px;
+ border-radius:8px;
+ background:#222d3e;
+ color:white;
+ border:1px solid #3a485d;
 }
 
-.baseLabel{
-    text-align:center;
-    margin-top:-30px;
-    font-weight:bold;
-}
-
-.hpBar{
-    height:12px;
-    background:#441c1c;
-    border-radius:8px;
-    overflow:hidden;
-    margin-top:8px;
-}
-
-.hpFill{
-    height:100%;
-    background:#43d17c;
-    width:100%;
-}
-
-.entity{
-    position:absolute;
-    width:44px;
-    height:62px;
-    transition:left .12s linear;
-}
-
-.entityBody{
-    position:absolute;
-    left:19px;
-    top:17px;
-    width:6px;
-    height:35px;
-    background:white;
-}
-
-.entityHead{
-    position:absolute;
-    left:11px;
-    top:0;
-    width:22px;
-    height:22px;
-    background:#eee;
-    border-radius:50%;
-}
-
-.entityWeapon{
-    position:absolute;
-    left:25px;
-    top:27px;
-    width:25px;
-    height:5px;
-    background:#ddd;
-    transform:rotate(-25deg);
-}
-
-.enemy .entityHead,
-.enemy .entityBody,
-.enemy .entityWeapon{
-    background:#e85050;
-}
-
-.entityHp{
-    position:absolute;
-    width:48px;
-    height:5px;
-    top:-9px;
-    left:-2px;
-    background:#441c1c;
-}
-
-.entityHpFill{
-    height:100%;
-    background:#50db75;
-    width:100%;
-}
-
-.battleControls{
-    height:85px;
-    background:#111725;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-.battleControls button{
-    padding:11px 17px;
-    border-radius:8px;
-    background:#29364d;
-    color:white;
-}
-
-.battleControls .attack{
-    background:#d94b36;
-}
-
-.battleControls .spell{
-    background:#6848b8;
+.battleBottom .spellButton{
+ background:#553b87;
 }
 
 .battleMessage{
-    position:absolute;
-    left:50%;
-    top:15%;
-    transform:translateX(-50%);
-    font-size:28px;
-    font-weight:900;
-    text-shadow:0 3px 10px black;
-    pointer-events:none;
+ position:absolute;
+ top:90px;
+ left:50%;
+ transform:translateX(-50%);
+ font-size:28px;
+ font-weight:900;
+ text-shadow:0 3px 12px #000;
+ pointer-events:none;
 }
 
-/* =========================
-   ADMIN
-========================= */
+/* =====================================================
+   PROFILE / EQUIPMENT
+===================================================== */
 
-.adminBox{
-    background:#141b29;
-    border:1px solid #2c374b;
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:18px;
+.equipment{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+ gap:12px;
 }
 
-.adminInput{
-    padding:11px;
-    margin:4px;
-    background:#0c111b;
-    border:1px solid #3c475c;
-    color:white;
-    border-radius:7px;
+.slot{
+ min-height:110px;
+ background:#0e141d;
+ border:1px solid #364154;
+ border-radius:10px;
+ padding:12px;
+ text-align:center;
 }
 
-.adminAction{
-    padding:11px 15px;
-    border-radius:7px;
-    background:#e5a91a;
-    font-weight:bold;
+.slotIcon{
+ font-size:32px;
 }
 
-.accountRow{
-    padding:12px;
-    background:#0f1520;
-    border-radius:8px;
-    margin-top:8px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
+/* =====================================================
+   SHOP
+===================================================== */
+
+.price{
+ color:#ffdc6a;
+ font-weight:900;
+ margin:8px 0;
 }
 
-/* =========================
+/* =====================================================
    TOAST
-========================= */
+===================================================== */
 
 #toast{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    padding:14px 18px;
-    border-radius:10px;
-    background:#202b3e;
-    border:1px solid #3b4a63;
-    display:none;
-    z-index:1000;
+ position:fixed;
+ right:18px;
+ bottom:18px;
+ z-index:999;
+ display:none;
+ padding:13px 17px;
+ border-radius:9px;
+ background:#202b3c;
+ border:1px solid #44536b;
+ box-shadow:0 7px 25px #000;
 }
 
-@media(max-width:700px){
-    .headerTitle{
-        font-size:15px;
-    }
+/* =====================================================
+   MOBILE
+===================================================== */
 
-    .playerInfo{
-        font-size:12px;
-        gap:4px;
-    }
+@media(max-width:800px){
 
-    .content{
-        padding:15px;
-    }
+ #sidebar{
+  width:65px;
+  padding:8px 6px;
+ }
 
-    .battleHeader{
-        font-size:12px;
-    }
+ .nav{
+  text-align:center;
+  padding:11px 4px;
+ }
+
+ .nav .ico{
+  width:auto;
+  font-size:20px;
+ }
+
+ .nav strong,
+ .nav small{
+  display:none;
+ }
+
+ .brand b,
+ .brand small{
+  display:none;
+ }
+
+ #content{
+  padding:13px;
+ }
+
+ .title{
+  font-size:25px;
+ }
+
+ .hero h1{
+  font-size:31px;
+ }
+
+ .resources .resource{
+  padding:7px;
+  font-size:12px;
+ }
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     LOGIN / REGISTER
-===================================================== -->
+<div id="app">
 
-<div id="authScreen">
+<header id="top">
 
-    <div class="authBox">
+ <div class="brand">
+  <div class="logo">⚔️</div>
+  <div>
+   <b>STICK WAR ULTIMATE LEGENDS</b>
+   <small>LEGENDS EDITION • v2026.27.8</small>
+  </div>
+ </div>
 
-        <div class="logo">⚔️ SWUL</div>
+ <div class="resources">
+  <div class="resource">🪙 <span id="gold">2500</span></div>
+  <div class="resource">💎 <span id="gems">100</span></div>
+  <button class="iconButton" onclick="refreshGame()">🔄</button>
+ </div>
 
-        <div class="subtitle">
-            Stick War Ultimate Legends<br>
-            v2026.27.8
-        </div>
+</header>
 
-        <input
-            id="usernameInput"
-            class="authInput"
-            placeholder="Username"
-            autocomplete="username"
-        >
+<div id="body">
 
-        <input
-            id="passwordInput"
-            class="authInput"
-            type="password"
-            placeholder="Password"
-            autocomplete="current-password"
-        >
+<aside id="sidebar">
 
-        <button class="mainBtn" onclick="login()">
-            LOGIN
-        </button>
+ <button class="nav active" onclick="showView('home',this)">
+  <span class="ico">🏠</span>
+  <strong>Trang chủ</strong>
+  <small>Home</small>
+ </button>
 
-        <button class="secondaryBtn" onclick="register()">
-            CREATE ACCOUNT
-        </button>
+ <button class="nav" onclick="showView('campaign',this)">
+  <span class="ico">🗺️</span>
+  <strong>Campaign</strong>
+  <small>10 Battles</small>
+ </button>
 
-        <div id="authMessage"></div>
+ <button class="nav" onclick="showView('missions',this)">
+  <span class="ico">🎯</span>
+  <strong>Mission</strong>
+  <small>10 Missions</small>
+ </button>
 
-    </div>
+ <button class="nav" onclick="showView('armory',this)">
+  <span class="ico">🛡️</span>
+  <strong>Armory</strong>
+  <small>Armor & Skins</small>
+ </button>
 
+ <button class="nav" onclick="showView('spells',this)">
+  <span class="ico">✨</span>
+  <strong>Spells</strong>
+  <small>19 Spells</small>
+ </button>
+
+ <button class="nav" onclick="showView('units',this)">
+  <span class="ico">⚔️</span>
+  <strong>Units</strong>
+  <small>Army</small>
+ </button>
+
+ <button class="nav" onclick="showView('royals',this)">
+  <span class="ico">👑</span>
+  <strong>Royals</strong>
+  <small>Heroes</small>
+ </button>
+
+ <button class="nav" onclick="showView('shop',this)">
+  <span class="ico">🛒</span>
+  <strong>Shop</strong>
+  <small>Skins</small>
+ </button>
+
+ <button class="nav" onclick="showView('profile',this)">
+  <span class="ico">👤</span>
+  <strong>Profile</strong>
+  <small>Equipment</small>
+ </button>
+
+</aside>
+
+<main id="content">
+
+<!-- ===================================================
+ HOME
+=================================================== -->
+
+<section id="home" class="view active">
+
+ <div class="hero">
+
+  <h1>⚔️ Stick War Ultimate Legends</h1>
+
+  <p>
+   Chào mừng đến với chiến trường Legends.
+   Xây dựng đội quân, trang bị giáp huyền thoại,
+   sử dụng phép thuật và chinh phục toàn bộ 10 Campaign
+   cùng 10 Mission.
+  </p>
+
+  <button class="goldBtn" onclick="startBattle('campaign',1)">
+   ⚔️ BẮT ĐẦU CHIẾN ĐẤU
+  </button>
+
+ </div>
+
+ <br>
+
+ <div class="quick">
+
+  <div class="panel">
+   <div class="quickIcon">🗺️</div>
+   <h3>10 Campaign</h3>
+   <p>Chiến dịch chính</p>
+  </div>
+
+  <div class="panel">
+   <div class="quickIcon">🎯</div>
+   <h3>10 Missions</h3>
+   <p>Nhiệm vụ đặc biệt</p>
+  </div>
+
+  <div class="panel">
+   <div class="quickIcon">🛡️</div>
+   <h3>10 Legendary Armor</h3>
+   <p>Giáp có hiệu ứng</p>
+  </div>
+
+  <div class="panel">
+   <div class="quickIcon">✨</div>
+   <h3>19 Spells</h3>
+   <p>Phép thuật chiến trường</p>
+  </div>
+
+ </div>
+
+ <br>
+
+ <div class="panel">
+  <b>📢 THÔNG BÁO</b>
+  <p id="announcement">
+   Campaign Battle System đã sẵn sàng.
+   Chúc chiến binh may mắn!
+  </p>
+ </div>
+
+</section>
+
+
+<!-- ===================================================
+ CAMPAIGN
+=================================================== -->
+
+<section id="campaign" class="view">
+
+ <div class="title">🗺️ Campaign</div>
+ <div class="subtitle">
+  Chinh phục 10 trận chiến. Mỗi trận mở khóa trận tiếp theo.
+ </div>
+
+ <div id="campaignGrid" class="grid"></div>
+
+</section>
+
+
+<!-- ===================================================
+ MISSIONS
+=================================================== -->
+
+<section id="missions" class="view">
+
+ <div class="title">🎯 Missions</div>
+ <div class="subtitle">
+  10 nhiệm vụ đặc biệt với luật chiến đấu khác nhau.
+ </div>
+
+ <div id="missionGrid" class="grid"></div>
+
+</section>
+
+
+<!-- ===================================================
+ ARMORY
+=================================================== -->
+
+<section id="armory" class="view">
+
+ <div class="title">🛡️ Armory</div>
+ <div class="subtitle">
+  Trang bị riêng cho từng chiến binh. Mỗi giáp có hiệu ứng gameplay.
+ </div>
+
+ <div id="armorGrid" class="grid"></div>
+
+</section>
+
+
+<!-- ===================================================
+ SPELLS
+=================================================== -->
+
+<section id="spells" class="view">
+
+ <div class="title">✨ Spell Book</div>
+ <div class="subtitle">
+  19 phép thuật huyền thoại.
+ </div>
+
+ <div id="spellGrid" class="grid"></div>
+
+</section>
+
+
+<!-- ===================================================
+ UNITS
+=================================================== -->
+
+<section id="units" class="view">
+
+ <div class="title">⚔️ Army</div>
+ <div class="subtitle">
+  Mỗi unit có trang bị và skin riêng.
+ </div>
+
+ <div id="unitGrid" class="grid"></div>
+
+</section>
+
+
+<!-- ===================================================
+ ROYALS
+=================================================== -->
+
+<section id="royals" class="view">
+
+ <div class="title">👑 Royals</div>
+ <div class="subtitle">
+  Những chiến binh huyền thoại.
+ </div>
+
+ <div id="royalGrid" class="grid"></div>
+
+</section>
+
+
+<!-- ===================================================
+ SHOP
+=================================================== -->
+
+<section id="shop" class="view">
+
+ <div class="title">🛒 Legendary Shop</div>
+
+ <div class="subtitle">
+  Skin hiếm, Golden và Limited.
+ </div>
+
+ <div id="shopGrid" class="grid"></div>
+
+</section>
+
+
+<!-- ===================================================
+ PROFILE
+=================================================== -->
+
+<section id="profile" class="view">
+
+ <div class="title">👤 Warrior Profile</div>
+
+ <div class="panel">
+
+  <h2>Starter Loadout</h2>
+
+  <p>
+   Account thường khi mới vào game sẽ có skin mặc định.
+   Skin hiếm phải unlock, mua hoặc nhận từ event.
+  </p>
+
+  <div class="equipment">
+
+   <div class="slot">
+    <div class="slotIcon">⚔️</div>
+    <b>Weapon</b>
+    <p id="weaponSlot">Default Sword</p>
+   </div>
+
+   <div class="slot">
+    <div class="slotIcon">🛡️</div>
+    <b>Armor</b>
+    <p id="armorSlot">Default Armor</p>
+   </div>
+
+   <div class="slot">
+    <div class="slotIcon">👢</div>
+    <b>Boots</b>
+    <p>Default Boots</p>
+   </div>
+
+   <div class="slot">
+    <div class="slotIcon">✨</div>
+    <b>Effect</b>
+    <p id="effectSlot">None</p>
+   </div>
+
+  </div>
+
+ </div>
+
+</section>
+
+</main>
+</div>
 </div>
 
 
 <!-- =====================================================
-     GAME
+ BATTLE
 ===================================================== -->
 
-<div id="gameScreen" class="hidden">
+<div id="battle">
 
-    <header class="header">
+ <div class="battleTop">
 
-        <div class="headerTitle">
-            ⚔️ Stick War Ultimate Legends
-        </div>
+  <div class="battleTitle">
+   ⚔️ <span id="battleName">Battle</span>
+  </div>
 
-        <div class="playerInfo">
+  <div>
+   🪙 <span id="battleReward">0</span>
+  </div>
 
-            <div class="currency">
-                🪙 <span id="goldDisplay">0</span>
-            </div>
+  <button onclick="closeBattle()">
+   EXIT
+  </button>
 
-            <div class="currency">
-                💎 <span id="gemsDisplay">0</span>
-            </div>
+ </div>
 
-            <div id="playerName">
-                Player
-            </div>
+ <canvas id="battleCanvas"></canvas>
 
-            <button class="logout" onclick="logout()">
-                Logout
-            </button>
+ <div id="battleMessage" class="battleMessage"></div>
 
-        </div>
+ <div class="battleBottom">
 
-    </header>
+  <button onclick="spawnPlayer('Swordwrath')">
+   ⚔️ Swordwrath
+  </button>
 
+  <button onclick="spawnPlayer('Archidon')">
+   🏹 Archidon
+  </button>
 
-    <nav class="nav">
+  <button onclick="spawnPlayer('Spearton')">
+   🛡️ Spearton
+  </button>
 
-        <button onclick="showSection('home',this)" class="active">
-            🏠 Home
-        </button>
+  <button onclick="spawnPlayer('Magikill')">
+   🔮 Magikill
+  </button>
 
-        <button onclick="showSection('campaign',this)">
-            ⚔️ Campaign
-        </button>
+  <button onclick="spawnPlayer('Giant')">
+   👹 Giant
+  </button>
 
-        <button onclick="showSection('missions',this)">
-            🎯 Missions
-        </button>
+  <button class="spellButton" onclick="battleSpell('Lightning')">
+   ⚡ Lightning
+  </button>
 
-        <button onclick="showSection('armory',this)">
-            🛡️ Armory
-        </button>
+  <button class="spellButton" onclick="battleSpell('Meteor')">
+   ☄️ Meteor
+  </button>
 
-        <button onclick="showSection('spells',this)">
-            ✨ Spells
-        </button>
+  <button class="spellButton" onclick="battleSpell('Heal')">
+   ❤️ Heal
+  </button>
 
-        <button onclick="showSection('royals',this)">
-            👑 Royals
-        </button>
-
-        <button onclick="showSection('leaderboard',this)">
-            🏆 Leaderboard
-        </button>
-
-        <button id="adminNav" class="hidden" onclick="showSection('admin',this)">
-            👑 Admin
-        </button>
-
-    </nav>
-
-
-    <main class="content">
-
-        <!-- HOME -->
-
-        <section id="home" class="section active">
-
-            <h1 class="pageTitle">
-                ⚔️ Welcome to SWUL
-            </h1>
-
-            <p class="pageDescription">
-                Stick War Ultimate Legends v2026.27.8
-            </p>
-
-            <div class="card">
-                <h3>📢 Global Message</h3>
-                <p id="globalMessage">
-                    Loading...
-                </p>
-            </div>
-
-            <br>
-
-            <div class="grid">
-
-                <div class="card">
-                    <h3>⚔️ Campaign</h3>
-                    <p>
-                        10 campaign battles.
-                    </p>
-                    <button onclick="openSection('campaign')">
-                        PLAY CAMPAIGN
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>🎯 Missions</h3>
-                    <p>
-                        10 special missions.
-                    </p>
-                    <button onclick="openSection('missions')">
-                        PLAY MISSIONS
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>🛡️ Armory</h3>
-                    <p>
-                        10 legendary armor sets.
-                    </p>
-                    <button onclick="openSection('armory')">
-                        OPEN ARMORY
-                    </button>
-                </div>
-
-                <div class="card">
-                    <h3>✨ Spells</h3>
-                    <p>
-                        19 powerful spells.
-                    </p>
-                    <button onclick="openSection('spells')">
-                        OPEN SPELLS
-                    </button>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CAMPAIGN -->
-
-        <section id="campaign" class="section">
-
-            <h1 class="pageTitle">
-                ⚔️ Campaign
-            </h1>
-
-            <p class="pageDescription">
-                Complete all 10 battles to finish the campaign.
-            </p>
-
-            <div id="campaignGrid" class="grid"></div>
-
-        </section>
-
-
-        <!-- MISSIONS -->
-
-        <section id="missions" class="section">
-
-            <h1 class="pageTitle">
-                🎯 Missions
-            </h1>
-
-            <p class="pageDescription">
-                Special missions with unique challenges.
-            </p>
-
-            <div id="missionGrid" class="grid"></div>
-
-        </section>
-
-
-        <!-- ARMORY -->
-
-        <section id="armory" class="section">
-
-            <h1 class="pageTitle">
-                🛡️ Armory
-            </h1>
-
-            <p class="pageDescription">
-                Equip legendary armor with unique effects.
-            </p>
-
-            <div id="armorGrid" class="grid"></div>
-
-        </section>
-
-
-        <!-- SPELLS -->
-
-        <section id="spells" class="section">
-
-            <h1 class="pageTitle">
-                ✨ Spells
-            </h1>
-
-            <p class="pageDescription">
-                19 spells are available.
-            </p>
-
-            <div id="spellGrid" class="grid"></div>
-
-        </section>
-
-
-        <!-- ROYALS -->
-
-        <section id="royals" class="section">
-
-            <h1 class="pageTitle">
-                👑 Royals
-            </h1>
-
-            <div id="royalGrid" class="grid"></div>
-
-        </section>
-
-
-        <!-- LEADERBOARD -->
-
-        <section id="leaderboard" class="section">
-
-            <h1 class="pageTitle">
-                🏆 Leaderboard
-            </h1>
-
-            <div id="leaderboardGrid"></div>
-
-        </section>
-
-
-        <!-- ADMIN -->
-
-        <section id="admin" class="section">
-
-            <h1 class="pageTitle">
-                👑 Admin Panel
-            </h1>
-
-            <div class="adminBox">
-
-                <h3>🎁 Gift</h3>
-
-                <input id="giftAccountId" class="adminInput" placeholder="Account ID">
-
-                <input id="giftGold" class="adminInput" type="number" placeholder="Gold">
-
-                <input id="giftGems" class="adminInput" type="number" placeholder="Gems">
-
-                <input id="giftSkin" class="adminInput" placeholder="Skin">
-
-                <button class="adminAction" onclick="adminGift()">
-                    SEND GIFT
-                </button>
-
-            </div>
-
-
-            <div class="adminBox">
-
-                <h3>🎟️ Create Code</h3>
-
-                <input id="codeName" class="adminInput" placeholder="Code">
-
-                <input id="codeGold" class="adminInput" type="number" placeholder="Gold">
-
-                <input id="codeGems" class="adminInput" type="number" placeholder="Gems">
-
-                <input id="codeSkin" class="adminInput" placeholder="Skin">
-
-                <button class="adminAction" onclick="createCode()">
-                    CREATE CODE
-                </button>
-
-            </div>
-
-
-            <div class="adminBox">
-
-                <h3>📢 Global Message</h3>
-
-                <input
-                    id="globalInput"
-                    class="adminInput"
-                    style="width:70%"
-                    placeholder="Message"
-                >
-
-                <button class="adminAction" onclick="updateGlobalMessage()">
-                    UPDATE
-                </button>
-
-            </div>
-
-
-            <div class="adminBox">
-
-                <h3>👥 Accounts</h3>
-
-                <div id="accountsList">
-                    Loading...
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
+ </div>
 
 </div>
-
-
-<!-- =====================================================
-     BATTLE OVERLAY
-===================================================== -->
-
-<div id="battleOverlay">
-
-    <div class="battleHeader">
-
-        <div>
-            ⚔️ <span id="battleTitle">Battle</span>
-        </div>
-
-        <div>
-            🪙 Reward: <span id="battleReward">0</span>
-        </div>
-
-        <button
-            onclick="closeBattle()"
-            style="background:#8c2630;color:white;padding:9px 13px;border-radius:8px"
-        >
-            EXIT
-        </button>
-
-    </div>
-
-
-    <div id="battleArea" class="battleArea">
-
-        <div class="battleGround"></div>
-
-        <div class="base playerBase">
-
-            <div class="baseLabel">
-                YOUR BASE
-            </div>
-
-            <div class="hpBar">
-                <div id="playerBaseHP" class="hpFill"></div>
-            </div>
-
-        </div>
-
-
-        <div class="base enemyBase">
-
-            <div class="baseLabel">
-                ENEMY BASE
-            </div>
-
-            <div class="hpBar">
-                <div id="enemyBaseHP" class="hpFill"></div>
-            </div>
-
-        </div>
-
-
-        <div id="battleEntities"></div>
-
-        <div id="battleMessage" class="battleMessage"></div>
-
-    </div>
-
-
-    <div class="battleControls">
-
-        <button class="attack" onclick="spawnUnit('Swordwrath')">
-            ⚔️ Swordwrath
-        </button>
-
-        <button onclick="spawnUnit('Archidon')">
-            🏹 Archidon
-        </button>
-
-        <button onclick="spawnUnit('Spearton')">
-            🛡️ Spearton
-        </button>
-
-        <button onclick="spawnUnit('Magikill')">
-            🔮 Magikill
-        </button>
-
-        <button onclick="spawnUnit('Giant')">
-            👹 Giant
-        </button>
-
-        <button class="spell" onclick="castSpell('Lightning')">
-            ⚡ Lightning
-        </button>
-
-        <button class="spell" onclick="castSpell('Meteor')">
-            ☄️ Meteor
-        </button>
-
-        <button class="spell" onclick="castSpell('Heal')">
-            ❤️ Heal
-        </button>
-
-    </div>
-
-</div>
-
 
 <div id="toast"></div>
 
@@ -1040,1989 +1035,1630 @@ button{
 <script>
 
 /* =====================================================
-   CONFIG
+ DATA
 ===================================================== */
 
-const API = "https://swul-backend.onrender.com";
-
-
-/* =====================================================
-   STATE
-===================================================== */
-
-let currentAccount = null;
-let gameData = null;
-
-let currentBattle = null;
-let battleTimer = null;
-let enemyTimer = null;
-
-let playerEntities = [];
-let enemyEntities = [];
-
-let playerBaseHP = 100;
-let enemyBaseHP = 100;
-
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function $(id){
-    return document.getElementById(id);
-}
-
-
-function toast(message){
-
-    const t = $("toast");
-
-    t.textContent = message;
-    t.style.display = "block";
-
-    clearTimeout(t._timer);
-
-    t._timer = setTimeout(()=>{
-        t.style.display = "none";
-    },2500);
-}
-
-
-function setAuthMessage(message,error=true){
-
-    $("authMessage").textContent = message;
-
-    $("authMessage").style.color =
-        error ? "#ff7777" : "#62e18d";
-}
-
-
-async function api(path,options={}){
-
-    const response = await fetch(API + path,{
-        headers:{
-            "Content-Type":"application/json",
-            ...(options.headers || {})
-        },
-        ...options
-    });
-
-    let data;
-
-    try{
-        data = await response.json();
-    }catch{
-        throw new Error("Backend returned invalid JSON.");
-    }
-
-    if(!response.ok){
-        throw new Error(data.message || "API request failed.");
-    }
-
-    return data;
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function login(){
-
-    const username = $("usernameInput").value.trim();
-    const password = $("passwordInput").value;
-
-    if(!username || !password){
-        setAuthMessage("Enter username and password.");
-        return;
-    }
-
-    setAuthMessage("Connecting...",false);
-
-    try{
-
-        const data = await api("/api/login",{
-            method:"POST",
-            body:JSON.stringify({
-                username,
-                password
-            })
-        });
-
-        if(!data.success){
-            setAuthMessage(data.message || "Login failed.");
-            return;
-        }
-
-        currentAccount = data.account;
-
-        localStorage.setItem(
-            "swul_account",
-            JSON.stringify(currentAccount)
-        );
-
-        enterGame();
-
-    }catch(error){
-
-        setAuthMessage(
-            "Login error: " + error.message
-        );
-
-    }
-}
-
-
-/* =====================================================
-   REGISTER
-===================================================== */
-
-async function register(){
-
-    const username = $("usernameInput").value.trim();
-    const password = $("passwordInput").value;
-
-    if(!username || !password){
-        setAuthMessage("Enter username and password.");
-        return;
-    }
-
-    try{
-
-        const data = await api("/api/register",{
-            method:"POST",
-            body:JSON.stringify({
-                username,
-                password
-            })
-        });
-
-        if(!data.success){
-            setAuthMessage(data.message || "Register failed.");
-            return;
-        }
-
-        setAuthMessage(
-            "Account created. You can now login.",
-            false
-        );
-
-        toast("Account created!");
-
-    }catch(error){
-
-        setAuthMessage(
-            "Register error: " + error.message
-        );
-
-    }
-}
-
-
-/* =====================================================
-   ENTER GAME
-===================================================== */
-
-function enterGame(){
-
-    $("authScreen").classList.add("hidden");
-    $("gameScreen").classList.remove("hidden");
-
-    $("playerName").textContent =
-        currentAccount.username;
-
-    updateCurrency();
-
-    if(currentAccount.role === "admin"){
-        $("adminNav").classList.remove("hidden");
-    }else{
-        $("adminNav").classList.add("hidden");
-    }
-
-    loadGame();
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-function logout(){
-
-    localStorage.removeItem("swul_account");
-
-    currentAccount = null;
-
-    location.reload();
-}
-
-
-/* =====================================================
-   CURRENCY
-===================================================== */
-
-function updateCurrency(){
-
-    if(!currentAccount) return;
-
-    $("goldDisplay").textContent =
-        Number(currentAccount.gold || 0).toLocaleString();
-
-    $("gemsDisplay").textContent =
-        Number(currentAccount.gems || 0).toLocaleString();
-}
-
-
-/* =====================================================
-   LOAD GAME
-===================================================== */
-
-async function loadGame(){
-
-    try{
-
-        const data = await api("/");
-
-        if(!data.success){
-            console.warn("Backend root returned:",data);
-        }
-
-    }catch(error){
-
-        console.warn(
-            "Backend root unavailable:",
-            error.message
-        );
-
-    }
-
-    gameData = {
-
-        units:[
-            {id:1,name:"Swordwrath"},
-            {id:2,name:"Archidon"},
-            {id:3,name:"Spearton"},
-            {id:4,name:"Magikill"},
-            {id:5,name:"Giant"}
-        ],
-
-        royals:[
-            {id:1,name:"Xiphos"},
-            {id:2,name:"Kytchu"},
-            {id:3,name:"Atreyos"},
-            {id:4,name:"Icaron"},
-            {id:5,name:"Thera"},
-            {id:6,name:"Adicai"}
-        ],
-
-        armors:getArmors(),
-
-        spells:getSpells(),
-
-        campaign:getCampaign(),
-
-        missions:getMissions()
-
-    };
-
-    renderCampaign();
-    renderMissions();
-    renderArmory();
-    renderSpells();
-    renderRoyals();
-
-    loadGlobalMessage();
-    loadLeaderboard();
-
-    if(currentAccount.role === "admin"){
-        loadAccounts();
-    }
-
-}
-
-
-/* =====================================================
-   ARMORS
-===================================================== */
-
-function getArmors(){
-
-return [
-
-{
-id:1,
-name:"Volcano Dragon Armor",
-displayName:"🌋 Giáp Hỏa Long",
-description:"Giáp magma đen với dung nham đỏ rực.",
-effects:[
-"+15% Sát thương",
-"+10% Kháng sát thương vật lý",
-"Có cơ hội thiêu đốt mục tiêu"
-],
-stats:{
-damage:15,
-physicalResist:10,
-burnChance:20
-}
-},
-
-{
-id:2,
-name:"Ancient Runic Armor",
-displayName:"🔵 Giáp Cổ Tự",
-description:"Giáp đá cổ khắc rune phát sáng.",
-effects:[
-"+20% Tốc độ hồi máu",
-"+15% Kháng phép",
-"Giảm hồi chiêu kỹ năng"
-],
-stats:{
-healRate:20,
-magicResist:15,
-cooldownReduction:10
-}
-},
-
-{
-id:3,
-name:"Cybernetic Exosuit",
-displayName:"🟢 Giáp Công Nghệ Cyber",
-description:"Bộ khung cơ khí công nghệ cao.",
-effects:[
-"+20% Tốc độ đánh",
-"+15% Tốc độ di chuyển"
-],
-stats:{
-attackSpeed:20,
-moveSpeed:15
-}
-},
-
-{
-id:4,
-name:"Spectral Wraith Armor",
-displayName:"🟣 Giáp Linh Hồn",
-description:"Giáp linh hồn khiến cơ thể nửa hư nửa thực.",
-effects:[
-"+15% Né tránh",
-"-10% Máu tối đa"
-],
-stats:{
-dodge:15,
-maxHp:-10
-}
-},
-
-{
-id:5,
-name:"Golden Pharaoh Armor",
-displayName:"🟡 Giáp Sa Mạc Hoàng Kim",
-description:"Giáp vàng phong cách Pharaoh Ai Cập.",
-effects:[
-"+25% Vàng nhận được",
-"+5% Máu"
-],
-stats:{
-goldBonus:25,
-maxHp:5
-}
-},
-
-{
-id:6,
-name:"Glacial Frost Armor",
-displayName:"❄️ Giáp Băng Vĩnh Cửu",
-description:"Giáp được tạo từ băng vĩnh cửu.",
-effects:[
-"+25% Máu tối đa",
-"Làm chậm địch 30%",
-"-5% Tốc độ di chuyển"
-],
-stats:{
-maxHp:25,
-enemySlow:30,
-moveSpeed:-5
-}
-},
-
-{
-id:7,
-name:"Toxic Chem-Suit",
-displayName:"☣️ Giáp Độc Dược",
-description:"Giáp sinh hóa với bình độc phía sau.",
-effects:[
-"Miễn nhiễm độc",
-"+10% Sát thương độc",
-"Chết tạo vùng độc"
-],
-stats:{
-poisonImmune:true,
-poisonDamage:10,
-deathPoison:true
-}
-},
-
-{
-id:8,
-name:"Void Eclipse Armor",
-displayName:"🌌 Giáp Hư Không",
-description:"Giáp chứa một khoảng không vũ trụ.",
-effects:[
-"Mỗi 10 giây đòn tiếp theo xuyên giáp",
-"+10% Sát thương chí mạng",
-"+10% Kháng khống chế"
-],
-stats:{
-trueDamageInterval:10,
-critDamage:10,
-controlResist:10
-}
-},
-
-{
-id:9,
-name:"Archangel Plate",
-displayName:"👼 Giáp Thiên Thần Hoàng Kim",
-description:"Giáp bạc với cánh vàng và hào quang.",
-effects:[
-"Hồi máu đồng minh xung quanh",
-"+15% Hiệu suất hồi máu đồng đội",
-"+10% Giáp"
-],
-stats:{
-allyHeal:15,
-armor:10
-}
-},
-
-{
-id:10,
-name:"Overgrown Thorn Mail",
-displayName:"🌿 Giáp Gai Đầm Lầy",
-description:"Giáp dây leo cổ thụ đầy gai.",
-effects:[
-"Phản 20% sát thương cận chiến",
-"+15% Giáp",
-"+5% Kháng hiệu ứng"
-],
-stats:{
-reflectMelee:20,
-armor:15,
-controlResist:5
-}
-}
-
+const CAMPAIGNS=[
+ "Training Grounds",
+ "Swordwrath Valley",
+ "Archidon Forest",
+ "Spearton Fortress",
+ "Magikill Ruins",
+ "Shadow Lands",
+ "Frozen Battlefield",
+ "Volcano Kingdom",
+ "Royal War",
+ "Final Battle"
 ];
 
-}
+const CAMPAIGN_REWARDS=[
+ 500,700,900,1200,1500,
+ 2000,2500,3000,4000,10000
+];
 
+const MISSIONS=[
+ "First Battle",
+ "Defend the Statue",
+ "Enemy Rush",
+ "Night Attack",
+ "Giant Attack",
+ "Magic War",
+ "Frozen Siege",
+ "Volcano Assault",
+ "Royal Challenge",
+ "Ultimate Battle"
+];
+
+const MISSION_REWARDS=[
+ 300,500,700,900,1200,
+ 1500,2000,2500,4000,10000
+];
+
+const UNITS=[
+ {
+  name:"Swordwrath",
+  icon:"⚔️",
+  hp:100,
+  damage:12,
+  speed:1.25
+ },
+ {
+  name:"Archidon",
+  icon:"🏹",
+  hp:80,
+  damage:18,
+  speed:1
+ },
+ {
+  name:"Spearton",
+  icon:"🛡️",
+  hp:170,
+  damage:16,
+  speed:.8
+ },
+ {
+  name:"Magikill",
+  icon:"🔮",
+  hp:110,
+  damage:25,
+  speed:.7
+ },
+ {
+  name:"Giant",
+  icon:"👹",
+  hp:350,
+  damage:30,
+  speed:.45
+ }
+];
+
+const ROYALS=[
+ "Xiphos",
+ "Kytchu",
+ "Atreyos",
+ "Icaron",
+ "Thera",
+ "Adicai"
+];
+
+const SPELLS=[
+ ["⚡","Lightning","Damage enemy group"],
+ ["☄️","Meteor","Massive area damage"],
+ ["🔥","Fireball","Burn enemies"],
+ ["❄️","Freeze","Slow enemies"],
+ ["❤️","Heal","Heal army"],
+ ["😡","Rage","Increase attack"],
+ ["🛡️","Shield","Protect army"],
+ ["🌪️","Tornado","Push enemies"],
+ ["🌎","Earthquake","Damage battlefield"],
+ ["☠️","Poison","Poison enemies"],
+ ["👥","Clone","Clone a unit"],
+ ["🌀","Teleport","Teleport army"],
+ ["🏹","Arrow Rain","Rain arrows"],
+ ["🌑","Darkness","Reduce enemy power"],
+ ["⛈️","Thunder Storm","Repeated lightning"],
+ ["⏱️","Time Stop","Stop enemies"],
+ ["🗿","Stone Skin","Increase defense"],
+ ["💨","Speed","Increase movement"],
+ ["👹","Summon","Summon giant"]
+];
+
+const ARMORS=[
+ {
+  icon:"🌋",
+  name:"Giáp Hỏa Long",
+  rarity:"Legendary",
+  class:"legendary",
+  desc:"Magma đen bóng với dung nham đỏ rực.",
+  effects:[
+   "+15% sát thương",
+   "+10% kháng vật lý",
+   "20% cơ hội thiêu đốt"
+  ]
+ },
+ {
+  icon:"🔵",
+  name:"Giáp Cổ Tự",
+  rarity:"Epic",
+  class:"epic",
+  desc:"Giáp đá cổ phủ rune xanh.",
+  effects:[
+   "+20% hồi máu",
+   "+15% kháng phép",
+   "-10% cooldown"
+  ]
+ },
+ {
+  icon:"🟢",
+  name:"Giáp Công Nghệ Cyber",
+  rarity:"Epic",
+  class:"epic",
+  desc:"Exosuit cơ khí với năng lượng neon.",
+  effects:[
+   "+20% tốc độ đánh",
+   "+15% tốc độ di chuyển"
+  ]
+ },
+ {
+  icon:"🟣",
+  name:"Giáp Linh Hồn",
+  rarity:"Rare",
+  class:"rare",
+  desc:"Cơ thể nửa hư nửa thực.",
+  effects:[
+   "+15% né tránh",
+   "-10% máu tối đa"
+  ]
+ },
+ {
+  icon:"🟡",
+  name:"Giáp Sa Mạc Hoàng Kim",
+  rarity:"Golden",
+  class:"golden",
+  desc:"Giáp vàng phong cách Pharaoh.",
+  effects:[
+   "+25% vàng nhận được",
+   "+5% máu"
+  ]
+ },
+ {
+  icon:"❄️",
+  name:"Giáp Băng Vĩnh Cửu",
+  rarity:"Legendary",
+  class:"legendary",
+  desc:"Băng vĩnh cửu không bao giờ tan.",
+  effects:[
+   "+25% máu",
+   "Làm chậm địch 30%",
+   "-5% tốc độ"
+  ]
+ },
+ {
+  icon:"☣️",
+  name:"Giáp Độc Dược",
+  rarity:"Epic",
+  class:"epic",
+  desc:"Bộ giáp sinh hóa độc.",
+  effects:[
+   "Miễn nhiễm độc",
+   "+10% poison damage",
+   "Chết tạo vùng độc"
+  ]
+ },
+ {
+  icon:"🌌",
+  name:"Giáp Hư Không",
+  rarity:"Mythic",
+  class:"mythic",
+  desc:"Khoảng không vũ trụ chuyển động.",
+  effects:[
+   "Mỗi 10s xuyên giáp",
+   "+10% crit damage",
+   "+10% kháng khống chế"
+  ]
+ },
+ {
+  icon:"👼",
+  name:"Giáp Thiên Thần Hoàng Kim",
+  rarity:"Mythic",
+  class:"mythic",
+  desc:"Giáp thiên thần với cánh vàng.",
+  effects:[
+   "Hồi máu đồng minh",
+   "+15% hiệu suất heal",
+   "+10% giáp"
+  ]
+ },
+ {
+  icon:"🌿",
+  name:"Giáp Gai Đầm Lầy",
+  rarity:"Legendary",
+  class:"legendary",
+  desc:"Giáp dây leo cổ đại đầy gai.",
+  effects:[
+   "Phản 20% melee damage",
+   "+15% giáp",
+   "+5% kháng hiệu ứng"
+  ]
+ }
+];
+
+const SHOP_ITEMS=[
+ {
+  name:"Golden Swordwrath",
+  rarity:"Golden",
+  class:"golden",
+  icon:"⚔️",
+  price:1200,
+  currency:"gold"
+ },
+ {
+  name:"Shadow Spearton",
+  rarity:"Epic",
+  class:"epic",
+  icon:"🛡️",
+  price:80,
+  currency:"gems"
+ },
+ {
+  name:"Void Giant",
+  rarity:"Mythic",
+  class:"mythic",
+  icon:"👹",
+  price:250,
+  currency:"gems"
+ },
+ {
+  name:"Royal Eclipse",
+  rarity:"Limited",
+  class:"limited",
+  icon:"👑",
+  price:300,
+  currency:"gems"
+ }
+];
 
 /* =====================================================
-   SPELLS
+ SAVE
 ===================================================== */
 
-function getSpells(){
+let save={
+ gold:2500,
+ gems:100,
+ campaign:0,
+ mission:0,
+ armor:"Default Armor",
+ unlockedArmors:[],
+ skins:["Default Skin"],
+ equippedUnit:"Swordwrath",
+ equippedSkin:"Default Skin"
+};
 
-const names=[
-"Lightning",
-"Meteor",
-"Fireball",
-"Freeze",
-"Heal",
-"Rage",
-"Shield",
-"Tornado",
-"Earthquake",
-"Poison",
-"Clone",
-"Teleport",
-"Arrow Rain",
-"Darkness",
-"Thunder Storm",
-"Time Stop",
-"Stone Skin",
-"Speed",
-"Summon"
-];
+function loadSave(){
 
-return names.map((name,index)=>({
-id:index+1,
-name
-}));
+ try{
+
+  const old=
+   JSON.parse(localStorage.getItem("SWUL_SAVE"));
+
+  if(old)
+   save=Object.assign(save,old);
+
+ }catch(e){}
+
+ updateResources();
 
 }
 
+function saveGame(){
+
+ localStorage.setItem(
+  "SWUL_SAVE",
+  JSON.stringify(save)
+ );
+
+ updateResources();
+
+}
+
+function updateResources(){
+
+ document.getElementById("gold").textContent=
+  Number(save.gold).toLocaleString();
+
+ document.getElementById("gems").textContent=
+  Number(save.gems).toLocaleString();
+
+}
 
 /* =====================================================
-   CAMPAIGN
+ NAVIGATION
 ===================================================== */
 
-function getCampaign(){
+function showView(id,btn){
 
-const names=[
-"Training Grounds",
-"Swordwrath Valley",
-"Archidon Forest",
-"Spearton Fortress",
-"Magikill Ruins",
-"Shadow Lands",
-"Frozen Battlefield",
-"Volcano Kingdom",
-"Royal War",
-"Final Battle"
-];
+ document.querySelectorAll(".view")
+ .forEach(v=>v.classList.remove("active"));
 
-const rewards=[
-500,
-700,
-900,
-1200,
-1500,
-2000,
-2500,
-3000,
-4000,
-10000
-];
+ const view=document.getElementById(id);
 
-return names.map((name,i)=>({
+ if(view)
+  view.classList.add("active");
 
-id:i+1,
-name,
-reward:rewards[i]
+ document.querySelectorAll(".nav")
+ .forEach(n=>n.classList.remove("active"));
 
-}));
+ if(btn)
+  btn.classList.add("active");
 
 }
 
-
 /* =====================================================
-   MISSIONS
+ TOAST
 ===================================================== */
 
-function getMissions(){
+function toast(text){
 
-const names=[
-"First Battle",
-"Defend the Statue",
-"Enemy Rush",
-"Night Attack",
-"Giant Attack",
-"Magic War",
-"Frozen Siege",
-"Volcano Assault",
-"Royal Challenge",
-"Ultimate Battle"
-];
+ const t=document.getElementById("toast");
 
-const rewards=[
-300,
-500,
-700,
-900,
-1200,
-1500,
-2000,
-2500,
-4000,
-10000
-];
+ t.textContent=text;
+ t.style.display="block";
 
-return names.map((name,i)=>({
+ clearTimeout(t.timer);
 
-id:i+1,
-name,
-reward:rewards[i]
-
-}));
+ t.timer=setTimeout(()=>{
+  t.style.display="none";
+ },2300);
 
 }
-
 
 /* =====================================================
-   PROGRESS
-===================================================== */
-
-function campaignProgress(){
-
-return Number(
-currentAccount?.campaignProgress || 0
-);
-
-}
-
-
-function missionProgress(){
-
-return Number(
-currentAccount?.missionProgress || 0
-);
-
-}
-
-
-/* =====================================================
-   RENDER CAMPAIGN
+ CAMPAIGN
 ===================================================== */
 
 function renderCampaign(){
 
-const grid=$("campaignGrid");
+ const grid=document.getElementById("campaignGrid");
 
-grid.innerHTML="";
+ grid.innerHTML="";
 
-gameData.campaign.forEach(level=>{
+ CAMPAIGNS.forEach((name,i)=>{
 
-const unlocked =
-    level.id <= campaignProgress()+1;
+  const id=i+1;
+  const unlocked=id<=save.campaign+1;
+  const completed=id<=save.campaign;
 
-const completed =
-    level.id <= campaignProgress();
+  const card=document.createElement("div");
 
-const card=document.createElement("div");
+  card.className=
+   "panel level"+
+   (completed?" completed":"")+
+   (!unlocked?" locked":"");
 
-card.className="card levelCard";
+  card.innerHTML=`
 
-if(!unlocked){
-    card.classList.add("locked");
-}
+   <div class="levelNumber">
+    CAMPAIGN ${id}
+   </div>
 
-if(completed){
-    card.classList.add("completed");
-}
+   <h3>${name}</h3>
 
-card.innerHTML=`
+   <p>
+    Battle ${id}/10
+   </p>
 
-<div class="levelNumber">
-CAMPAIGN ${level.id}
-</div>
+   <div class="map"></div>
 
-<h3>
-${level.name}
-</h3>
+   <div class="reward">
+    🪙 ${CAMPAIGN_REWARDS[i]}
+   </div>
 
-<p>
-Battle ${level.id} / 10
-</p>
+   ${
+    !unlocked
+    ?
+    `<div class="lock">🔒</div>`
+    :
+    `<button class="goldBtn"
+       onclick="startBattle('campaign',${id})">
+       ${completed?"PLAY AGAIN":"START BATTLE"}
+     </button>`
+   }
 
-<div class="reward">
-🪙 Reward: ${level.reward}
-</div>
+  `;
 
-<button
-    ${unlocked ? "" : "disabled"}
-    onclick="startBattle('campaign',${level.id})"
-    class="${unlocked ? "battleBtn" : ""}"
->
-${completed ? "PLAY AGAIN" : unlocked ? "START BATTLE" : "🔒 LOCKED"}
-</button>
-`;
+  grid.appendChild(card);
 
-grid.appendChild(card);
-
-});
+ });
 
 }
-
 
 /* =====================================================
-   RENDER MISSIONS
+ MISSIONS
 ===================================================== */
 
 function renderMissions(){
 
-const grid=$("missionGrid");
+ const grid=document.getElementById("missionGrid");
 
-grid.innerHTML="";
+ grid.innerHTML="";
 
-gameData.missions.forEach(level=>{
+ MISSIONS.forEach((name,i)=>{
 
-const unlocked =
-    level.id <= missionProgress()+1;
+  const id=i+1;
+  const unlocked=id<=save.mission+1;
+  const completed=id<=save.mission;
 
-const completed =
-    level.id <= missionProgress();
+  const card=document.createElement("div");
 
-const card=document.createElement("div");
+  card.className=
+   "panel level"+
+   (completed?" completed":"")+
+   (!unlocked?" locked":"");
 
-card.className="card levelCard";
+  card.innerHTML=`
 
-if(!unlocked){
-    card.classList.add("locked");
-}
+   <div class="levelNumber">
+    MISSION ${id}
+   </div>
 
-if(completed){
-    card.classList.add("completed");
-}
+   <h3>${name}</h3>
 
-card.innerHTML=`
+   <p>
+    Special Battle ${id}/10
+   </p>
 
-<div class="levelNumber">
-MISSION ${level.id}
-</div>
+   <div class="map"></div>
 
-<h3>
-${level.name}
-</h3>
+   <div class="reward">
+    🪙 ${MISSION_REWARDS[i]}
+   </div>
 
-<p>
-Special Battle ${level.id} / 10
-</p>
+   ${
+    !unlocked
+    ?
+    `<div class="lock">🔒</div>`
+    :
+    `<button class="goldBtn"
+       onclick="startBattle('mission',${id})">
+       ${completed?"PLAY AGAIN":"START MISSION"}
+     </button>`
+   }
 
-<div class="reward">
-🪙 Reward: ${level.reward}
-</div>
+  `;
 
-<button
-    ${unlocked ? "" : "disabled"}
-    onclick="startBattle('mission',${level.id})"
-    class="${unlocked ? "battleBtn" : ""}"
->
-${completed ? "PLAY AGAIN" : unlocked ? "START MISSION" : "🔒 LOCKED"}
-</button>
-`;
+  grid.appendChild(card);
 
-grid.appendChild(card);
-
-});
+ });
 
 }
-
 
 /* =====================================================
-   ARMORY
+ ARMORY
 ===================================================== */
 
 function renderArmory(){
 
-const grid=$("armorGrid");
+ const grid=document.getElementById("armorGrid");
 
-grid.innerHTML="";
+ grid.innerHTML="";
 
-gameData.armors.forEach(armor=>{
+ ARMORS.forEach((a,i)=>{
 
-const card=document.createElement("div");
+  const owned=
+   save.unlockedArmors.includes(a.name);
 
-card.className="card armorCard";
+  const card=document.createElement("div");
 
-let icon =
-armor.displayName.split(" ")[0];
+  card.className="panel armor";
 
-let effects =
-armor.effects
-.map(e=>`<div class="effect">✓ ${e}</div>`)
-.join("");
+  card.innerHTML=`
 
-let stats =
-Object.entries(armor.stats)
-.map(([key,value])=>{
+   <div class="armorIcon">
+    ${a.icon}
+   </div>
 
-if(typeof value === "boolean"){
-return `<div class="stat">${key}: ${value ? "YES":"NO"}</div>`;
-}
+   <span class="rarity ${a.class}">
+    ${a.rarity}
+   </span>
 
-return `<div class="stat">${key}: ${value}%</div>`;
+   <h3>${a.name}</h3>
 
-})
-.join("");
+   <p>${a.desc}</p>
 
-card.innerHTML=`
+   <div class="effects">
+    ${a.effects.map(x=>"✓ "+x).join("<br>")}
+   </div>
 
-<div class="armorIcon">
-${icon}
-</div>
+   <button
+    class="${save.armor===a.name?"greenBtn":"goldBtn"} equip"
+    onclick="equipArmor(${i})">
+    ${save.armor===a.name?"✓ EQUIPPED":"EQUIP"}
+   </button>
 
-<h3>
-${armor.displayName}
-</h3>
+  `;
 
-<p>
-${armor.description}
-</p>
+  grid.appendChild(card);
 
-${effects}
-
-<br>
-
-${stats}
-
-<button onclick="equipArmor('${armor.name}')">
-EQUIP
-</button>
-
-`;
-
-grid.appendChild(card);
-
-});
+ });
 
 }
-
-
-function equipArmor(name){
-
-localStorage.setItem(
-"swul_equipped_armor",
-name
-);
-
-toast("Equipped: " + name);
-
-}
-
 
 /* =====================================================
-   SPELLS
+ EQUIP ARMOR
+===================================================== */
+
+function equipArmor(index){
+
+ const armor=ARMORS[index];
+
+ if(
+  !save.unlockedArmors.includes(armor.name)
+ ){
+
+  /* starter account can unlock first armor */
+  if(index===0){
+
+   if(save.gold<500){
+
+    toast("Không đủ vàng!");
+
+    return;
+
+   }
+
+   save.gold-=500;
+   save.unlockedArmors.push(armor.name);
+
+  }else{
+
+   toast("Giáp này chưa được unlock!");
+
+   return;
+
+  }
+
+ }
+
+ save.armor=armor.name;
+
+ saveGame();
+
+ renderArmory();
+
+ document.getElementById("armorSlot").textContent=
+  armor.name;
+
+ document.getElementById("effectSlot").textContent=
+  armor.effects[0];
+
+ toast("Đã trang bị "+armor.name);
+
+}
+
+/* =====================================================
+ SPELLS
 ===================================================== */
 
 function renderSpells(){
 
-const grid=$("spellGrid");
+ const grid=document.getElementById("spellGrid");
 
-grid.innerHTML="";
+ grid.innerHTML="";
 
-const icons=[
-"⚡","☄️","🔥","❄️","❤️","😡","🛡️","🌪️","🌎",
-"☠️","👥","🌀","🏹","🌑","⛈️","⏱️","🗿","💨","👹"
-];
+ SPELLS.forEach((s,i)=>{
 
-gameData.spells.forEach((spell,index)=>{
+  const card=document.createElement("div");
 
-const card=document.createElement("div");
+  card.className="panel spell";
 
-card.className="card spellCard";
+  card.innerHTML=`
 
-card.innerHTML=`
+   <div class="spellIcon">${s[0]}</div>
 
-<div class="spellIcon">
-${icons[index]}
-</div>
+   <h3>${s[1]}</h3>
 
-<h3>
-${spell.name}
-</h3>
+   <p>${s[2]}</p>
 
-<p>
-Spell ${spell.id} / 19
-</p>
+   <div class="cooldown">
+    Spell ${i+1}/19
+   </div>
 
-<button onclick="toast('${spell.name} selected')">
-SELECT
-</button>
-`;
+  `;
 
-grid.appendChild(card);
+  grid.appendChild(card);
 
-});
+ });
 
 }
 
+/* =====================================================
+ UNITS
+===================================================== */
+
+function renderUnits(){
+
+ const grid=document.getElementById("unitGrid");
+
+ grid.innerHTML="";
+
+ UNITS.forEach(u=>{
+
+  const card=document.createElement("div");
+
+  card.className="panel unit";
+
+  card.innerHTML=`
+
+   <div class="unitVisual">
+    ${u.icon}
+   </div>
+
+   <h3>${u.name}</h3>
+
+   <div class="statline">
+    ❤️ HP: ${u.hp}
+   </div>
+
+   <div class="statline">
+    ⚔️ Damage: ${u.damage}
+   </div>
+
+   <div class="statline">
+    💨 Speed: ${u.speed}
+   </div>
+
+   <br>
+
+   <button
+    class="goldBtn"
+    onclick="selectUnit('${u.name}')">
+    EQUIP SKIN
+   </button>
+
+  `;
+
+  grid.appendChild(card);
+
+ });
+
+}
+
+function selectUnit(name){
+
+ save.equippedUnit=name;
+
+ saveGame();
+
+ toast(name+" selected");
+
+}
 
 /* =====================================================
-   ROYALS
+ ROYALS
 ===================================================== */
 
 function renderRoyals(){
 
-const grid=$("royalGrid");
+ const grid=document.getElementById("royalGrid");
 
-grid.innerHTML="";
+ grid.innerHTML="";
 
-gameData.royals.forEach(royal=>{
+ ROYALS.forEach((name,i)=>{
 
-const card=document.createElement("div");
+  const card=document.createElement("div");
 
-card.className="card";
+  card.className="panel unit";
 
-card.innerHTML=`
+  card.innerHTML=`
 
-<h3>👑 ${royal.name}</h3>
+   <div class="unitVisual">
+    👑
+   </div>
 
-<p>
-Royal Hero ${royal.id}
-</p>
+   <h3>${name}</h3>
 
-<button onclick="toast('${royal.name} selected')">
-SELECT
-</button>
-`;
+   <p>
+    Royal Hero ${i+1}
+   </p>
 
-grid.appendChild(card);
+   <button class="goldBtn"
+    onclick="toast('${name} selected')">
+    SELECT
+   </button>
 
-});
+  `;
+
+  grid.appendChild(card);
+
+ });
 
 }
 
-
 /* =====================================================
-   NAVIGATION
+ SHOP
 ===================================================== */
 
-function showSection(id,button){
+function renderShop(){
 
-document
-.querySelectorAll(".section")
-.forEach(section=>{
-    section.classList.remove("active");
-});
+ const grid=document.getElementById("shopGrid");
 
-$(id).classList.add("active");
+ grid.innerHTML="";
 
-document
-.querySelectorAll(".nav button")
-.forEach(btn=>{
-    btn.classList.remove("active");
-});
+ SHOP_ITEMS.forEach((item,i)=>{
 
-if(button){
-    button.classList.add("active");
+  const card=document.createElement("div");
+
+  card.className="panel armor";
+
+  card.innerHTML=`
+
+   <div class="armorIcon">
+    ${item.icon}
+   </div>
+
+   <span class="rarity ${item.class}">
+    ${item.rarity}
+   </span>
+
+   <h3>${item.name}</h3>
+
+   <div class="price">
+    ${item.currency==="gold"?"🪙":"💎"}
+    ${item.price}
+   </div>
+
+   <button class="goldBtn equip"
+    onclick="buySkin(${i})">
+    BUY
+   </button>
+
+  `;
+
+  grid.appendChild(card);
+
+ });
+
 }
 
-if(id==="leaderboard"){
-    loadLeaderboard();
+function buySkin(index){
+
+ const item=SHOP_ITEMS[index];
+
+ if(item.currency==="gold"){
+
+  if(save.gold<item.price){
+
+   toast("Không đủ vàng!");
+
+   return;
+
+  }
+
+  save.gold-=item.price;
+
+ }else{
+
+  if(save.gems<item.price){
+
+   toast("Không đủ gems!");
+
+   return;
+
+  }
+
+  save.gems-=item.price;
+
+ }
+
+ save.skins.push(item.name);
+
+ save.equippedSkin=item.name;
+
+ saveGame();
+
+ toast("Đã nhận "+item.name);
+
 }
-
-if(id==="admin" && currentAccount?.role==="admin"){
-    loadAccounts();
-}
-
-}
-
-
-function openSection(id){
-
-const button=[
-...document.querySelectorAll(".nav button")
-].find(btn=>btn.textContent.toLowerCase().includes(id));
-
-showSection(id,button);
-
-}
-
 
 /* =====================================================
-   BATTLE START
+ BATTLE STATE
+===================================================== */
+
+let battle={
+ active:false,
+ type:null,
+ id:0,
+ reward:0,
+ playerBase:100,
+ enemyBase:100,
+ players:[],
+ enemies:[],
+ particles:[],
+ timer:null,
+ enemyTimer:null
+};
+
+const canvas=document.getElementById("battleCanvas");
+const ctx=canvas.getContext("2d");
+
+function resizeCanvas(){
+
+ const rect=canvas.getBoundingClientRect();
+
+ canvas.width=Math.max(600,rect.width*devicePixelRatio);
+ canvas.height=Math.max(300,rect.height*devicePixelRatio);
+
+ ctx.setTransform(
+  devicePixelRatio,
+  0,0,
+  devicePixelRatio,
+  0,0
+ );
+
+}
+
+window.addEventListener("resize",resizeCanvas);
+
+/* =====================================================
+ START BATTLE
 ===================================================== */
 
 function startBattle(type,id){
 
-const list =
-type==="campaign"
-? gameData.campaign
-: gameData.missions;
+ const names=
+  type==="campaign"?CAMPAIGNS:MISSIONS;
 
-const level =
-list.find(x=>x.id===id);
+ const rewards=
+  type==="campaign"?CAMPAIGN_REWARDS:MISSION_REWARDS;
 
-if(!level) return;
+ battle.active=true;
+ battle.type=type;
+ battle.id=id;
+ battle.reward=rewards[id-1];
+ battle.playerBase=100;
+ battle.enemyBase=100;
+ battle.players=[];
+ battle.enemies=[];
+ battle.particles=[];
 
-currentBattle={
-    type,
-    id,
-    name:level.name,
-    reward:level.reward
-};
+ document.getElementById("battleName").textContent=
+  `${type==="campaign"?"Campaign":"Mission"} ${id}: ${names[id-1]}`;
 
-$("battleTitle").textContent =
-`${type==="campaign" ? "Campaign":"Mission"} ${id}: ${level.name}`;
+ document.getElementById("battleReward").textContent=
+  battle.reward;
 
-$("battleReward").textContent =
-level.reward;
+ document.getElementById("battle").classList.add("active");
 
-$("battleOverlay").classList.add("active");
+ document.getElementById("battleMessage").textContent="";
 
-resetBattle();
+ resizeCanvas();
+
+ spawnEnemy();
+
+ spawnEnemy();
+
+ clearInterval(battle.timer);
+ clearInterval(battle.enemyTimer);
+
+ battle.timer=setInterval(updateBattle,30);
+
+ battle.enemyTimer=setInterval(()=>{
+
+  if(battle.active)
+   spawnEnemy();
+
+ },4500);
+
+ requestAnimationFrame(drawBattle);
 
 }
-
 
 /* =====================================================
-   RESET BATTLE
-===================================================== */
-
-function resetBattle(){
-
-clearInterval(battleTimer);
-clearInterval(enemyTimer);
-
-playerEntities=[];
-enemyEntities=[];
-
-playerBaseHP=100;
-enemyBaseHP=100;
-
-$("battleEntities").innerHTML="";
-
-updateBaseBars();
-
-$("battleMessage").textContent="";
-
-spawnEnemyWave();
-
-battleTimer=setInterval(updateBattle,100);
-
-enemyTimer=setInterval(()=>{
-
-if(currentBattle){
-    spawnEnemy();
-}
-
-},4000);
-
-}
-
-
-/* =====================================================
-   BASE BARS
-===================================================== */
-
-function updateBaseBars(){
-
-$("playerBaseHP").style.width =
-Math.max(0,playerBaseHP) + "%";
-
-$("enemyBaseHP").style.width =
-Math.max(0,enemyBaseHP) + "%";
-
-}
-
-
-/* =====================================================
-   PLAYER UNIT
-===================================================== */
-
-function spawnUnit(type){
-
-if(!currentBattle) return;
-
-const unit={
-
-id:Date.now()+Math.random(),
-
-type,
-
-x:150,
-
-hp:
-type==="Giant" ? 220 :
-type==="Spearton" ? 150 :
-type==="Magikill" ? 110 :
-100,
-
-maxHp:
-type==="Giant" ? 220 :
-type==="Spearton" ? 150 :
-type==="Magikill" ? 110 :
-100,
-
-damage:
-type==="Giant" ? 18 :
-type==="Magikill" ? 12 :
-type==="Archidon" ? 13 :
-type==="Spearton" ? 15 :
-10,
-
-speed:
-type==="Giant" ? .25 :
-type==="Magikill" ? .5 :
-.8,
-
-side:"player"
-
-};
-
-playerEntities.push(unit);
-
-createEntityElement(unit);
-
-}
-
-
-/* =====================================================
-   ENEMY UNIT
-===================================================== */
-
-function spawnEnemyWave(){
-
-for(let i=0;i<3;i++){
-
-setTimeout(()=>{
-    spawnEnemy();
-},i*800);
-
-}
-
-}
-
-
-function spawnEnemy(){
-
-if(!currentBattle) return;
-
-const types=[
-"Swordwrath",
-"Archidon",
-"Spearton",
-"Magikill",
-"Giant"
-];
-
-const type =
-types[
-Math.floor(Math.random()*types.length)
-];
-
-const enemy={
-
-id:Date.now()+Math.random(),
-
-type,
-
-x:window.innerWidth-220,
-
-hp:
-type==="Giant" ? 220 :
-type==="Spearton" ? 150 :
-type==="Magikill" ? 110 :
-100,
-
-maxHp:
-type==="Giant" ? 220 :
-type==="Spearton" ? 150 :
-type==="Magikill" ? 110 :
-100,
-
-damage:
-type==="Giant" ? 16 :
-type==="Magikill" ? 11 :
-type==="Spearton" ? 14 :
-type==="Archidon" ? 12 :
-9,
-
-speed:
-type==="Giant" ? .22 :
-type==="Magikill" ? .45 :
-.7,
-
-side:"enemy"
-
-};
-
-enemyEntities.push(enemy);
-
-createEntityElement(enemy);
-
-}
-
-
-/* =====================================================
-   ENTITY ELEMENT
-===================================================== */
-
-function createEntityElement(entity){
-
-const el=document.createElement("div");
-
-el.className=
-"entity " +
-(entity.side==="enemy" ? "enemy":"player");
-
-el.id="entity_"+entity.id;
-
-el.innerHTML=`
-
-<div class="entityHp">
-    <div class="entityHpFill"></div>
-</div>
-
-<div class="entityHead"></div>
-<div class="entityBody"></div>
-<div class="entityWeapon"></div>
-`;
-
-$("battleEntities").appendChild(el);
-
-positionEntity(entity);
-
-}
-
-
-/* =====================================================
-   POSITION
-===================================================== */
-
-function positionEntity(entity){
-
-const el=$("entity_"+entity.id);
-
-if(!el) return;
-
-el.style.left =
-Math.max(0,entity.x) + "px";
-
-el.style.bottom =
-"25%";
-
-const hp =
-Math.max(
-0,
-(entity.hp/entity.maxHp)*100
-);
-
-const fill =
-el.querySelector(".entityHpFill");
-
-if(fill){
-    fill.style.width=hp+"%";
-}
-
-}
-
-
-/* =====================================================
-   BATTLE UPDATE
-===================================================== */
-
-function updateBattle(){
-
-if(!currentBattle) return;
-
-for(const unit of playerEntities){
-
-if(unit.hp<=0) continue;
-
-const target =
-enemyEntities.find(e=>e.hp>0);
-
-if(target){
-
-const distance =
-Math.abs(target.x-unit.x);
-
-if(distance>70){
-
-unit.x += unit.speed*2;
-
-}else{
-
-target.hp -=
-unit.damage*0.08;
-
-}
-
-}else{
-
-enemyBaseHP -=
-unit.damage*0.015;
-
-}
-
-positionEntity(unit);
-
-}
-
-
-for(const enemy of enemyEntities){
-
-if(enemy.hp<=0) continue;
-
-const target =
-playerEntities.find(e=>e.hp>0);
-
-if(target){
-
-const distance =
-Math.abs(enemy.x-target.x);
-
-if(distance>70){
-
-enemy.x -= enemy.speed*2;
-
-}else{
-
-target.hp -=
-enemy.damage*0.08;
-
-}
-
-}else{
-
-playerBaseHP -=
-enemy.damage*0.015;
-
-}
-
-positionEntity(enemy);
-
-}
-
-
-cleanupDead();
-
-updateBaseBars();
-
-checkBattleEnd();
-
-}
-
-
-/* =====================================================
-   CLEAN DEAD
-===================================================== */
-
-function cleanupDead(){
-
-playerEntities =
-playerEntities.filter(unit=>{
-
-if(unit.hp<=0){
-
-const el=$("entity_"+unit.id);
-
-if(el) el.remove();
-
-return false;
-
-}
-
-return true;
-
-});
-
-
-enemyEntities =
-enemyEntities.filter(enemy=>{
-
-if(enemy.hp<=0){
-
-const el=$("entity_"+enemy.id);
-
-if(el) el.remove();
-
-return false;
-
-}
-
-return true;
-
-});
-
-}
-
-
-/* =====================================================
-   SPELL
-===================================================== */
-
-function castSpell(spell){
-
-if(!currentBattle) return;
-
-switch(spell){
-
-case "Lightning":
-
-enemyEntities
-.slice(0,3)
-.forEach(enemy=>{
-    enemy.hp-=70;
-});
-
-break;
-
-
-case "Meteor":
-
-enemyEntities
-.forEach(enemy=>{
-    enemy.hp-=45;
-});
-
-enemyBaseHP-=15;
-
-break;
-
-
-case "Heal":
-
-playerEntities
-.forEach(unit=>{
-    unit.hp=Math.min(
-        unit.maxHp,
-        unit.hp+50
-    );
-});
-
-break;
-
-}
-
-toast(spell+" cast!");
-
-}
-
-
-/* =====================================================
-   BATTLE END
-===================================================== */
-
-function checkBattleEnd(){
-
-if(enemyBaseHP<=0){
-
-finishBattle(true);
-
-return;
-
-}
-
-if(playerBaseHP<=0){
-
-finishBattle(false);
-
-return;
-
-}
-
-if(
-currentBattle &&
-currentBattle.id>=1 &&
-playerEntities.length>0 &&
-enemyEntities.length===0 &&
-enemyBaseHP>0
-){
-
-enemyBaseHP-=1;
-
-}
-
-}
-
-
-/* =====================================================
-   FINISH BATTLE
-===================================================== */
-
-function finishBattle(win){
-
-if(!currentBattle) return;
-
-clearInterval(battleTimer);
-clearInterval(enemyTimer);
-
-if(win){
-
-$("battleMessage").textContent=
-"🏆 VICTORY!";
-
-const reward=
-currentBattle.reward;
-
-currentAccount.gold =
-Number(currentAccount.gold || 0)
-+
-reward;
-
-if(currentBattle.type==="campaign"){
-
-currentAccount.campaignProgress=
-Math.max(
-Number(currentAccount.campaignProgress||0),
-currentBattle.id
-);
-
-}else{
-
-currentAccount.missionProgress=
-Math.max(
-Number(currentAccount.missionProgress||0),
-currentBattle.id
-);
-
-}
-
-updateCurrency();
-
-renderCampaign();
-renderMissions();
-
-toast(
-"Victory! +" +
-reward +
-" Gold"
-);
-
-}else{
-
-$("battleMessage").textContent=
-"💀 DEFEAT!";
-
-toast("Battle lost!");
-
-}
-
-}
-
-
-/* =====================================================
-   CLOSE BATTLE
+ CLOSE
 ===================================================== */
 
 function closeBattle(){
 
-clearInterval(battleTimer);
-clearInterval(enemyTimer);
+ battle.active=false;
 
-currentBattle=null;
+ clearInterval(battle.timer);
+ clearInterval(battle.enemyTimer);
 
-$("battleOverlay").classList.remove("active");
+ document.getElementById("battle").classList.remove("active");
 
 }
-
 
 /* =====================================================
-   GLOBAL MESSAGE
+ PLAYER UNIT
 ===================================================== */
 
-async function loadGlobalMessage(){
+function spawnPlayer(type){
 
-try{
+ if(!battle.active)
+  return;
 
-const data =
-await api("/api/global-message");
+ const base=UNITS.find(u=>u.name===type);
 
-if(data.success){
+ if(!base)
+  return;
 
-$("globalMessage").textContent=
-data.message;
+ const armor=ARMORS.find(
+  a=>a.name===save.armor
+ );
+
+ let hp=base.hp;
+ let damage=base.damage;
+ let speed=base.speed;
+
+ if(armor){
+
+  if(armor.name==="Giáp Hỏa Long")
+   damage*=1.15;
+
+  if(armor.name==="Giáp Băng Vĩnh Cửu")
+   hp*=1.25;
+
+  if(armor.name==="Giáp Công Nghệ Cyber")
+   speed*=1.15;
+
+  if(armor.name==="Giáp Sa Mạc Hoàng Kim")
+   hp*=1.05;
+
+ }
+
+ battle.players.push({
+
+  type,
+  icon:base.icon,
+  x:90,
+  y:canvas.clientHeight*.58-
+   Math.random()*80,
+  hp,
+  maxHp:hp,
+  damage,
+  speed,
+  frame:0,
+  attack:0
+
+ });
 
 }
-
-}catch(error){
-
-$("globalMessage").textContent=
-"Backend message unavailable.";
-
-}
-
-}
-
 
 /* =====================================================
-   LEADERBOARD
+ ENEMY
 ===================================================== */
 
-async function loadLeaderboard(){
+function spawnEnemy(){
 
-const box=$("leaderboardGrid");
+ if(!battle.active)
+  return;
 
-box.innerHTML="Loading...";
+ const base=
+  UNITS[
+   Math.floor(Math.random()*UNITS.length)
+  ];
 
-try{
+ const x=Math.max(
+  500,
+  canvas.clientWidth-120
+ );
 
-const data =
-await api("/api/leaderboard");
+ battle.enemies.push({
 
-if(!data.success){
-    throw new Error("Leaderboard unavailable.");
-}
+  type:base.name,
+  icon:base.icon,
+  x,
+  y:canvas.clientHeight*.58-
+   Math.random()*80,
+  hp:base.hp,
+  maxHp:base.hp,
+  damage:base.damage*.85,
+  speed:base.speed*.72,
+  frame:0,
+  attack:0
 
-box.innerHTML="";
-
-data.leaderboard.forEach(player=>{
-
-const row=document.createElement("div");
-
-row.className="card";
-
-row.style.marginBottom="8px";
-
-row.innerHTML=`
-
-<b>
-#${player.rank}
-</b>
-
-&nbsp;
-
-${player.username}
-
-&nbsp;&nbsp;
-
-🪙 ${Number(player.gold).toLocaleString()}
-
-&nbsp;
-
-💎 ${Number(player.gems).toLocaleString()}
-
-`;
-
-box.appendChild(row);
-
-});
-
-}catch(error){
-
-box.innerHTML=
-`<div class="card">${error.message}</div>`;
+ });
 
 }
-
-}
-
 
 /* =====================================================
-   ADMIN ACCOUNTS
+ UPDATE BATTLE
 ===================================================== */
 
-async function loadAccounts(){
+function updateBattle(){
 
-if(currentAccount?.role!=="admin") return;
+ if(!battle.active)
+  return;
 
-const box=$("accountsList");
+ for(const p of battle.players){
 
-box.innerHTML="Loading...";
+  const target=
+   battle.enemies.find(e=>e.hp>0);
 
-try{
+  if(!target){
 
-const data =
-await api("/api/admin/accounts");
+   battle.enemyBase-=p.damage*.01;
 
-box.innerHTML="";
+   continue;
 
-data.accounts.forEach(account=>{
+  }
 
-const row=document.createElement("div");
+  const distance=target.x-p.x;
 
-row.className="accountRow";
+  if(distance>55){
 
-row.innerHTML=`
+   p.x+=p.speed;
 
-<div>
+  }else{
 
-<b>#${account.id}</b>
-${account.username}
+   p.attack++;
 
-<br>
+   if(p.attack>=25){
 
-🪙 ${Number(account.gold).toLocaleString()}
-&nbsp;
-💎 ${Number(account.gems).toLocaleString()}
+    target.hp-=p.damage;
 
-<br>
+    p.attack=0;
 
-Role: ${account.role}
-&nbsp;
-Status:
-${account.banned ? "🚫 BANNED":"🟢 ACTIVE"}
+    createHit(target.x,target.y);
 
-</div>
+   }
 
-<div>
+  }
 
-${
-account.role!=="admin"
-?
-`
+  p.frame++;
 
-<button
-class="adminAction"
-onclick="banAccount(${account.id},false)"
->
-BAN
-</button>
+ }
 
-<button
-class="adminAction"
-onclick="banAccount(${account.id},true)"
->
-PERMA BAN
-</button>
+ for(const e of battle.enemies){
 
-<button
-class="adminAction"
-onclick="unbanAccount(${account.id})"
->
-UNBAN
-</button>
-`
-:"ADMIN"
+  const target=
+   battle.players.find(p=>p.hp>0);
+
+  if(!target){
+
+   battle.playerBase-=e.damage*.006;
+
+   continue;
+
+  }
+
+  const distance=e.x-target.x;
+
+  if(distance>55){
+
+   e.x-=e.speed;
+
+  }else{
+
+   e.attack++;
+
+   if(e.attack>=28){
+
+    target.hp-=e.damage;
+
+    e.attack=0;
+
+    createHit(target.x,target.y);
+
+   }
+
+  }
+
+  e.frame++;
+
+ }
+
+ battle.players=
+  battle.players.filter(p=>p.hp>0);
+
+ battle.enemies=
+  battle.enemies.filter(e=>e.hp>0);
+
+ battle.particles=
+  battle.particles.filter(p=>p.life>0);
+
+ for(const p of battle.particles){
+
+  p.x+=p.vx;
+  p.y+=p.vy;
+  p.life--;
+
+ }
+
+ if(battle.enemyBase<=0){
+
+  battle.enemyBase=0;
+  winBattle();
+
+ }
+
+ if(battle.playerBase<=0){
+
+  battle.playerBase=0;
+  loseBattle();
+
+ }
+
 }
-
-</div>
-
-`;
-
-box.appendChild(row);
-
-});
-
-}catch(error){
-
-box.innerHTML=
-`<p>${error.message}</p>`;
-
-}
-
-}
-
 
 /* =====================================================
-   ADMIN GIFT
+ PARTICLES
 ===================================================== */
 
-async function adminGift(){
+function createHit(x,y){
 
-const accountId =
-Number($("giftAccountId").value);
+ for(let i=0;i<5;i++){
 
-const gold =
-Number($("giftGold").value || 0);
+  battle.particles.push({
 
-const gems =
-Number($("giftGems").value || 0);
+   x,
+   y,
+   vx:(Math.random()-.5)*3,
+   vy:(Math.random()-.5)*3,
+   life:25
 
-const skin =
-$("giftSkin").value.trim() || null;
+  });
 
-if(!accountId){
-
-toast("Enter Account ID.");
-
-return;
+ }
 
 }
-
-try{
-
-const data =
-await api("/api/admin/gift",{
-
-method:"POST",
-
-body:JSON.stringify({
-accountId,
-gold,
-gems,
-skin
-})
-
-});
-
-toast(
-"Gift sent to " +
-data.account.username
-);
-
-loadAccounts();
-
-}catch(error){
-
-toast(error.message);
-
-}
-
-}
-
 
 /* =====================================================
-   BAN
+ DRAW
 ===================================================== */
 
-async function banAccount(id,permanent){
+function drawBattle(){
 
-try{
+ if(!battle.active)
+  return;
 
-const data =
-await api("/api/admin/ban",{
+ const w=canvas.clientWidth;
+ const h=canvas.clientHeight;
 
-method:"POST",
+ ctx.clearRect(0,0,w,h);
 
-body:JSON.stringify({
-accountId:id,
-permanent
-})
+ /* SKY */
 
-});
+ const sky=ctx.createLinearGradient(0,0,0,h);
 
-toast(data.message);
+ sky.addColorStop(0,"#172b43");
+ sky.addColorStop(.55,"#263f52");
+ sky.addColorStop(.56,"#24311e");
+ sky.addColorStop(1,"#10180d");
 
-loadAccounts();
+ ctx.fillStyle=sky;
+ ctx.fillRect(0,0,w,h);
 
-}catch(error){
+ /* MOUNTAINS */
 
-toast(error.message);
+ ctx.fillStyle="#101b27";
+
+ ctx.beginPath();
+
+ ctx.moveTo(0,h*.55);
+ ctx.lineTo(w*.18,h*.25);
+ ctx.lineTo(w*.32,h*.48);
+ ctx.lineTo(w*.48,h*.2);
+ ctx.lineTo(w*.65,h*.46);
+ ctx.lineTo(w*.82,h*.27);
+ ctx.lineTo(w,h*.5);
+ ctx.lineTo(w,h*.6);
+ ctx.lineTo(0,h*.6);
+ ctx.fill();
+
+ /* GROUND */
+
+ ctx.fillStyle="#1c2c16";
+
+ ctx.fillRect(
+  0,
+  h*.56,
+  w,
+  h*.44
+ );
+
+ /* GROUND LINES */
+
+ ctx.strokeStyle="#344827";
+
+ for(let x=0;x<w;x+=45){
+
+  ctx.beginPath();
+  ctx.moveTo(x,h*.65);
+  ctx.lineTo(x+20,h*.63);
+  ctx.stroke();
+
+ }
+
+ /* BASES */
+
+ drawBase(60,h*.48,false);
+ drawBase(w-145,h*.48,true);
+
+ /* UNITS */
+
+ battle.players.forEach(
+  p=>drawStick(p,false)
+ );
+
+ battle.enemies.forEach(
+  e=>drawStick(e,true)
+ );
+
+ /* PARTICLES */
+
+ for(const p of battle.particles){
+
+  ctx.fillStyle="#ffd35e";
+
+  ctx.fillRect(
+   p.x,
+   p.y,
+   4,
+   4
+  );
+
+ }
+
+ /* HP */
+
+ drawBattleBar(
+  25,
+  20,
+  230,
+  battle.playerBase,
+  "#54d78b"
+ );
+
+ drawBattleBar(
+  w-255,
+  20,
+  230,
+  battle.enemyBase,
+  "#d94b43"
+ );
+
+ requestAnimationFrame(drawBattle);
 
 }
-
-}
-
 
 /* =====================================================
-   UNBAN
+ BASE
 ===================================================== */
 
-async function unbanAccount(id){
+function drawBase(x,y,enemy){
 
-try{
+ ctx.save();
 
-const data =
-await api("/api/admin/unban",{
+ ctx.fillStyle=enemy?"#572724":"#283646";
 
-method:"POST",
+ ctx.fillRect(x,y,85,115);
 
-body:JSON.stringify({
-accountId:id
-})
+ ctx.fillStyle=enemy?"#8e3932":"#455a70";
 
-});
+ ctx.fillRect(x+12,y-22,61,25);
 
-toast(data.message);
+ ctx.strokeStyle="#aeb7c3";
+ ctx.lineWidth=3;
 
-loadAccounts();
+ ctx.strokeRect(x,y,85,115);
 
-}catch(error){
+ /* statue */
 
-toast(error.message);
+ ctx.fillStyle=enemy?"#b34a43":"#9aa5b0";
+
+ ctx.beginPath();
+
+ ctx.arc(
+  x+42,
+  y+38,
+  15,
+  0,
+  Math.PI*2
+ );
+
+ ctx.fill();
+
+ ctx.fillRect(
+  x+33,
+  y+52,
+  18,
+  45
+ );
+
+ ctx.restore();
 
 }
-
-}
-
 
 /* =====================================================
-   CREATE CODE
+ STICKMAN
 ===================================================== */
 
-async function createCode(){
+function drawStick(u,enemy){
 
-const code =
-$("codeName").value.trim();
+ ctx.save();
 
-const gold =
-Number($("codeGold").value || 0);
+ const x=u.x;
+ const y=u.y;
 
-const gems =
-Number($("codeGems").value || 0);
+ ctx.strokeStyle=enemy?"#db4e49":"#e9edf3";
+ ctx.fillStyle=enemy?"#db4e49":"#e9edf3";
 
-const skin =
-$("codeSkin").value.trim() || null;
+ ctx.lineWidth=5;
+ ctx.lineCap="round";
 
-if(!code){
+ /* head */
 
-toast("Enter code.");
+ ctx.beginPath();
 
-return;
+ ctx.arc(
+  x,
+  y-34,
+  12,
+  0,
+  Math.PI*2
+ );
+
+ ctx.fill();
+
+ /* body */
+
+ ctx.beginPath();
+
+ ctx.moveTo(x,y-22);
+ ctx.lineTo(x,y+15);
+
+ /* legs animation */
+
+ const step=
+  Math.sin(u.frame*.18)*9;
+
+ ctx.moveTo(x,y+15);
+ ctx.lineTo(x-12+step,y+37);
+
+ ctx.moveTo(x,y+15);
+ ctx.lineTo(x+12-step,y+37);
+
+ /* arms */
+
+ ctx.moveTo(x,y-10);
+ ctx.lineTo(x-18-step,y+5);
+
+ ctx.moveTo(x,y-10);
+ ctx.lineTo(x+18+step,y+4);
+
+ ctx.stroke();
+
+ /* weapon */
+
+ ctx.beginPath();
+
+ ctx.moveTo(
+  x+12,
+  y+2
+ );
+
+ ctx.lineTo(
+  x+38,
+  y-16
+ );
+
+ ctx.stroke();
+
+ /* armor glow */
+
+ if(save.armor!=="Default Armor"){
+
+  ctx.globalAlpha=.28;
+
+  ctx.beginPath();
+
+  ctx.arc(
+   x,
+   y,
+   27+
+    Math.sin(Date.now()/150)*3,
+   0,
+   Math.PI*2
+  );
+
+  ctx.strokeStyle="#ffd45b";
+  ctx.stroke();
+
+  ctx.globalAlpha=1;
+
+ }
+
+ /* HP */
+
+ const ratio=
+  Math.max(0,u.hp/u.maxHp);
+
+ ctx.fillStyle="#321719";
+
+ ctx.fillRect(
+  x-23,
+  y-56,
+  46,
+  5
+ );
+
+ ctx.fillStyle=enemy?"#e4544b":"#51d782";
+
+ ctx.fillRect(
+  x-23,
+  y-56,
+  46*ratio,
+  5
+ );
+
+ ctx.restore();
 
 }
-
-try{
-
-const data =
-await api("/api/admin/create-code",{
-
-method:"POST",
-
-body:JSON.stringify({
-code,
-gold,
-gems,
-skin
-})
-
-});
-
-toast(
-"Code created: " +
-data.code.code
-);
-
-}catch(error){
-
-toast(error.message);
-
-}
-
-}
-
 
 /* =====================================================
-   UPDATE GLOBAL MESSAGE
+ BATTLE BAR
 ===================================================== */
 
-async function updateGlobalMessage(){
+function drawBattleBar(x,y,width,value,color){
 
-const message =
-$("globalInput").value.trim();
+ ctx.fillStyle="#281316";
 
-if(!message){
+ ctx.fillRect(
+  x,y,width,12
+ );
 
-toast("Message cannot be empty.");
+ ctx.fillStyle=color;
 
-return;
+ ctx.fillRect(
+  x,
+  y,
+  width*Math.max(0,value)/100,
+  12
+ );
 
-}
+ ctx.strokeStyle="#cbd3df";
 
-try{
-
-const data =
-await api("/api/admin/global-message",{
-
-method:"POST",
-
-body:JSON.stringify({
-message
-})
-
-});
-
-toast(data.message);
-
-$("globalMessage").textContent =
-message;
-
-}catch(error){
-
-toast(error.message);
+ ctx.strokeRect(
+  x,y,width,12
+ );
 
 }
-
-}
-
 
 /* =====================================================
-   AUTO LOGIN
+ SPELLS IN BATTLE
 ===================================================== */
 
-(function(){
+function battleSpell(name){
 
-try{
+ if(!battle.active)
+  return;
 
-const saved =
-localStorage.getItem("swul_account");
+ if(name==="Lightning"){
 
-if(saved){
+  battle.enemies
+   .slice(0,3)
+   .forEach(e=>{
+    e.hp-=70;
+    createHit(e.x,e.y);
+   });
 
-currentAccount=
-JSON.parse(saved);
+  toast("⚡ Lightning!");
 
-if(currentAccount &&
-currentAccount.username){
+ }
 
-enterGame();
+ if(name==="Meteor"){
+
+  battle.enemies.forEach(e=>{
+   e.hp-=55;
+   createHit(e.x,e.y);
+  });
+
+  battle.enemyBase-=15;
+
+  toast("☄️ Meteor!");
+
+ }
+
+ if(name==="Heal"){
+
+  battle.players.forEach(p=>{
+   p.hp=Math.min(
+    p.maxHp,
+    p.hp+55
+   );
+  });
+
+  toast("❤️ Army healed!");
+
+ }
 
 }
 
+/* =====================================================
+ WIN
+===================================================== */
+
+function winBattle(){
+
+ if(!battle.active)
+  return;
+
+ const reward=battle.reward;
+
+ save.gold+=reward;
+
+ if(battle.type==="campaign"){
+
+  if(battle.id>save.campaign)
+   save.campaign=battle.id;
+
+ }else{
+
+  if(battle.id>save.mission)
+   save.mission=battle.id;
+
+ }
+
+ saveGame();
+
+ renderCampaign();
+ renderMissions();
+
+ document.getElementById("battleMessage").textContent=
+  "🏆 VICTORY! +"+reward+" GOLD";
+
+ toast(
+  "🏆 Victory! +" +
+  reward +
+  " Gold"
+ );
+
+ setTimeout(()=>{
+
+  if(battle.active)
+   closeBattle();
+
+ },1800);
+
 }
 
-}catch(error){
+/* =====================================================
+ LOSE
+===================================================== */
 
-localStorage.removeItem("swul_account");
+function loseBattle(){
+
+ if(!battle.active)
+  return;
+
+ document.getElementById("battleMessage").textContent=
+  "💀 DEFEAT";
+
+ toast("💀 Battle lost!");
+
+ setTimeout(()=>{
+
+  if(battle.active)
+   closeBattle();
+
+ },1800);
 
 }
 
-})();
+/* =====================================================
+ REFRESH
+===================================================== */
+
+function refreshGame(){
+
+ loadSave();
+
+ renderCampaign();
+ renderMissions();
+ renderArmory();
+ renderSpells();
+ renderUnits();
+ renderRoyals();
+ renderShop();
+
+ toast("🔄 Game refreshed!");
+
+}
+
+/* =====================================================
+ INITIALIZE
+===================================================== */
+
+loadSave();
+
+renderCampaign();
+renderMissions();
+renderArmory();
+renderSpells();
+renderUnits();
+renderRoyals();
+renderShop();
 
 </script>
 
