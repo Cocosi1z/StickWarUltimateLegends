@@ -2,17 +2,11 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#070b14">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stick War Ultimate Legends</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
     --bg:#070b14;
@@ -28,1764 +22,838 @@
     --purple:#9b6cff;
 }
 
-html{
-    min-height:100%;
-}
-
 body{
-    min-height:100vh;
-    font-family:
-        Inter,
-        Segoe UI,
-        Arial,
-        sans-serif;
-
+    font-family:Inter,Segoe UI,Arial,sans-serif;
     background:
-        radial-gradient(
-            circle at 20% 0%,
-            #17264a 0%,
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 90% 10%,
-            #251548 0%,
-            transparent 30%
-        ),
+        radial-gradient(circle at 20% 0%,#17264a 0%,transparent 35%),
+        radial-gradient(circle at 90% 10%,#251548 0%,transparent 30%),
         var(--bg);
-
     color:var(--text);
+    min-height:100vh;
 }
 
-button,
-input,
-textarea{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-button:disabled{
-    cursor:not-allowed;
-    opacity:.55;
-}
-
-.hidden{
-    display:none!important;
-}
-
-/* =========================================================
-AUTH
-========================================================= */
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
 #authScreen{
     min-height:100vh;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     padding:25px;
 }
 
 .auth-box{
     width:430px;
     max-width:100%;
-
     background:rgba(14,21,36,.96);
-
     border:1px solid var(--border);
     border-radius:22px;
-
     padding:35px;
-
-    box-shadow:
-        0 25px 80px rgba(0,0,0,.55);
+    box-shadow:0 25px 80px #0008;
 }
 
 .logo{
     text-align:center;
-
     font-size:29px;
     font-weight:900;
-
-    letter-spacing:-1px;
+    margin-bottom:7px;
 }
 
 .version{
     text-align:center;
-
     color:var(--muted);
-
     font-size:13px;
-
-    margin-top:8px;
-    margin-bottom:28px;
+    margin-bottom:30px;
 }
 
 .tabs{
     display:flex;
     gap:8px;
-
     margin-bottom:20px;
 }
 
 .tabs button{
     flex:1;
-
     padding:12px;
-
     border:1px solid var(--border);
     border-radius:10px;
-
     background:#0a1120;
     color:var(--muted);
 }
 
 .tabs button.active{
     background:#182744;
-    color:white;
-
+    color:#fff;
     border-color:#4169a1;
 }
 
-.form-group{
-    margin-bottom:15px;
-}
+.form-group{margin-bottom:15px}
 
 .form-group label{
     display:block;
-
     margin-bottom:7px;
-
     color:#aebbd0;
-
     font-size:13px;
 }
 
-.form-group input{
+.form-group input,
+.admin-box input,
+.admin-box textarea,
+.text-input,
+.textarea{
     width:100%;
-
     padding:13px 14px;
-
     border-radius:10px;
-
     border:1px solid var(--border);
-
     outline:none;
-
     background:#080f1d;
-    color:white;
+    color:#fff;
 }
 
-.form-group input:focus{
+.form-group input:focus,
+.admin-box input:focus,
+.admin-box textarea:focus,
+.text-input:focus,
+.textarea:focus{
     border-color:var(--blue);
 }
 
 .primary{
     width:100%;
-
     padding:14px;
-
     border:0;
     border-radius:11px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2879ff,
-            #6948ff
-        );
-
-    color:white;
-
+    background:linear-gradient(135deg,#2879ff,#6948ff);
+    color:#fff;
     font-weight:800;
 }
 
-.primary:hover{
-    filter:brightness(1.1);
-}
+.primary:hover{filter:brightness(1.12)}
 
 .auth-message{
-    min-height:20px;
-
     margin-top:14px;
-
+    min-height:20px;
     text-align:center;
-
     font-size:13px;
 }
 
-/* =========================================================
-APP
-========================================================= */
-
-#app{
-    min-height:100vh;
-}
+#app{min-height:100vh}
 
 .topbar{
     height:72px;
-
     position:sticky;
     top:0;
-
     z-index:20;
-
     display:flex;
     align-items:center;
-
-    gap:18px;
-
-    padding:0 24px;
-
-    background:rgba(7,11,20,.9);
-
+    gap:20px;
+    padding:0 25px;
+    background:rgba(7,11,20,.90);
     backdrop-filter:blur(15px);
-
     border-bottom:1px solid var(--border);
 }
 
 .brand{
     font-size:18px;
     font-weight:900;
-
     white-space:nowrap;
 }
 
 .stats{
     display:flex;
-    gap:9px;
-
+    gap:10px;
     margin-left:auto;
 }
 
 .stat{
     padding:8px 13px;
-
     border:1px solid var(--border);
-
     background:#0d1627;
-
     border-radius:10px;
-
     font-size:13px;
 }
 
-.gold{
-    color:var(--gold);
-}
-
-.gems{
-    color:#70c9ff;
-}
+.gold{color:var(--gold)}
+.gems{color:#70c9ff}
 
 .profile{
     display:flex;
     align-items:center;
-
     gap:10px;
 }
 
 .avatar{
     width:38px;
     height:38px;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
     border-radius:50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #315fa8,
-            #7649d9
-        );
-
+    background:linear-gradient(135deg,#315fa8,#7649d9);
     font-weight:900;
 }
 
 .logout{
     border:1px solid #63303a;
-
     background:#28131a;
-
     color:#ff8793;
-
     padding:8px 12px;
-
     border-radius:9px;
 }
 
-.logout:hover{
-    background:#381821;
-}
-
-/* =========================================================
-LAYOUT
-========================================================= */
-
 .layout{
     display:flex;
-
-    min-height:
-        calc(100vh - 72px);
+    min-height:calc(100vh - 72px);
 }
 
 .sidebar{
     width:230px;
-
     flex-shrink:0;
-
     padding:20px 13px;
-
     border-right:1px solid var(--border);
-
     background:#090f1b;
 }
 
 .nav-title{
     color:#61708a;
-
     font-size:11px;
-
     text-transform:uppercase;
-
     letter-spacing:1px;
-
     padding:10px 12px;
 }
 
 .nav-btn{
     width:100%;
-
     text-align:left;
-
     padding:12px 14px;
-
     margin-bottom:5px;
-
     border:0;
-
     border-radius:10px;
-
     background:transparent;
-
     color:#9ba9c0;
 }
 
 .nav-btn:hover{
     background:#111d31;
-    color:white;
+    color:#fff;
 }
 
 .nav-btn.active{
-    background:
-        linear-gradient(
-            90deg,
-            #1c355b,
-            #17263e
-        );
-
-    color:white;
+    background:linear-gradient(90deg,#1c355b,#17263e);
+    color:#fff;
 }
 
 .content{
     flex:1;
-
-    min-width:0;
-
     padding:30px;
+    min-width:0;
 }
 
-.page{
-    display:none;
-}
+.page{display:none}
+.page.active{display:block}
 
-.page.active{
-    display:block;
-}
-
-.page-header{
-    margin-bottom:25px;
-}
+.page-header{margin-bottom:25px}
 
 .page-header h1{
     font-size:30px;
-
     margin-bottom:6px;
 }
 
-.page-header p{
-    color:var(--muted);
-}
-
-/* =========================================================
-HERO
-========================================================= */
-
-.hero{
-    padding:30px;
-
-    border:1px solid var(--border);
-
-    border-radius:20px;
-
-    margin-bottom:20px;
-
-    background:
-        radial-gradient(
-            circle at 80% 20%,
-            #3b2568 0%,
-            transparent 35%
-        ),
-        linear-gradient(
-            135deg,
-            #111d34,
-            #0b1220
-        );
-}
-
-.hero h1{
-    font-size:38px;
-
-    margin-bottom:8px;
-}
-
-.hero p{
-    color:#a8b6cd;
-
-    max-width:750px;
-
-    line-height:1.6;
-}
-
-.hero-buttons{
-    margin-top:20px;
-
-    display:flex;
-
-    gap:10px;
-
-    flex-wrap:wrap;
-}
-
-/* =========================================================
-CARDS
-========================================================= */
+.page-header p{color:var(--muted)}
 
 .grid{
     display:grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(220px,1fr)
-        );
-
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
     gap:15px;
 }
 
 .card{
-    background:
-        linear-gradient(
-            145deg,
-            #111b2d,
-            #0c1422
-        );
-
+    background:linear-gradient(145deg,#111b2d,#0c1422);
     border:1px solid var(--border);
-
     border-radius:16px;
-
     padding:18px;
-
-    transition:.15s;
 }
 
-.card:hover{
-    border-color:#3a537b;
-
-    transform:translateY(-1px);
-}
+.card:hover{border-color:#3a537b}
 
 .card-icon{
     font-size:35px;
-
     margin-bottom:12px;
 }
 
-.card h3{
-    margin-bottom:7px;
-}
+.card h3{margin-bottom:7px}
 
 .card p{
     color:var(--muted);
-
     font-size:13px;
-
     line-height:1.5;
 }
 
 .card-actions{
     margin-top:15px;
-
     display:flex;
-
     gap:8px;
-
     flex-wrap:wrap;
 }
 
-/* =========================================================
-BUTTONS
-========================================================= */
-
 .btn{
     border:1px solid var(--border);
-
     border-radius:9px;
-
     padding:9px 12px;
-
     background:#111c2f;
-
-    color:white;
+    color:#fff;
 }
 
-.btn:hover{
-    background:#192944;
-}
+.btn:hover{background:#192944}
 
 .btn.blue{
     background:#183b69;
-
     border-color:#2d65a4;
 }
 
 .btn.green{
     background:#123d2b;
-
     border-color:#276b4c;
 }
 
 .btn.red{
     background:#421d25;
-
     border-color:#79313c;
 }
 
 .btn.gold{
     background:#403412;
-
     border-color:#806a22;
-
     color:#ffd85c;
 }
 
-/* =========================================================
-PROGRESS
-========================================================= */
+.hero{
+    padding:30px;
+    border:1px solid var(--border);
+    border-radius:20px;
+    margin-bottom:20px;
+    background:
+        radial-gradient(circle at 80% 20%,#3b2568 0%,transparent 35%),
+        linear-gradient(135deg,#111d34,#0b1220);
+}
+
+.hero h1{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#a8b6cd;
+    max-width:700px;
+    line-height:1.6;
+}
+
+.hero-buttons{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
 
 .progress{
     height:8px;
-
     background:#060b14;
-
     border-radius:20px;
-
     overflow:hidden;
-
     margin-top:12px;
 }
 
 .progress span{
     display:block;
-
     height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #397cff,
-            #8b57ff
-        );
+    background:linear-gradient(90deg,#397cff,#8b57ff);
 }
-
-/* =========================================================
-TABLE
-========================================================= */
 
 .table-wrap{
     overflow:auto;
-
     border:1px solid var(--border);
-
     border-radius:15px;
 }
 
 table{
     width:100%;
-
     border-collapse:collapse;
-
     min-width:600px;
 }
 
-th,
-td{
+th,td{
     padding:13px 15px;
-
     text-align:left;
-
     border-bottom:1px solid #1b283d;
 }
 
 th{
     color:#8fa0ba;
-
     font-size:12px;
-
     text-transform:uppercase;
 }
 
-td{
-    font-size:14px;
-}
-
-/* =========================================================
-ADMIN
-========================================================= */
+td{font-size:14px}
 
 .admin-grid{
     display:grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(300px,1fr)
-        );
-
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
     gap:15px;
 }
 
 .admin-box{
     background:#101827;
-
     border:1px solid #4b2940;
-
     border-radius:16px;
-
     padding:20px;
 }
 
 .admin-box h3{
     margin-bottom:15px;
-
     color:#ff8e9a;
-}
-
-.admin-box input,
-.admin-box textarea{
-    width:100%;
-
-    background:#080f1b;
-
-    color:white;
-
-    border:1px solid var(--border);
-
-    border-radius:9px;
-
-    padding:11px;
-
-    margin-bottom:9px;
-
-    outline:none;
 }
 
 .admin-box textarea{
     min-height:100px;
-
     resize:vertical;
+    margin-bottom:9px;
 }
 
-/* =========================================================
-SERVER MESSAGE
-========================================================= */
-
-.server-message{
-    margin-bottom:20px;
-
-    padding:13px 16px;
-
-    border:1px solid #675522;
-
-    border-radius:12px;
-
-    background:#201b0b;
-
-    color:#ffe28a;
-}
-
-/* =========================================================
-TOAST
-========================================================= */
+.admin-box input{margin-bottom:9px}
 
 #toast{
     position:fixed;
-
     right:20px;
     bottom:20px;
-
     z-index:100;
-
     max-width:350px;
 }
 
 .toast{
     padding:14px 17px;
-
     border-radius:12px;
-
     margin-top:10px;
-
     border:1px solid var(--border);
-
     background:#101a2b;
-
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.5);
-
-    animation:
-        toastIn .25s ease;
+    box-shadow:0 15px 40px #0008;
 }
 
-.toast.success{
-    border-color:#276b4c;
-}
-
-.toast.error{
-    border-color:#74333d;
-}
-
-@keyframes toastIn{
-    from{
-        transform:translateY(20px);
-        opacity:0;
-    }
-
-    to{
-        transform:translateY(0);
-        opacity:1;
-    }
-}
-
-/* =========================================================
-MOBILE
-========================================================= */
+.toast.success{border-color:#276b4c}
+.toast.error{border-color:#74333d}
 
 @media(max-width:850px){
-
     .sidebar{
         width:65px;
-
         padding:10px 7px;
     }
 
-    .nav-title{
-        display:none;
-    }
+    .nav-title{display:none}
 
     .nav-btn{
         text-align:center;
-
         font-size:0;
     }
 
-    .nav-btn::first-letter{
-        font-size:20px;
-    }
+    .nav-btn:first-letter{font-size:20px}
 
-    .content{
-        padding:18px;
-    }
+    .content{padding:18px}
 
-    .brand{
-        display:none;
-    }
+    .brand{display:none}
 
-    .stats{
-        margin-left:0;
-    }
+    .stats{margin-left:0}
 
-    .profile span{
-        display:none;
-    }
+    .profile span{display:none}
 
-    .hero h1{
-        font-size:28px;
-    }
+    .hero h1{font-size:28px}
 }
 
 @media(max-width:550px){
-
     .topbar{
         padding:0 10px;
-
         gap:7px;
     }
 
     .stat{
         padding:7px 8px;
-
         font-size:11px;
     }
 
-    .logout{
-        font-size:11px;
-    }
+    .logout{font-size:11px}
 
-    .content{
-        padding:13px;
-    }
+    .content{padding:13px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================================================
-AUTH
-========================================================= -->
-
 <section id="authScreen">
+    <div class="auth-box">
 
-<div class="auth-box">
+        <div class="logo">⚔️ Stick War Ultimate Legends</div>
+        <div class="version">Ultimate Legends v2026.27.8</div>
 
-    <div class="logo">
-        ⚔️ Stick War Ultimate Legends
-    </div>
-
-    <div class="version">
-        Ultimate Legends v2026.27.8
-    </div>
-
-    <div class="tabs">
-
-        <button
-            id="loginTab"
-            class="active"
-            type="button">
-            Đăng nhập
-        </button>
-
-        <button
-            id="registerTab"
-            type="button">
-            Tạo tài khoản
-        </button>
-
-    </div>
-
-
-    <form id="loginForm">
-
-        <div class="form-group">
-
-            <label>
-                Tên tài khoản
-            </label>
-
-            <input
-                id="loginUsername"
-                autocomplete="username"
-                required>
-
+        <div class="tabs">
+            <button id="loginTab" class="active" onclick="showAuth('login')">
+                Đăng nhập
+            </button>
+            <button id="registerTab" onclick="showAuth('register')">
+                Tạo tài khoản
+            </button>
         </div>
 
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Tên tài khoản</label>
+                <input id="loginUsername" autocomplete="username" required>
+            </div>
 
-        <div class="form-group">
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input id="loginPassword" type="password" autocomplete="current-password" required>
+            </div>
 
-            <label>
-                Mật khẩu
-            </label>
+            <button class="primary" type="submit">Đăng nhập</button>
+        </form>
 
-            <input
-                id="loginPassword"
-                type="password"
-                autocomplete="current-password"
-                required>
+        <form id="registerForm" class="hidden">
+            <div class="form-group">
+                <label>Tên tài khoản</label>
+                <input id="registerUsername" maxlength="20" autocomplete="username" required>
+            </div>
 
-        </div>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input id="registerPassword" type="password" autocomplete="new-password" required>
+            </div>
 
+            <button class="primary" type="submit">Tạo tài khoản</button>
+        </form>
 
-        <button
-            id="loginButton"
-            class="primary"
-            type="submit">
-
-            Đăng nhập
-
-        </button>
-
-    </form>
-
-
-    <form
-        id="registerForm"
-        class="hidden">
-
-        <div class="form-group">
-
-            <label>
-                Tên tài khoản
-            </label>
-
-            <input
-                id="registerUsername"
-                maxlength="20"
-                minlength="3"
-                autocomplete="username"
-                required>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                Mật khẩu
-            </label>
-
-            <input
-                id="registerPassword"
-                type="password"
-                minlength="4"
-                maxlength="100"
-                autocomplete="new-password"
-                required>
-
-        </div>
-
-
-        <button
-            id="registerButton"
-            class="primary"
-            type="submit">
-
-            Tạo tài khoản
-
-        </button>
-
-    </form>
-
-
-    <div
-        id="authMessage"
-        class="auth-message">
+        <div id="authMessage" class="auth-message"></div>
     </div>
-
-</div>
-
 </section>
 
 
-<!-- =========================================================
-APP
-========================================================= -->
-
-<section
-    id="app"
-    class="hidden">
+<section id="app" class="hidden">
 
 <header class="topbar">
 
-    <div class="brand">
-        ⚔️ SWUL
-    </div>
-
+    <div class="brand">⚔️ SWUL</div>
 
     <div class="stats">
-
-        <div class="stat">
-            🪙
-            <span id="gold">
-                0
-            </span>
-        </div>
-
-        <div class="stat">
-            💎
-            <span id="gems">
-                0
-            </span>
-        </div>
-
+        <div class="stat">🪙 <span id="gold">0</span></div>
+        <div class="stat">💎 <span id="gems">0</span></div>
     </div>
 
-
     <div class="profile">
-
-        <div
-            class="avatar"
-            id="avatar">
-            ?
-        </div>
-
-        <span id="username">
-            Player
-        </span>
-
-        <button
-            id="logoutButton"
-            class="logout"
-            type="button">
-
-            Thoát
-
-        </button>
-
+        <div class="avatar" id="avatar">?</div>
+        <span id="username">Player</span>
+        <button class="logout" onclick="logout()">Thoát</button>
     </div>
 
 </header>
-
 
 <div class="layout">
 
 <aside class="sidebar">
 
-    <div class="nav-title">
-        GAME
-    </div>
+    <div class="nav-title">GAME</div>
 
-
-    <button
-        class="nav-btn active"
-        data-page="home">
-
+    <button class="nav-btn active" onclick="openPage('home',this)">
         🏠 Trang chủ
-
     </button>
 
-
-    <button
-        class="nav-btn"
-        data-page="campaign">
-
+    <button class="nav-btn" onclick="openPage('campaign',this)">
         ⚔️ Campaign
-
     </button>
 
-
-    <button
-        class="nav-btn"
-        data-page="missions">
-
+    <button class="nav-btn" onclick="openPage('missions',this)">
         🎯 Missions
-
     </button>
 
-
-    <button
-        class="nav-btn"
-        data-page="shop">
-
+    <button class="nav-btn" onclick="openPage('shop',this)">
         🛡️ Shop
-
     </button>
 
-
-    <button
-        class="nav-btn"
-        data-page="spells">
-
+    <button class="nav-btn" onclick="openPage('spells',this)">
         ⚡ Spells
-
     </button>
 
-
-    <button
-        class="nav-btn"
-        data-page="leaderboard">
-
+    <button class="nav-btn" onclick="openPage('leaderboard',this)">
         🏆 Xếp hạng
-
     </button>
 
-
-    <button
-        class="nav-btn"
-        data-page="redeem">
-
+    <button class="nav-btn" onclick="openPage('redeem',this)">
         🎁 Redeem
-
     </button>
 
+    <div class="nav-title">ACCOUNT</div>
 
-    <div class="nav-title">
-        ACCOUNT
-    </div>
-
-
-    <button
-        class="nav-btn"
-        data-page="appeal">
-
+    <button class="nav-btn" onclick="openPage('appeal',this)">
         📩 Appeal
-
     </button>
 
-
-    <button
-        id="adminNav"
-        class="nav-btn hidden"
-        data-page="admin">
-
+    <button id="adminNav" class="nav-btn hidden" onclick="openPage('admin',this)">
         👑 Admin Panel
-
     </button>
 
 </aside>
 
-
 <main class="content">
 
-<!-- =======================================================
-HOME
-======================================================= -->
-
-<section
-    id="page-home"
-    class="page active">
-
-    <div
-        id="serverMessage"
-        class="server-message hidden">
-    </div>
-
+<section id="page-home" class="page active">
 
     <div class="hero">
-
-        <h1>
-            Stick War Ultimate Legends
-        </h1>
+        <h1>Stick War Ultimate Legends</h1>
 
         <p>
-            Chào mừng chiến binh.
+            Chào mừng trở lại chiến binh.
             Xây dựng đội quân, mở khóa trang bị,
-            sử dụng phép thuật và chinh phục
-            toàn bộ chiến dịch.
+            sử dụng phép thuật và chinh phục toàn bộ chiến dịch.
         </p>
 
-
         <div class="hero-buttons">
-
-            <button
-                class="btn blue"
-                type="button"
-                data-open-page="campaign">
-
+            <button class="btn blue" onclick="openPageById('campaign')">
                 ⚔️ Chơi Campaign
-
             </button>
 
-
-            <button
-                class="btn"
-                type="button"
-                data-open-page="shop">
-
+            <button class="btn" onclick="openPageById('shop')">
                 🛡️ Mở Shop
-
             </button>
-
         </div>
-
     </div>
-
 
     <div class="grid">
 
         <div class="card">
-
-            <div class="card-icon">
-                ⚔️
-            </div>
-
-            <h3>
-                Quân đội
-            </h3>
-
-            <p>
-                Swordwrath, Archidon,
-                Spearton, Magikill và Giant.
-            </p>
-
+            <div class="card-icon">⚔️</div>
+            <h3>Quân đội</h3>
+            <p>Swordwrath, Archidon, Spearton, Magikill và Giant.</p>
         </div>
-
 
         <div class="card">
-
-            <div class="card-icon">
-                👑
-            </div>
-
-            <h3>
-                Royals
-            </h3>
-
-            <p>
-                Thu thập các Royal mạnh mẽ
-                để nâng cấp đội hình.
-            </p>
-
+            <div class="card-icon">👑</div>
+            <h3>Royals</h3>
+            <p>Thu thập các Royal mạnh mẽ để nâng cấp đội hình.</p>
         </div>
-
 
         <div class="card">
-
-            <div class="card-icon">
-                🛡️
-            </div>
-
-            <h3>
-                Armor
-            </h3>
-
-            <p>
-                Iron, Knight, Dragon,
-                Shadow, Royal và Titan Armor.
-            </p>
-
+            <div class="card-icon">🛡️</div>
+            <h3>Armor</h3>
+            <p>Mở khóa những bộ giáp từ Iron Armor đến Titan Armor.</p>
         </div>
-
 
         <div class="card">
-
-            <div class="card-icon">
-                ⚡
-            </div>
-
-            <h3>
-                19 Spells
-            </h3>
-
-            <p>
-                Lightning, Meteor, Fireball,
-                Time Stop, Thunder Storm
-                và nhiều hơn nữa.
-            </p>
-
+            <div class="card-icon">⚡</div>
+            <h3>19 Spells</h3>
+            <p>Lightning, Meteor, Time Stop, Thunder Storm và nhiều hơn nữa.</p>
         </div>
 
     </div>
-
 </section>
 
 
-<!-- =======================================================
-CAMPAIGN
-======================================================= -->
-
-<section
-    id="page-campaign"
-    class="page">
-
+<section id="page-campaign" class="page">
     <div class="page-header">
-
-        <h1>
-            ⚔️ Campaign
-        </h1>
-
-        <p>
-            Hoàn thành từng campaign
-            theo thứ tự.
-        </p>
-
+        <h1>⚔️ Campaign</h1>
+        <p>Hoàn thành từng campaign để nhận Gold.</p>
     </div>
 
-
-    <div
-        id="campaignGrid"
-        class="grid">
-    </div>
-
+    <div id="campaignGrid" class="grid"></div>
 </section>
 
 
-<!-- =======================================================
-MISSIONS
-======================================================= -->
-
-<section
-    id="page-missions"
-    class="page">
-
+<section id="page-missions" class="page">
     <div class="page-header">
-
-        <h1>
-            🎯 Missions
-        </h1>
-
-        <p>
-            Hoàn thành nhiệm vụ
-            theo thứ tự.
-        </p>
-
+        <h1>🎯 Missions</h1>
+        <p>Hoàn thành nhiệm vụ theo thứ tự.</p>
     </div>
 
-
-    <div
-        id="missionGrid"
-        class="grid">
-    </div>
-
+    <div id="missionGrid" class="grid"></div>
 </section>
 
 
-<!-- =======================================================
-SHOP
-======================================================= -->
-
-<section
-    id="page-shop"
-    class="page">
-
+<section id="page-shop" class="page">
     <div class="page-header">
-
-        <h1>
-            🛡️ Armor Shop
-        </h1>
-
-        <p>
-            Mua và trang bị armor.
-        </p>
-
+        <h1>🛡️ Armor Shop</h1>
+        <p>Trang bị giáp cho chiến binh.</p>
     </div>
 
-
-    <div
-        id="armorGrid"
-        class="grid">
-    </div>
-
+    <div id="armorGrid" class="grid"></div>
 </section>
 
 
-<!-- =======================================================
-SPELLS
-======================================================= -->
-
-<section
-    id="page-spells"
-    class="page">
-
+<section id="page-spells" class="page">
     <div class="page-header">
-
-        <h1>
-            ⚡ Spell Library
-        </h1>
-
-        <p>
-            Mở khóa và trang bị tối đa
-            5 spell.
-        </p>
-
+        <h1>⚡ Spell Library</h1>
+        <p>Mở khóa và trang bị phép thuật.</p>
     </div>
 
-
-    <div
-        id="spellGrid"
-        class="grid">
-    </div>
-
+    <div id="spellGrid" class="grid"></div>
 </section>
 
 
-<!-- =======================================================
-LEADERBOARD
-======================================================= -->
-
-<section
-    id="page-leaderboard"
-    class="page">
-
+<section id="page-leaderboard" class="page">
     <div class="page-header">
-
-        <h1>
-            🏆 Leaderboard
-        </h1>
-
-        <p>
-            Top 100 người chơi
-            có nhiều Gold nhất.
-        </p>
-
+        <h1>🏆 Leaderboard</h1>
+        <p>Những người chơi có nhiều Gold nhất.</p>
     </div>
-
 
     <div class="table-wrap">
-
         <table>
-
             <thead>
-
                 <tr>
                     <th>#</th>
                     <th>Player</th>
                     <th>Gold</th>
                     <th>Gems</th>
                 </tr>
-
             </thead>
 
-
-            <tbody
-                id="leaderboardBody">
-            </tbody>
-
+            <tbody id="leaderboardBody"></tbody>
         </table>
-
     </div>
-
 </section>
 
 
-<!-- =======================================================
-REDEEM
-======================================================= -->
-
-<section
-    id="page-redeem"
-    class="page">
-
+<section id="page-redeem" class="page">
     <div class="page-header">
-
-        <h1>
-            🎁 Redeem Code
-        </h1>
-
-        <p>
-            Nhập code để nhận phần thưởng.
-        </p>
-
+        <h1>🎁 Redeem Code</h1>
+        <p>Nhập code để nhận phần thưởng.</p>
     </div>
 
-
-    <div
-        class="card"
-        style="max-width:500px">
+    <div class="card" style="max-width:500px">
 
         <input
             id="redeemInput"
+            class="text-input"
             placeholder="Nhập code..."
-            autocomplete="off"
-            style="
-                width:100%;
-                padding:13px;
-                border-radius:9px;
-                background:#080f1b;
-                border:1px solid var(--border);
-                color:white;
-                outline:none;
-            ">
+        >
 
-
-        <button
-            id="redeemButton"
-            class="btn gold"
-            type="button"
-            style="margin-top:12px">
-
+        <button class="btn gold" style="margin-top:12px" onclick="redeemCode()">
             🎁 Nhận thưởng
-
         </button>
 
     </div>
-
 </section>
 
 
-<!-- =======================================================
-APPEAL
-======================================================= -->
-
-<section
-    id="page-appeal"
-    class="page">
-
+<section id="page-appeal" class="page">
     <div class="page-header">
-
-        <h1>
-            📩 Appeal
-        </h1>
-
-        <p>
-            Gửi yêu cầu xem xét
-            tài khoản.
-        </p>
-
+        <h1>📩 Appeal</h1>
+        <p>Gửi yêu cầu xem xét nếu tài khoản bị ban.</p>
     </div>
 
-
-    <div
-        class="card"
-        style="max-width:650px">
+    <div class="card" style="max-width:650px">
 
         <textarea
             id="appealMessage"
-            maxlength="3000"
+            class="textarea"
+            style="min-height:150px"
             placeholder="Nhập nội dung appeal..."
-            style="
-                width:100%;
-                min-height:150px;
-                resize:vertical;
-                padding:13px;
-                border-radius:10px;
-                background:#080f1b;
-                border:1px solid var(--border);
-                color:white;
-                outline:none;
-            "></textarea>
+        ></textarea>
 
-
-        <button
-            id="appealButton"
-            class="btn blue"
-            type="button"
-            style="margin-top:12px">
-
+        <button class="btn blue" style="margin-top:12px" onclick="sendAppeal()">
             📩 Gửi Appeal
-
         </button>
 
     </div>
-
 </section>
 
 
-<!-- =======================================================
-ADMIN
-======================================================= -->
-
-<section
-    id="page-admin"
-    class="page">
+<section id="page-admin" class="page">
 
     <div class="page-header">
-
-        <h1>
-            👑 Admin Panel
-        </h1>
-
-        <p>
-            Khu vực quản trị server.
-        </p>
-
+        <h1>👑 Admin Panel</h1>
+        <p>Quản lý tài khoản và máy chủ.</p>
     </div>
-
 
     <div class="admin-grid">
 
-
-        <!-- ACCOUNTS -->
-
         <div class="admin-box">
+            <h3>👥 Accounts</h3>
 
-            <h3>
-                👥 Accounts
-            </h3>
-
-
-            <button
-                id="adminRefreshAccounts"
-                class="btn blue"
-                type="button">
-
+            <button class="btn blue" onclick="loadAdminAccounts()">
                 Refresh Accounts
-
             </button>
 
-
-            <div
-                id="adminAccounts"
-                style="margin-top:15px">
-            </div>
-
+            <div id="adminAccounts" style="margin-top:15px"></div>
         </div>
 
 
-        <!-- GIFT -->
-
         <div class="admin-box">
+            <h3>🎁 Gift</h3>
 
-            <h3>
-                🎁 Gift
-            </h3>
+            <input id="giftAccountId" type="number" placeholder="Account ID">
+            <input id="giftGold" type="number" placeholder="Gold">
+            <input id="giftGems" type="number" placeholder="Gems">
 
-
-            <input
-                id="giftAccountId"
-                type="number"
-                min="1"
-                placeholder="Account ID">
-
-
-            <input
-                id="giftGold"
-                type="number"
-                min="0"
-                placeholder="Gold">
-
-
-            <input
-                id="giftGems"
-                type="number"
-                min="0"
-                placeholder="Gems">
-
-
-            <button
-                id="adminGiftButton"
-                class="btn green"
-                type="button">
-
+            <button class="btn green" onclick="adminGift()">
                 Gửi Gift
-
             </button>
-
         </div>
 
 
-        <!-- BAN -->
-
         <div class="admin-box">
+            <h3>🔨 Ban / Unban</h3>
 
-            <h3>
-                🔨 Ban / Unban
-            </h3>
+            <input id="banAccountId" type="number" placeholder="Account ID">
 
-
-            <input
-                id="banAccountId"
-                type="number"
-                min="1"
-                placeholder="Account ID">
-
-
-            <button
-                id="adminBanButton"
-                class="btn red"
-                type="button">
-
+            <button class="btn red" onclick="adminBan()">
                 Ban
-
             </button>
 
-
-            <button
-                id="adminUnbanButton"
-                class="btn green"
-                type="button">
-
+            <button class="btn green" onclick="adminUnban()">
                 Unban
-
             </button>
-
         </div>
 
 
-        <!-- GLOBAL MESSAGE -->
-
         <div class="admin-box">
-
-            <h3>
-                📢 Global Message
-            </h3>
-
+            <h3>📢 Global Message</h3>
 
             <textarea
                 id="globalMessage"
-                maxlength="1000"
-                placeholder="Thông báo toàn server..."></textarea>
+                placeholder="Thông báo toàn server..."
+            ></textarea>
 
-
-            <button
-                id="globalMessageButton"
-                class="btn blue"
-                type="button">
-
+            <button class="btn blue" onclick="setGlobalMessage()">
                 Cập nhật
-
             </button>
-
         </div>
 
 
-        <!-- APPEALS -->
-
         <div class="admin-box">
+            <h3>📩 Appeals</h3>
 
-            <h3>
-                📩 Appeals
-            </h3>
-
-
-            <button
-                id="adminAppealsButton"
-                class="btn blue"
-                type="button">
-
+            <button class="btn blue" onclick="loadAppeals()">
                 Xem Appeals
-
             </button>
 
-
-            <div
-                id="appealsList"
-                style="margin-top:15px">
-            </div>
-
+            <div id="appealsList" style="margin-top:15px"></div>
         </div>
 
     </div>
-
 </section>
 
 </main>
 </div>
-
 </section>
-
 
 <div id="toast"></div>
 
 
 <script>
+"use strict";
 
 /* =========================================================
 CONFIG
 ========================================================= */
 
-/*
-    IMPORTANT:
-    index.html được server.js serve trực tiếp.
-
-    Vì vậy API dùng đường dẫn tương đối:
-        /api/...
-
-    Không dùng:
-        http://localhost:3000/api/...
-
-    Khi deploy Render/GitHub/host khác vẫn hoạt động.
-*/
-
 const API = "https://swul-backend.onrender.com";
-
 
 /* =========================================================
 STATE
@@ -1794,434 +862,181 @@ STATE
 let account = null;
 let gameData = null;
 
-
 /* =========================================================
-HELPER
+HELPERS
 ========================================================= */
 
-const $ = id =>
-    document.getElementById(id);
+const $ = id => document.getElementById(id);
 
+function escapeHtml(value){
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function toast(message,type="success"){
+    const box = document.createElement("div");
+
+    box.className = "toast " + type;
+    box.textContent = message;
+
+    $("toast").appendChild(box);
+
+    setTimeout(() => box.remove(),3500);
+}
 
 /* =========================================================
-API CLIENT
+API
 ========================================================= */
 
-async function api(
-    url,
-    options = {}
-){
-
+async function api(path,options={}){
     const config = {
         ...options,
         headers:{
-            ...(options.body
-                ? {
-                    "Content-Type":
-                        "application/json"
-                }
-                : {}),
+            ...(options.body ? {"Content-Type":"application/json"} : {}),
             ...(options.headers || {})
         }
     };
 
-
     let response;
 
     try{
-
-        response =
-            await fetch(
-                API + url,
-                config
-            );
-
+        response = await fetch(API + path,config);
     }catch(error){
-
-        throw new Error(
-            "Không thể kết nối backend."
-        );
-
+        throw new Error("Không kết nối được server Render.");
     }
 
+    const text = await response.text();
 
-    let data = null;
+    let data;
 
-    const contentType =
-        response.headers
-            .get("content-type") || "";
-
-
-    if(
-        contentType.includes(
-            "application/json"
-        )
-    ){
-
-        try{
-            data =
-                await response.json();
-        }catch{
-            data = null;
-        }
-
-    }else{
-
-        try{
-            const text =
-                await response.text();
-
-            data =
-                text
-                    ? {
-                        message:text
-                    }
-                    : null;
-
-        }catch{
-            data = null;
-        }
-
+    try{
+        data = text ? JSON.parse(text) : {};
+    }catch{
+        data = {
+            success:false,
+            message:text || `HTTP ${response.status}`
+        };
     }
 
-
-    if(!response.ok){
-
+    if(!response.ok || data.success === false){
         throw new Error(
-            data?.message ||
+            data.message ||
+            data.error ||
             `HTTP ${response.status}`
         );
-
     }
 
-
-    return data || {};
-
+    return data;
 }
 
-
 /* =========================================================
-TOAST
-========================================================= */
-
-function toast(
-    message,
-    type = "success"
-){
-
-    const box =
-        document.createElement("div");
-
-    box.className =
-        `toast ${type}`;
-
-    box.textContent =
-        String(message);
-
-    $("toast")
-        .appendChild(box);
-
-
-    setTimeout(
-        () => box.remove(),
-        3500
-    );
-
-}
-
-
-/* =========================================================
-AUTH TABS
+AUTH UI
 ========================================================= */
 
 function showAuth(type){
 
-    const login =
-        type === "login";
+    $("loginForm").classList.toggle("hidden",type !== "login");
+    $("registerForm").classList.toggle("hidden",type !== "register");
 
+    $("loginTab").classList.toggle("active",type === "login");
+    $("registerTab").classList.toggle("active",type === "register");
 
-    $("loginForm")
-        .classList.toggle(
-            "hidden",
-            !login
-        );
-
-
-    $("registerForm")
-        .classList.toggle(
-            "hidden",
-            login
-        );
-
-
-    $("loginTab")
-        .classList.toggle(
-            "active",
-            login
-        );
-
-
-    $("registerTab")
-        .classList.toggle(
-            "active",
-            !login
-        );
-
-
-    $("authMessage")
-        .textContent = "";
-
+    $("authMessage").textContent = "";
 }
 
+$("loginForm").addEventListener("submit",login);
+$("registerForm").addEventListener("submit",register);
 
 /* =========================================================
 REGISTER
 ========================================================= */
 
-async function register(){
+async function register(event){
 
-    const username =
-        $("registerUsername")
-            .value
-            .trim();
+    event.preventDefault();
 
-    const password =
-        $("registerPassword")
-            .value;
-
+    const username = $("registerUsername").value.trim();
+    const password = $("registerPassword").value;
 
     if(!username || !password){
-
         return;
-
     }
-
-
-    setAuthLoading(
-        true,
-        "Đang tạo tài khoản..."
-    );
-
 
     try{
 
-        const result =
-            await api(
-                "/api/register",
-                {
-                    method:"POST",
+        const result = await api("/api/register",{
+            method:"POST",
+            body:JSON.stringify({
+                username,
+                password
+            })
+        });
 
-                    body:
-                        JSON.stringify({
-                            username,
-                            password
-                        })
-                }
-            );
+        $("authMessage").textContent =
+            result.message || "Tạo tài khoản thành công.";
 
-
-        $("authMessage")
-            .textContent =
-                result.message ||
-                "Tạo tài khoản thành công.";
-
-
-        $("loginUsername")
-            .value =
-                username;
-
-
-        $("loginPassword")
-            .value =
-                password;
-
-
-        $("registerPassword")
-            .value = "";
-
+        $("loginUsername").value = username;
+        $("loginPassword").value = password;
 
         showAuth("login");
 
-
-        toast(
-            "Tạo tài khoản thành công."
-        );
-
+        toast("Tạo tài khoản thành công!");
 
     }catch(error){
 
-        $("authMessage")
-            .textContent =
-                error.message;
-
-
-        toast(
-            error.message,
-            "error"
-        );
-
-    }finally{
-
-        setAuthLoading(
-            false
-        );
-
+        $("authMessage").textContent = error.message;
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 LOGIN
 ========================================================= */
 
-async function login(){
+async function login(event){
 
-    const username =
-        $("loginUsername")
-            .value
-            .trim();
+    event.preventDefault();
 
-    const password =
-        $("loginPassword")
-            .value;
-
+    const username = $("loginUsername").value.trim();
+    const password = $("loginPassword").value;
 
     if(!username || !password){
-
         return;
-
     }
-
-
-    setAuthLoading(
-        true,
-        "Đang đăng nhập..."
-    );
-
 
     try{
 
-        const result =
-            await api(
-                "/api/login",
-                {
-                    method:"POST",
-
-                    body:
-                        JSON.stringify({
-                            username,
-                            password
-                        })
-                }
-            );
-
+        const result = await api("/api/login",{
+            method:"POST",
+            body:JSON.stringify({
+                username,
+                password
+            })
+        });
 
         if(!result.account){
-
-            throw new Error(
-                "Backend không trả về account."
-            );
-
+            throw new Error("Server không trả về account.");
         }
 
-
-        account =
-            result.account;
-
-
-        /*
-            Chỉ lưu ID.
-
-            Không lưu password.
-        */
+        account = result.account;
 
         localStorage.setItem(
             "swul_account_id",
             String(account.id)
         );
 
-
         await enterGame();
-
 
     }catch(error){
 
-        $("authMessage")
-            .textContent =
-                error.message;
-
-
-        toast(
-            error.message,
-            "error"
-        );
-
-    }finally{
-
-        setAuthLoading(
-            false
-        );
-
+        $("authMessage").textContent = error.message;
+        toast(error.message,"error");
     }
-
 }
-
-
-/* =========================================================
-AUTH BUTTON STATE
-========================================================= */
-
-function setAuthLoading(
-    loading,
-    text = ""
-){
-
-    const loginButton =
-        $("loginButton");
-
-    const registerButton =
-        $("registerButton");
-
-
-    loginButton.disabled =
-        loading;
-
-    registerButton.disabled =
-        loading;
-
-
-    if(loading){
-
-        if(
-            !$("loginForm")
-                .classList.contains("hidden")
-        ){
-
-            loginButton.textContent =
-                text ||
-                "Đang xử lý...";
-
-        }else{
-
-            registerButton.textContent =
-                text ||
-                "Đang xử lý...";
-
-        }
-
-    }else{
-
-        loginButton.textContent =
-            "Đăng nhập";
-
-        registerButton.textContent =
-            "Tạo tài khoản";
-
-    }
-
-}
-
 
 /* =========================================================
 AUTO LOGIN
@@ -2229,93 +1044,50 @@ AUTO LOGIN
 
 async function autoLogin(){
 
-    const saved =
-        localStorage.getItem(
-            "swul_account_id"
-        );
+    const savedId =
+        localStorage.getItem("swul_account_id");
 
+    if(!savedId) return;
 
-    if(!saved){
+    const id = Number(savedId);
 
-        showAuthScreen();
-
+    if(!Number.isInteger(id) || id <= 0){
+        localStorage.removeItem("swul_account_id");
         return;
-
     }
-
-
-    const id =
-        Number(saved);
-
-
-    if(
-        !Number.isInteger(id) ||
-        id <= 0
-    ){
-
-        localStorage.removeItem(
-            "swul_account_id"
-        );
-
-        showAuthScreen();
-
-        return;
-
-    }
-
 
     try{
 
         const result =
-            await api(
-                `/api/account/${id}`
-            );
-
+            await api("/api/account/" + id);
 
         if(!result.account){
-
-            throw new Error(
-                "Account không hợp lệ."
-            );
-
+            throw new Error("Account không tồn tại.");
         }
 
+        account = result.account;
 
-        account =
-            result.account;
+        if(account.banned){
 
+            localStorage.removeItem("swul_account_id");
+            account = null;
+
+            toast(
+                "Tài khoản đang bị khóa.",
+                "error"
+            );
+
+            return;
+        }
 
         await enterGame();
 
-
     }catch(error){
 
-        localStorage.removeItem(
-            "swul_account_id"
-        );
-
-
-        showAuthScreen();
-
+        localStorage.removeItem("swul_account_id");
+        account = null;
     }
-
 }
-
-
-/* =========================================================
-SHOW AUTH
-========================================================= */
-
-function showAuthScreen(){
-
-    $("authScreen")
-        .classList.remove("hidden");
-
-    $("app")
-        .classList.add("hidden");
-
-}
-
 
 /* =========================================================
 ENTER GAME
@@ -2323,126 +1095,25 @@ ENTER GAME
 
 async function enterGame(){
 
-    $("authScreen")
-        .classList.add("hidden");
-
-    $("app")
-        .classList.remove("hidden");
-
+    $("authScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
 
     updateAccountUI();
 
-
-    await loadGameData();
-
-    await loadServerInfo();
-
-
-    renderAll();
-
-}
-
-
-/* =========================================================
-GAME DATA
-========================================================= */
-
-async function loadGameData(){
-
     try{
 
-        gameData =
-            await api(
-                "/api/game-data"
-            );
+        gameData = await api("/api/game-data");
 
-
-        if(
-            !Array.isArray(
-                gameData.campaign
-            ) ||
-            !Array.isArray(
-                gameData.missions
-            ) ||
-            !Array.isArray(
-                gameData.armors
-            ) ||
-            !Array.isArray(
-                gameData.spells
-            )
-        ){
-
-            throw new Error(
-                "Dữ liệu game từ backend không hợp lệ."
-            );
-
-        }
+        renderAll();
 
     }catch(error){
 
         toast(
-            "Không tải được dữ liệu game: " +
-            error.message,
+            "Không tải được dữ liệu game: " + error.message,
             "error"
         );
-
-        throw error;
-
     }
-
 }
-
-
-/* =========================================================
-SERVER INFO
-========================================================= */
-
-async function loadServerInfo(){
-
-    try{
-
-        const result =
-            await api(
-                "/api/server-info"
-            );
-
-
-        const box =
-            $("serverMessage");
-
-
-        if(
-            result.globalMessage &&
-            result.globalMessage.trim()
-        ){
-
-            box.textContent =
-                "📢 " +
-                result.globalMessage;
-
-            box.classList.remove(
-                "hidden"
-            );
-
-        }else{
-
-            box.classList.add(
-                "hidden"
-            );
-
-        }
-
-    }catch{
-
-        /*
-            server-info không được phép
-            làm game chết.
-        */
-
-    }
-
-}
-
 
 /* =========================================================
 LOGOUT
@@ -2451,19 +1122,12 @@ LOGOUT
 function logout(){
 
     account = null;
-
     gameData = null;
 
-
-    localStorage.removeItem(
-        "swul_account_id"
-    );
-
+    localStorage.removeItem("swul_account_id");
 
     location.reload();
-
 }
-
 
 /* =========================================================
 ACCOUNT UI
@@ -2471,48 +1135,27 @@ ACCOUNT UI
 
 function updateAccountUI(){
 
-    if(!account)
-        return;
+    if(!account) return;
 
+    $("username").textContent =
+        account.username || "Player";
 
-    $("username")
-        .textContent =
-            account.username;
+    $("avatar").textContent =
+        (account.username || "?")
+        .charAt(0)
+        .toUpperCase();
 
+    $("gold").textContent =
+        Number(account.gold || 0).toLocaleString();
 
-    $("avatar")
-        .textContent =
-            account.username
-                .charAt(0)
-                .toUpperCase();
+    $("gems").textContent =
+        Number(account.gems || 0).toLocaleString();
 
-
-    $("gold")
-        .textContent =
-            Number(
-                account.gold || 0
-            ).toLocaleString();
-
-
-    $("gems")
-        .textContent =
-            Number(
-                account.gems || 0
-            ).toLocaleString();
-
-
-    const isAdmin =
-        account.role === "admin";
-
-
-    $("adminNav")
-        .classList.toggle(
-            "hidden",
-            !isAdmin
-        );
-
+    $("adminNav").classList.toggle(
+        "hidden",
+        account.role !== "admin"
+    );
 }
-
 
 /* =========================================================
 REFRESH ACCOUNT
@@ -2520,131 +1163,73 @@ REFRESH ACCOUNT
 
 async function refreshAccount(){
 
-    if(!account)
-        return;
-
+    if(!account) return;
 
     try{
 
         const result =
-            await api(
-                `/api/account/${account.id}`
-            );
+            await api("/api/account/" + account.id);
 
-
-        account =
-            result.account;
-
+        account = result.account;
 
         updateAccountUI();
-
         renderAll();
-
 
     }catch(error){
 
-        if(
-            error.message.includes(
-                "ban"
-            )
-        ){
-
-            logout();
-
-            return;
-
-        }
-
-
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 NAVIGATION
 ========================================================= */
 
-function openPage(page){
+function openPage(page,button){
 
-    if(
-        page === "admin" &&
-        (!account ||
-         account.role !== "admin")
-    ){
+    document.querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
 
-        toast(
-            "Bạn không có quyền admin.",
-            "error"
-        );
+    const target = $("page-" + page);
 
-        return;
-
+    if(target){
+        target.classList.add("active");
     }
 
+    document.querySelectorAll(".nav-btn")
+        .forEach(b => b.classList.remove("active"));
 
-    document
-        .querySelectorAll(".page")
-        .forEach(
-            element =>
-                element.classList.remove(
-                    "active"
-                )
-        );
+    if(button){
+        button.classList.add("active");
+    }
 
-
-    const target =
-        $(`page-${page}`);
-
-
-    if(!target)
-        return;
-
-
-    target.classList.add(
-        "active"
-    );
-
-
-    document
-        .querySelectorAll(
-            ".nav-btn"
-        )
-        .forEach(
-            button =>
-                button.classList.toggle(
-                    "active",
-                    button.dataset.page === page
-                )
-        );
-
-
-    if(
-        page === "leaderboard"
-    ){
-
+    if(page === "leaderboard"){
         loadLeaderboard();
-
     }
 
+    if(page === "admin"){
 
-    if(
-        page === "admin"
-    ){
+        if(!account || account.role !== "admin"){
+            toast("Bạn không có quyền admin.","error");
+            openPageById("home");
+            return;
+        }
 
         loadAdminAccounts();
-
         loadAppeals();
-
     }
-
 }
 
+function openPageById(page){
+
+    const button =
+        [...document.querySelectorAll(".nav-btn")]
+        .find(b =>
+            b.getAttribute("onclick")?.includes(`'${page}'`)
+        );
+
+    openPage(page,button);
+}
 
 /* =========================================================
 RENDER ALL
@@ -2652,20 +1237,13 @@ RENDER ALL
 
 function renderAll(){
 
-    if(!account || !gameData)
-        return;
-
+    if(!gameData || !account) return;
 
     renderCampaign();
-
     renderMissions();
-
     renderArmors();
-
     renderSpells();
-
 }
-
 
 /* =========================================================
 CAMPAIGN
@@ -2674,113 +1252,76 @@ CAMPAIGN
 function renderCampaign(){
 
     const list =
-        Array.isArray(
-            gameData.campaign
-        )
-            ? gameData.campaign
-            : [];
+        Array.isArray(gameData.campaign)
+        ? gameData.campaign
+        : [];
 
+    const completed =
+        Array.isArray(account.completedCampaign)
+        ? account.completedCampaign
+        : [];
 
-    $("campaignGrid")
-        .innerHTML =
-            list.map(
-                item => {
+    $("campaignGrid").innerHTML =
+        list.map(item => {
 
-                    const completed =
-                        Array.isArray(
-                            account.completedCampaign
-                        ) &&
-                        account.completedCampaign
-                            .includes(
-                                item.id
-                            );
+            const done =
+                completed.includes(item.id);
 
+            const unlocked =
+                item.id === 1 ||
+                completed.includes(item.id - 1);
 
-                    const unlocked =
-                        item.id === 1 ||
-                        account.completedCampaign
-                            .includes(
-                                item.id - 1
-                            );
+            return `
+                <div class="card">
 
+                    <div class="card-icon">
+                        ${done ? "✅" : "⚔️"}
+                    </div>
 
-                    const progress =
-                        completed
-                            ? 100
-                            : 0;
+                    <h3>${escapeHtml(item.name)}</h3>
 
+                    <p>
+                        Reward:
+                        <span class="gold">
+                            🪙 ${Number(item.reward).toLocaleString()}
+                        </span>
+                    </p>
 
-                    return `
+                    <div class="progress">
+                        <span style="width:${done ? 100 : 0}%"></span>
+                    </div>
 
-<div class="card">
+                    <div class="card-actions">
 
-    <div class="card-icon">
-        ${completed ? "✅" : "⚔️"}
-    </div>
+                        ${
+                            done
+                            ? `
+                                <button class="btn green" disabled>
+                                    Đã hoàn thành
+                                </button>
+                            `
+                            :
+                            unlocked
+                            ? `
+                                <button
+                                    class="btn blue"
+                                    onclick="completeCampaign(${Number(item.id)})">
+                                    Chơi
+                                </button>
+                            `
+                            : `
+                                <button class="btn" disabled>
+                                    🔒 Bị khóa
+                                </button>
+                            `
+                        }
 
-    <h3>
-        ${escapeHtml(item.name)}
-    </h3>
+                    </div>
+                </div>
+            `;
 
-    <p>
-        Reward:
-        <span class="gold">
-            🪙
-            ${formatNumber(item.reward)}
-        </span>
-    </p>
-
-    <div class="progress">
-        <span
-            style="width:${progress}%">
-        </span>
-    </div>
-
-    <div class="card-actions">
-
-        ${
-            completed
-
-            ? `
-                <button
-                    class="btn green"
-                    disabled>
-                    ✓ Đã hoàn thành
-                </button>
-              `
-
-            : unlocked
-
-            ? `
-                <button
-                    class="btn blue"
-                    type="button"
-                    onclick="completeCampaign(${item.id})">
-                    ⚔️ Chơi
-                </button>
-              `
-
-            : `
-                <button
-                    class="btn"
-                    disabled>
-                    🔒 Bị khóa
-                </button>
-              `
-        }
-
-    </div>
-
-</div>
-
-`;
-
-                }
-            )
-            .join("");
-
+        }).join("");
 }
-
 
 /* =========================================================
 COMPLETE CAMPAIGN
@@ -2788,54 +1329,33 @@ COMPLETE CAMPAIGN
 
 async function completeCampaign(id){
 
-    if(!account)
-        return;
-
-
     try{
 
         const result =
-            await api(
-                "/api/campaign/complete",
-                {
-                    method:"POST",
+            await api("/api/campaign/complete",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    mapId:id
+                })
+            });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            mapId:
-                                Number(id)
-                        })
-                }
-            );
-
-
-        account =
-            result.account;
-
+        if(result.account){
+            account = result.account;
+        }
 
         updateAccountUI();
-
         renderCampaign();
 
-
         toast(
-            `Campaign hoàn thành! +${formatNumber(result.reward)} Gold`
+            `Campaign hoàn thành! +${Number(result.reward || 0).toLocaleString()} Gold`
         );
-
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 MISSIONS
@@ -2844,98 +1364,72 @@ MISSIONS
 function renderMissions(){
 
     const list =
-        Array.isArray(
-            gameData.missions
-        )
-            ? gameData.missions
-            : [];
+        Array.isArray(gameData.missions)
+        ? gameData.missions
+        : [];
 
+    const completed =
+        Array.isArray(account.completedMissions)
+        ? account.completedMissions
+        : [];
 
-    $("missionGrid")
-        .innerHTML =
-            list.map(
-                item => {
+    $("missionGrid").innerHTML =
+        list.map(item => {
 
-                    const completed =
-                        account.completedMissions
-                            .includes(
-                                item.id
-                            );
+            const done =
+                completed.includes(item.id);
 
+            const unlocked =
+                item.id === 1 ||
+                completed.includes(item.id - 1);
 
-                    const unlocked =
-                        item.id === 1 ||
-                        account.completedMissions
-                            .includes(
-                                item.id - 1
-                            );
+            return `
+                <div class="card">
 
+                    <div class="card-icon">
+                        ${done ? "🏆" : "🎯"}
+                    </div>
 
-                    return `
+                    <h3>${escapeHtml(item.name)}</h3>
 
-<div class="card">
+                    <p>
+                        Reward:
+                        <span class="gold">
+                            🪙 ${Number(item.reward).toLocaleString()}
+                        </span>
+                    </p>
 
-    <div class="card-icon">
-        ${completed ? "🏆" : "🎯"}
-    </div>
+                    <div class="card-actions">
 
-    <h3>
-        ${escapeHtml(item.name)}
-    </h3>
+                        ${
+                            done
+                            ? `
+                                <button class="btn green" disabled>
+                                    Đã hoàn thành
+                                </button>
+                            `
+                            :
+                            unlocked
+                            ? `
+                                <button
+                                    class="btn blue"
+                                    onclick="completeMission(${Number(item.id)})">
+                                    Hoàn thành
+                                </button>
+                            `
+                            : `
+                                <button class="btn" disabled>
+                                    🔒 Bị khóa
+                                </button>
+                            `
+                        }
 
-    <p>
-        Reward:
-        <span class="gold">
-            🪙
-            ${formatNumber(item.reward)}
-        </span>
-    </p>
+                    </div>
+                </div>
+            `;
 
-    <div class="card-actions">
-
-        ${
-            completed
-
-            ? `
-                <button
-                    class="btn green"
-                    disabled>
-                    ✓ Đã hoàn thành
-                </button>
-              `
-
-            : unlocked
-
-            ? `
-                <button
-                    class="btn blue"
-                    type="button"
-                    onclick="completeMission(${item.id})">
-                    🎯 Hoàn thành
-                </button>
-              `
-
-            : `
-                <button
-                    class="btn"
-                    disabled>
-                    🔒 Bị khóa
-                </button>
-              `
-        }
-
-    </div>
-
-</div>
-
-`;
-
-                }
-            )
-            .join("");
-
+        }).join("");
 }
-
 
 /* =========================================================
 COMPLETE MISSION
@@ -2943,54 +1437,33 @@ COMPLETE MISSION
 
 async function completeMission(id){
 
-    if(!account)
-        return;
-
-
     try{
 
         const result =
-            await api(
-                "/api/mission/complete",
-                {
-                    method:"POST",
+            await api("/api/mission/complete",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    missionId:id
+                })
+            });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            missionId:
-                                Number(id)
-                        })
-                }
-            );
-
-
-        account =
-            result.account;
-
+        if(result.account){
+            account = result.account;
+        }
 
         updateAccountUI();
-
         renderMissions();
 
-
         toast(
-            `Mission hoàn thành! +${formatNumber(result.reward)} Gold`
+            `Mission hoàn thành! +${Number(result.reward || 0).toLocaleString()} Gold`
         );
-
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 ARMOR
@@ -2999,120 +1472,81 @@ ARMOR
 function renderArmors(){
 
     const list =
-        Array.isArray(
-            gameData.armors
-        )
-            ? gameData.armors
-            : [];
+        Array.isArray(gameData.armors)
+        ? gameData.armors
+        : [];
 
+    const owned =
+        Array.isArray(account.ownedArmors)
+        ? account.ownedArmors
+        : [];
 
-    $("armorGrid")
-        .innerHTML =
-            list.map(
-                armor => {
+    $("armorGrid").innerHTML =
+        list.map(armor => {
 
-                    const owned =
-                        account.ownedArmors
-                            .includes(
-                                armor.id
-                            );
+            const isOwned =
+                owned.includes(armor.id);
 
+            const equipped =
+                account.equippedArmor === armor.id;
 
-                    const equipped =
-                        Number(
-                            account.equippedArmor
-                        ) === Number(
-                            armor.id
-                        );
+            const effects =
+                Array.isArray(armor.effects)
+                ? armor.effects
+                : [];
 
+            return `
+                <div class="card">
 
-                    return `
+                    <div class="card-icon">🛡️</div>
 
-<div class="card">
+                    <h3>
+                        ${escapeHtml(armor.displayName)}
+                    </h3>
 
-    <div class="card-icon">
-        🛡️
-    </div>
+                    <p>
+                        ${escapeHtml(armor.description)}
+                    </p>
 
-    <h3>
-        ${escapeHtml(
-            armor.displayName
-        )}
-    </h3>
+                    <p style="margin-top:10px">
+                        ${effects
+                            .map(x => `• ${escapeHtml(x)}`)
+                            .join("<br>")}
+                    </p>
 
-    <p>
-        ${escapeHtml(
-            armor.description
-        )}
-    </p>
+                    <div class="card-actions">
 
-    <p style="margin-top:10px">
+                        ${
+                            equipped
+                            ? `
+                                <button class="btn green" disabled>
+                                    ✓ Đang trang bị
+                                </button>
+                            `
+                            :
+                            isOwned
+                            ? `
+                                <button
+                                    class="btn blue"
+                                    onclick="equipArmor(${Number(armor.id)})">
+                                    Trang bị
+                                </button>
+                            `
+                            : `
+                                <button
+                                    class="btn gold"
+                                    onclick="buyArmor(${Number(armor.id)})">
+                                    🪙 ${Number(armor.cost).toLocaleString()}
+                                </button>
+                            `
+                        }
 
-        ${
-            Array.isArray(
-                armor.effects
-            )
+                    </div>
+                </div>
+            `;
 
-            ? armor.effects
-                .map(
-                    effect =>
-                        `• ${escapeHtml(effect)}`
-                )
-                .join("<br>")
-
-            : ""
-        }
-
-    </p>
-
-
-    <div class="card-actions">
-
-        ${
-            equipped
-
-            ? `
-                <button
-                    class="btn green"
-                    disabled>
-                    ✓ Đang trang bị
-                </button>
-              `
-
-            : owned
-
-            ? `
-                <button
-                    class="btn blue"
-                    type="button"
-                    onclick="equipArmor(${armor.id})">
-                    Trang bị
-                </button>
-              `
-
-            : `
-                <button
-                    class="btn gold"
-                    type="button"
-                    onclick="buyArmor(${armor.id})">
-                    🪙
-                    ${formatNumber(armor.cost)}
-                </button>
-              `
-        }
-
-    </div>
-
-</div>
-
-`;
-
-                }
-            )
-            .join("");
-
+        }).join("");
 }
-
 
 /* =========================================================
 BUY ARMOR
@@ -3123,48 +1557,31 @@ async function buyArmor(id){
     try{
 
         const result =
-            await api(
-                "/api/armor/unlock",
-                {
-                    method:"POST",
+            await api("/api/armor/unlock",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    armorId:id
+                })
+            });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            armorId:
-                                Number(id)
-                        })
-                }
-            );
-
-
-        account =
-            result.account;
-
+        if(result.account){
+            account = result.account;
+        }
 
         updateAccountUI();
-
         renderArmors();
-
 
         toast(
             "Đã mở khóa " +
-            result.armor.displayName
+            (result.armor?.displayName || "Armor")
         );
-
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 EQUIP ARMOR
@@ -3175,48 +1592,31 @@ async function equipArmor(id){
     try{
 
         const result =
-            await api(
-                "/api/armor/equip",
-                {
-                    method:"POST",
+            await api("/api/armor/equip",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    armorId:id
+                })
+            });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            armorId:
-                                Number(id)
-                        })
-                }
-            );
-
-
-        account =
-            result.account;
-
+        if(result.account){
+            account = result.account;
+        }
 
         updateAccountUI();
-
         renderArmors();
-
 
         toast(
             "Đã trang bị " +
-            result.armor.displayName
+            (result.armor?.displayName || "Armor")
         );
-
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 SPELLS
@@ -3225,103 +1625,76 @@ SPELLS
 function renderSpells(){
 
     const list =
-        Array.isArray(
-            gameData.spells
-        )
-            ? gameData.spells
-            : [];
+        Array.isArray(gameData.spells)
+        ? gameData.spells
+        : [];
 
+    const owned =
+        Array.isArray(account.ownedSpells)
+        ? account.ownedSpells
+        : [];
 
-    $("spellGrid")
-        .innerHTML =
-            list.map(
-                spell => {
+    const equipped =
+        Array.isArray(account.equippedSpells)
+        ? account.equippedSpells
+        : [];
 
-                    const owned =
-                        account.ownedSpells
-                            .includes(
-                                spell.id
-                            );
+    $("spellGrid").innerHTML =
+        list.map(spell => {
 
+            const isOwned =
+                owned.includes(spell.id);
 
-                    const equipped =
-                        account.equippedSpells
-                            .includes(
-                                spell.id
-                            );
+            const isEquipped =
+                equipped.includes(spell.id);
 
+            const cost =
+                Number(spell.cost || spell.id * 1000);
 
-                    const cost =
-                        Number(spell.id) *
-                        1000;
+            return `
+                <div class="card">
 
+                    <div class="card-icon">⚡</div>
 
-                    return `
+                    <h3>
+                        ${escapeHtml(spell.name)}
+                    </h3>
 
-<div class="card">
+                    <p>Spell #${Number(spell.id)}</p>
 
-    <div class="card-icon">
-        ⚡
-    </div>
+                    <div class="card-actions">
 
-    <h3>
-        ${escapeHtml(
-            spell.name
-        )}
-    </h3>
+                        ${
+                            isEquipped
+                            ? `
+                                <button class="btn green" disabled>
+                                    ✓ Đã trang bị
+                                </button>
+                            `
+                            :
+                            isOwned
+                            ? `
+                                <button
+                                    class="btn blue"
+                                    onclick="equipSpell(${Number(spell.id)})">
+                                    Trang bị
+                                </button>
+                            `
+                            : `
+                                <button
+                                    class="btn gold"
+                                    onclick="buySpell(${Number(spell.id)})">
+                                    🪙 ${cost.toLocaleString()}
+                                </button>
+                            `
+                        }
 
-    <p>
-        Spell #${spell.id}
-    </p>
+                    </div>
+                </div>
+            `;
 
-
-    <div class="card-actions">
-
-        ${
-            equipped
-
-            ? `
-                <button
-                    class="btn green"
-                    disabled>
-                    ✓ Đã trang bị
-                </button>
-              `
-
-            : owned
-
-            ? `
-                <button
-                    class="btn blue"
-                    type="button"
-                    onclick="equipSpell(${spell.id})">
-                    Trang bị
-                </button>
-              `
-
-            : `
-                <button
-                    class="btn gold"
-                    type="button"
-                    onclick="buySpell(${spell.id})">
-                    🪙
-                    ${formatNumber(cost)}
-                </button>
-              `
-        }
-
-    </div>
-
-</div>
-
-`;
-
-                }
-            )
-            .join("");
-
+        }).join("");
 }
-
 
 /* =========================================================
 BUY SPELL
@@ -3332,48 +1705,31 @@ async function buySpell(id){
     try{
 
         const result =
-            await api(
-                "/api/spell/unlock",
-                {
-                    method:"POST",
+            await api("/api/spell/unlock",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    spellId:id
+                })
+            });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            spellId:
-                                Number(id)
-                        })
-                }
-            );
-
-
-        account =
-            result.account;
-
+        if(result.account){
+            account = result.account;
+        }
 
         updateAccountUI();
-
         renderSpells();
-
 
         toast(
             "Đã mở khóa " +
-            result.spell.name
+            (result.spell?.name || "Spell")
         );
-
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 EQUIP SPELL
@@ -3384,47 +1740,28 @@ async function equipSpell(id){
     try{
 
         const result =
-            await api(
-                "/api/spell/equip",
-                {
-                    method:"POST",
+            await api("/api/spell/equip",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    spellId:id
+                })
+            });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            spellId:
-                                Number(id)
-                        })
-                }
-            );
-
-
-        account =
-            result.account;
-
+        if(result.account){
+            account = result.account;
+        }
 
         updateAccountUI();
-
         renderSpells();
 
-
-        toast(
-            "Đã trang bị spell."
-        );
-
+        toast("Đã trang bị spell.");
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 LEADERBOARD
@@ -3435,98 +1772,55 @@ async function loadLeaderboard(){
     try{
 
         const result =
-            await api(
-                "/api/leaderboard"
-            );
-
+            await api("/api/leaderboard");
 
         const list =
-            Array.isArray(
-                result.leaderboard
-            )
-                ? result.leaderboard
-                : [];
+            Array.isArray(result.leaderboard)
+            ? result.leaderboard
+            : [];
 
+        $("leaderboardBody").innerHTML =
+            list.map(player => {
 
-        $("leaderboardBody")
-            .innerHTML =
-                list.map(
-                    player => `
+                const rank = Number(player.rank || 0);
 
-<tr>
+                return `
+                    <tr>
 
-    <td>
-        ${
-            Number(player.rank) === 1
-                ? "🥇"
-                : Number(player.rank) === 2
-                ? "🥈"
-                : Number(player.rank) === 3
-                ? "🥉"
-                : player.rank
-        }
-    </td>
+                        <td>
+                            ${
+                                rank === 1
+                                ? "🥇"
+                                : rank === 2
+                                ? "🥈"
+                                : rank === 3
+                                ? "🥉"
+                                : rank
+                            }
+                        </td>
 
+                        <td>
+                            ${escapeHtml(player.username)}
+                        </td>
 
-    <td>
-        ${escapeHtml(
-            player.username
-        )}
-    </td>
+                        <td class="gold">
+                            🪙 ${Number(player.gold || 0).toLocaleString()}
+                        </td>
 
+                        <td class="gems">
+                            💎 ${Number(player.gems || 0).toLocaleString()}
+                        </td>
 
-    <td class="gold">
-        🪙
-        ${formatNumber(
-            player.gold
-        )}
-    </td>
+                    </tr>
+                `;
 
-
-    <td class="gems">
-        💎
-        ${formatNumber(
-            player.gems
-        )}
-    </td>
-
-</tr>
-
-`
-                )
-                .join("");
-
-
-    if(!list.length){
-
-        $("leaderboardBody")
-            .innerHTML = `
-                <tr>
-                    <td
-                        colspan="4"
-                        style="
-                            color:var(--muted);
-                            text-align:center;
-                        ">
-                        Chưa có dữ liệu.
-                    </td>
-                </tr>
-            `;
-
-    }
-
+            }).join("");
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 REDEEM
@@ -3534,72 +1828,42 @@ REDEEM
 
 async function redeemCode(){
 
-    const input =
-        $("redeemInput");
-
-
     const code =
-        input.value
-            .trim()
-            .toUpperCase();
-
+        $("redeemInput").value.trim();
 
     if(!code){
-
-        toast(
-            "Hãy nhập code.",
-            "error"
-        );
-
+        toast("Hãy nhập code.","error");
         return;
-
     }
-
 
     try{
 
         const result =
-            await api(
-                "/api/redeem-code",
-                {
-                    method:"POST",
+            await api("/api/redeem-code",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    code
+                })
+            });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            code
-                        })
-                }
-            );
-
-
-        account =
-            result.account;
-
+        if(result.account){
+            account = result.account;
+        }
 
         updateAccountUI();
 
-
-        input.value = "";
-
+        $("redeemInput").value = "";
 
         toast(
-            `Nhận ${formatNumber(result.reward.gold)} Gold + ${formatNumber(result.reward.gems)} Gems!`
+            `Nhận ${Number(result.reward?.gold || 0).toLocaleString()} Gold + ${Number(result.reward?.gems || 0).toLocaleString()} Gems!`
         );
-
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 APPEAL
@@ -3607,76 +1871,33 @@ APPEAL
 
 async function sendAppeal(){
 
-    const textarea =
-        $("appealMessage");
-
-
     const message =
-        textarea.value.trim();
+        $("appealMessage").value.trim();
 
-
-    if(message.length < 5){
-
-        toast(
-            "Nội dung appeal phải có ít nhất 5 ký tự.",
-            "error"
-        );
-
+    if(!message){
+        toast("Hãy nhập nội dung.","error");
         return;
-
     }
-
-
-    if(message.length > 3000){
-
-        toast(
-            "Nội dung appeal quá dài.",
-            "error"
-        );
-
-        return;
-
-    }
-
 
     try{
 
-        const result =
-            await api(
-                "/api/appeal",
-                {
-                    method:"POST",
+        await api("/api/appeal",{
+            method:"POST",
+            body:JSON.stringify({
+                accountId:account.id,
+                message
+            })
+        });
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            message
-                        })
-                }
-            );
+        $("appealMessage").value = "";
 
-
-        textarea.value = "";
-
-
-        toast(
-            result.message ||
-            "Appeal đã được gửi."
-        );
-
+        toast("Appeal đã được gửi.");
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 ADMIN CHECK
@@ -3684,25 +1905,10 @@ ADMIN CHECK
 
 function requireAdmin(){
 
-    if(
-        !account ||
-        account.role !== "admin"
-    ){
-
-        toast(
-            "Không có quyền admin.",
-            "error"
-        );
-
-        return false;
-
+    if(!account || account.role !== "admin"){
+        throw new Error("Không có quyền admin.");
     }
-
-
-    return true;
-
 }
-
 
 /* =========================================================
 ADMIN ACCOUNTS
@@ -3710,126 +1916,61 @@ ADMIN ACCOUNTS
 
 async function loadAdminAccounts(){
 
-    if(!requireAdmin())
-        return;
-
-
     try{
 
-        /*
-            SERVER:
-            GET /api/admin/accounts?accountId=ID
-        */
+        requireAdmin();
 
         const result =
             await api(
-                `/api/admin/accounts?accountId=${encodeURIComponent(account.id)}`
+                "/api/admin/accounts?accountId=" +
+                encodeURIComponent(account.id)
             );
 
-
         const list =
-            Array.isArray(
-                result.accounts
-            )
-                ? result.accounts
-                : [];
+            Array.isArray(result.accounts)
+            ? result.accounts
+            : [];
 
+        $("adminAccounts").innerHTML =
+            list.map(a => {
 
-        if(!list.length){
+                return `
+                    <div style="
+                        padding:12px;
+                        border:1px solid var(--border);
+                        border-radius:10px;
+                        margin-bottom:8px;
+                    ">
 
-            $("adminAccounts")
-                .innerHTML = `
-                    <p
-                        style="color:var(--muted)">
-                        Chưa có tài khoản.
-                    </p>
+                        <strong>
+                            ${escapeHtml(a.username)}
+                        </strong>
+
+                        <br>
+
+                        <small style="color:var(--muted)">
+                            ID: ${Number(a.id)}
+                            · ${escapeHtml(a.role)}
+                            · 🪙 ${Number(a.gold || 0).toLocaleString()}
+                            · 💎 ${Number(a.gems || 0).toLocaleString()}
+                        </small>
+
+                        <br>
+
+                        <small>
+                            ${a.banned ? "🔴 BANNED" : "🟢 ACTIVE"}
+                        </small>
+
+                    </div>
                 `;
 
-            return;
-
-        }
-
-
-        $("adminAccounts")
-            .innerHTML =
-                list.map(
-                    a => `
-
-<div
-    style="
-        padding:12px;
-        border:1px solid var(--border);
-        border-radius:10px;
-        margin-bottom:8px;
-    "
->
-
-    <strong>
-        ${escapeHtml(
-            a.username
-        )}
-    </strong>
-
-
-    <br>
-
-
-    <small
-        style="color:var(--muted)">
-
-        ID:
-        ${a.id}
-
-        ·
-
-        ${escapeHtml(
-            a.role
-        )}
-
-        ·
-
-        🪙
-        ${formatNumber(a.gold)}
-
-        ·
-
-        💎
-        ${formatNumber(a.gems)}
-
-    </small>
-
-
-    <br>
-
-
-    <small>
-
-        ${
-            a.banned
-                ? "🔴 BANNED"
-                : "🟢 ACTIVE"
-        }
-
-    </small>
-
-</div>
-
-`
-                )
-                .join("");
-
+            }).join("");
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 ADMIN GIFT
@@ -3837,111 +1978,46 @@ ADMIN GIFT
 
 async function adminGift(){
 
-    if(!requireAdmin())
-        return;
-
-
-    const targetId =
-        Number(
-            $("giftAccountId")
-                .value
-        );
-
-
-    const gold =
-        Number(
-            $("giftGold")
-                .value
-        ) || 0;
-
-
-    const gems =
-        Number(
-            $("giftGems")
-                .value
-        ) || 0;
-
-
-    if(
-        !Number.isInteger(
-            targetId
-        ) ||
-        targetId <= 0
-    ){
-
-        toast(
-            "Account ID không hợp lệ.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        gold < 0 ||
-        gems < 0
-    ){
-
-        toast(
-            "Gold/Gems không hợp lệ.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
     try{
 
-        /*
-            SERVER yêu cầu:
-            accountId
-            gold
-            gems
+        requireAdmin();
 
-            KHÔNG dùng targetAccountId.
-        */
+        const targetId =
+            Number($("giftAccountId").value);
 
-        const result =
-            await api(
-                "/api/admin/gift",
-                {
-                    method:"POST",
+        const gold =
+            Number($("giftGold").value) || 0;
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                targetId,
-                            gold,
-                            gems
-                        })
-                }
-            );
+        const gems =
+            Number($("giftGems").value) || 0;
 
+        if(!Number.isInteger(targetId) || targetId <= 0){
+            throw new Error("Account ID không hợp lệ.");
+        }
 
-        toast(
-            result.message ||
-            "Gift thành công."
-        );
+        if(gold < 0 || gems < 0){
+            throw new Error("Gold/Gems không được âm.");
+        }
 
+        await api("/api/admin/gift",{
+            method:"POST",
+            body:JSON.stringify({
+                accountId:account.id,
+                targetAccountId:targetId,
+                gold,
+                gems
+            })
+        });
 
-        await loadAdminAccounts();
+        toast("Gift thành công.");
 
+        loadAdminAccounts();
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 ADMIN BAN
@@ -3949,78 +2025,34 @@ ADMIN BAN
 
 async function adminBan(){
 
-    if(!requireAdmin())
-        return;
-
-
-    const targetId =
-        Number(
-            $("banAccountId")
-                .value
-        );
-
-
-    if(
-        !Number.isInteger(
-            targetId
-        ) ||
-        targetId <= 0
-    ){
-
-        toast(
-            "Account ID không hợp lệ.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
     try{
 
-        /*
-            SERVER yêu cầu:
-            accountId
+        requireAdmin();
 
-            Không có permanent.
-        */
+        const targetId =
+            Number($("banAccountId").value);
 
-        const result =
-            await api(
-                "/api/admin/ban",
-                {
-                    method:"POST",
+        if(!Number.isInteger(targetId) || targetId <= 0){
+            throw new Error("Account ID không hợp lệ.");
+        }
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                targetId
-                        })
-                }
-            );
+        await api("/api/admin/ban",{
+            method:"POST",
+            body:JSON.stringify({
+                accountId:account.id,
+                targetAccountId:targetId
+            })
+        });
 
+        toast("Đã ban tài khoản.");
 
-        toast(
-            result.message ||
-            "Đã ban tài khoản."
-        );
-
-
-        await loadAdminAccounts();
-
+        loadAdminAccounts();
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 ADMIN UNBAN
@@ -4028,71 +2060,34 @@ ADMIN UNBAN
 
 async function adminUnban(){
 
-    if(!requireAdmin())
-        return;
-
-
-    const targetId =
-        Number(
-            $("banAccountId")
-                .value
-        );
-
-
-    if(
-        !Number.isInteger(
-            targetId
-        ) ||
-        targetId <= 0
-    ){
-
-        toast(
-            "Account ID không hợp lệ.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
     try{
 
-        const result =
-            await api(
-                "/api/admin/unban",
-                {
-                    method:"POST",
+        requireAdmin();
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                targetId
-                        })
-                }
-            );
+        const targetId =
+            Number($("banAccountId").value);
 
+        if(!Number.isInteger(targetId) || targetId <= 0){
+            throw new Error("Account ID không hợp lệ.");
+        }
 
-        toast(
-            result.message ||
-            "Đã unban tài khoản."
-        );
+        await api("/api/admin/unban",{
+            method:"POST",
+            body:JSON.stringify({
+                accountId:account.id,
+                targetAccountId:targetId
+            })
+        });
 
+        toast("Đã unban tài khoản.");
 
-        await loadAdminAccounts();
-
+        loadAdminAccounts();
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 GLOBAL MESSAGE
@@ -4100,82 +2095,31 @@ GLOBAL MESSAGE
 
 async function setGlobalMessage(){
 
-    if(!requireAdmin())
-        return;
-
-
-    const message =
-        $("globalMessage")
-            .value
-            .trim();
-
-
-    if(!message){
-
-        toast(
-            "Hãy nhập thông báo.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(message.length > 1000){
-
-        toast(
-            "Thông báo quá dài.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
     try{
 
+        requireAdmin();
+
+        const message =
+            $("globalMessage").value.trim();
+
         const result =
-            await api(
-                "/api/admin/global-message",
-                {
-                    method:"POST",
-
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            message
-                        })
-                }
-            );
-
+            await api("/api/admin/global-message",{
+                method:"POST",
+                body:JSON.stringify({
+                    accountId:account.id,
+                    message
+                })
+            });
 
         toast(
-            result.message ||
-            "Đã cập nhật thông báo."
+            result.message || "Đã cập nhật thông báo."
         );
-
-
-        await loadServerInfo();
-
-
-        $("globalMessage")
-            .value = "";
-
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 ADMIN APPEALS
@@ -4183,480 +2127,133 @@ ADMIN APPEALS
 
 async function loadAppeals(){
 
-    if(!requireAdmin())
-        return;
-
-
     try{
 
-        /*
-            SERVER hiện tại:
-            GET /api/admin/appeals?accountId=ADMIN_ID
-        */
+        requireAdmin();
 
         const result =
             await api(
-                `/api/admin/appeals?accountId=${encodeURIComponent(account.id)}`
+                "/api/admin/appeals?accountId=" +
+                encodeURIComponent(account.id)
             );
 
+        const list =
+            Array.isArray(result.appeals)
+            ? result.appeals
+            : [];
 
-        const appeals =
-            Array.isArray(
-                result.appeals
-            )
-                ? result.appeals
-                : [];
+        if(!list.length){
 
-
-        if(!appeals.length){
-
-            $("appealsList")
-                .innerHTML = `
-                    <p
-                        style="
-                            color:var(--muted);
-                        ">
-                        Không có appeal.
-                    </p>
-                `;
+            $("appealsList").innerHTML =
+                `<p style="color:var(--muted)">
+                    Không có appeal.
+                </p>`;
 
             return;
-
         }
 
+        $("appealsList").innerHTML =
+            list.map(appeal => {
 
-        $("appealsList")
-            .innerHTML =
-                appeals.map(
-                    appeal => `
+                return `
+                    <div style="
+                        border:1px solid var(--border);
+                        border-radius:10px;
+                        padding:12px;
+                        margin-bottom:10px;
+                    ">
 
-<div
-    style="
-        border:1px solid var(--border);
-        border-radius:10px;
-        padding:12px;
-        margin-bottom:10px;
-    "
->
+                        <strong>
+                            ${escapeHtml(appeal.username)}
+                        </strong>
 
-    <strong>
-        ${escapeHtml(
-            appeal.username
-        )}
-    </strong>
+                        <small>
+                            #${Number(appeal.id)}
+                        </small>
 
+                        <p style="
+                            color:#9aa9bf;
+                            margin:8px 0;
+                        ">
+                            ${escapeHtml(appeal.message)}
+                        </p>
 
-    <small>
-        #${appeal.id}
-    </small>
+                        <small>
+                            Status:
+                            ${escapeHtml(appeal.status)}
+                        </small>
 
+                        ${
+                            appeal.status === "pending"
+                            ? `
+                                <div style="
+                                    margin-top:10px;
+                                    display:flex;
+                                    gap:8px;
+                                ">
 
-    <p
-        style="
-            color:#9aa9bf;
-            margin:8px 0;
-            white-space:pre-wrap;
-            word-break:break-word;
-        "
-    >
-        ${escapeHtml(
-            appeal.message
-        )}
-    </p>
+                                    <button
+                                        class="btn green"
+                                        onclick="respondAppeal(${Number(appeal.id)},'approve')">
+                                        Duyệt
+                                    </button>
 
+                                    <button
+                                        class="btn red"
+                                        onclick="respondAppeal(${Number(appeal.id)},'reject')">
+                                        Từ chối
+                                    </button>
 
-    <small>
+                                </div>
+                            `
+                            : ""
+                        }
 
-        Status:
-        ${escapeHtml(
-            appeal.status
-        )}
+                    </div>
+                `;
 
-    </small>
-
-
-    ${
-        appeal.status === "pending"
-
-        ? `
-
-        <div
-            style="
-                margin-top:10px;
-                display:flex;
-                gap:8px;
-            "
-        >
-
-            <button
-                class="btn green"
-                type="button"
-                onclick="respondAppeal(${appeal.id},'approve')">
-
-                Duyệt
-
-            </button>
-
-
-            <button
-                class="btn red"
-                type="button"
-                onclick="respondAppeal(${appeal.id},'reject')">
-
-                Từ chối
-
-            </button>
-
-        </div>
-
-        `
-
-        : ""
-
-    }
-
-</div>
-
-`
-                )
-                .join("");
-
+            }).join("");
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
 
 /* =========================================================
 RESPOND APPEAL
 ========================================================= */
 
-async function respondAppeal(
-    appealId,
-    action
-){
-
-    if(!requireAdmin())
-        return;
-
-
-    if(
-        !["approve","reject"]
-            .includes(action)
-    ){
-
-        toast(
-            "Action không hợp lệ.",
-            "error"
-        );
-
-        return;
-
-    }
-
+async function respondAppeal(appealId,action){
 
     try{
 
-        const result =
-            await api(
-                "/api/admin/appeal/respond",
-                {
-                    method:"POST",
+        requireAdmin();
 
-                    body:
-                        JSON.stringify({
-                            accountId:
-                                account.id,
-                            appealId:
-                                Number(appealId),
-                            action
-                        })
-                }
-            );
+        await api("/api/admin/appeal/respond",{
+            method:"POST",
+            body:JSON.stringify({
+                accountId:account.id,
+                appealId:Number(appealId),
+                action
+            })
+        });
 
+        toast("Đã xử lý appeal.");
 
-        toast(
-            result.message ||
-            "Đã xử lý appeal."
-        );
-
-
-        await loadAppeals();
-
+        loadAppeals();
 
     }catch(error){
 
-        toast(
-            error.message,
-            "error"
-        );
-
+        toast(error.message,"error");
     }
-
 }
-
-
-/* =========================================================
-FORMAT NUMBER
-========================================================= */
-
-function formatNumber(value){
-
-    const number =
-        Number(value);
-
-
-    if(
-        !Number.isFinite(number)
-    ){
-
-        return "0";
-
-    }
-
-
-    return number.toLocaleString(
-        "vi-VN"
-    );
-
-}
-
-
-/* =========================================================
-ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value){
-
-    return String(value ?? "")
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
-}
-
-
-/* =========================================================
-EVENTS
-========================================================= */
-
-function bindEvents(){
-
-    /* AUTH */
-
-    $("loginTab")
-        .addEventListener(
-            "click",
-            () => showAuth("login")
-        );
-
-
-    $("registerTab")
-        .addEventListener(
-            "click",
-            () => showAuth("register")
-        );
-
-
-    $("loginForm")
-        .addEventListener(
-            "submit",
-            event => {
-
-                event.preventDefault();
-
-                login();
-
-            }
-        );
-
-
-    $("registerForm")
-        .addEventListener(
-            "submit",
-            event => {
-
-                event.preventDefault();
-
-                register();
-
-            }
-        );
-
-
-    /* LOGOUT */
-
-    $("logoutButton")
-        .addEventListener(
-            "click",
-            logout
-        );
-
-
-    /* NAV */
-
-    document
-        .querySelectorAll(
-            ".nav-btn"
-        )
-        .forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () =>
-                        openPage(
-                            button.dataset.page
-                        )
-                );
-
-            }
-        );
-
-
-    /* HOME SHORTCUTS */
-
-    document
-        .querySelectorAll(
-            "[data-open-page]"
-        )
-        .forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () =>
-                        openPage(
-                            button.dataset.openPage
-                        )
-                );
-
-            }
-        );
-
-
-    /* REDEEM */
-
-    $("redeemButton")
-        .addEventListener(
-            "click",
-            redeemCode
-        );
-
-
-    $("redeemInput")
-        .addEventListener(
-            "keydown",
-            event => {
-
-                if(
-                    event.key === "Enter"
-                ){
-
-                    event.preventDefault();
-
-                    redeemCode();
-
-                }
-
-            }
-        );
-
-
-    /* APPEAL */
-
-    $("appealButton")
-        .addEventListener(
-            "click",
-            sendAppeal
-        );
-
-
-    /* ADMIN */
-
-    $("adminRefreshAccounts")
-        .addEventListener(
-            "click",
-            loadAdminAccounts
-        );
-
-
-    $("adminGiftButton")
-        .addEventListener(
-            "click",
-            adminGift
-        );
-
-
-    $("adminBanButton")
-        .addEventListener(
-            "click",
-            adminBan
-        );
-
-
-    $("adminUnbanButton")
-        .addEventListener(
-            "click",
-            adminUnban
-        );
-
-
-    $("globalMessageButton")
-        .addEventListener(
-            "click",
-            setGlobalMessage
-        );
-
-
-    $("adminAppealsButton")
-        .addEventListener(
-            "click",
-            loadAppeals
-        );
-
-}
-
 
 /* =========================================================
 START
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        bindEvents();
-
-        autoLogin();
-
-    }
-);
-
+autoLogin();
 </script>
 
 </body>
