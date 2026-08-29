@@ -7,15 +7,18 @@ const crypto = require("crypto");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+const VERSION = "2026.27.8";
 
-app.use(cors());
-app.use(express.json());
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
+
+app.use(express.json({ limit: "1mb" }));
 
 /* =========================================================
-   CONFIG
+   DATABASE
 ========================================================= */
-
-const VERSION = "2026.27.8";
 
 const DATA_DIR = path.join(__dirname, "data");
 const DATA_FILE = path.join(DATA_DIR, "accounts.json");
@@ -31,15 +34,38 @@ if (!fs.existsSync(DATA_DIR)) {
 function hashPassword(password) {
     return crypto
         .createHash("sha256")
-        .update(password)
+        .update(String(password))
         .digest("hex");
 }
 
 /* =========================================================
-   DATABASE
+   HELPERS
+========================================================= */
+
+function number(value, fallback = 0) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+}
+
+function cleanUsername(value) {
+    return String(value || "").trim();
+}
+
+function cleanCode(value) {
+    return String(value || "").trim().toUpperCase();
+}
+
+function uniqueArray(value) {
+    if (!Array.isArray(value)) return [];
+    return [...new Set(value.map(Number).filter(Number.isFinite))];
+}
+
+/* =========================================================
+   DEFAULT DATABASE
 ========================================================= */
 
 function defaultDatabase() {
+
     return {
         nextAccountId: 2,
 
@@ -59,7 +85,10 @@ function defaultDatabase() {
                 ownedUnits: [1, 2, 3, 4, 5],
                 ownedRoyals: [1, 2, 3, 4, 5, 6],
 
-                ownedArmors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                ownedArmors: [
+                    1, 2, 3, 4, 5,
+                    6, 7, 8, 9, 10
+                ],
 
                 equippedArmor: null,
 
@@ -84,27 +113,82 @@ function defaultDatabase() {
         globalMessage: "",
 
         redeemCodes: {
-            "WELCOME2026": {
+
+            WELCOME2026: {
                 gold: 10000,
                 gems: 100,
                 usedBy: []
             },
 
-            "SWUL2026": {
+            SWUL2026: {
                 gold: 50000,
                 gems: 500,
                 usedBy: []
             },
 
-            "LEGEND": {
+            LEGEND: {
                 gold: 100000,
                 gems: 1000,
                 usedBy: []
             }
+
         }
     };
 }
 
+/* =========================================================
+   NORMALIZE OLD DATABASE
+========================================================= */
+
+function normalizeAccount(account) {
+
+    account.id = number(account.id);
+    account.username = String(account.username || "");
+    account.role = account.role || "player";
+
+    account.gold = number(account.gold);
+    account.gems = number(account.gems);
+
+    account.completedCampaign =
+        uniqueArray(account.completedCampaign);
+
+    account.completedMissions =
+        uniqueArray(account.completedMissions);
+
+    account.ownedUnits =
+        uniqueArray(account.ownedUnits);
+
+    account.ownedRoyals =
+        uniqueArray(account.ownedRoyals);
+
+    account.ownedArmors =
+        uniqueArray(account.ownedArmors);
+
+    account.equippedArmor =
+        account.equippedArmor == null
+            ? null
+            : number(account.equippedArmor);
+
+    account.ownedSpells =
+        uniqueArray(account.ownedSpells);
+
+    account.equippedSpells =
+        uniqueArray(account.equippedSpells);
+
+    account.redeemedCodes =
+        Array.isArray(account.redeemedCodes)
+            ? account.redeemedCodes.map(String)
+            : [];
+
+    account.banned = !!account.banned;
+    account.permanentBan = !!account.permanentBan;
+
+    return account;
+}
+
+/* =========================================================
+   LOAD DATABASE
+========================================================= */
 
 function loadDatabase() {
 
@@ -119,12 +203,43 @@ function loadDatabase() {
 
     try {
 
-        const db =
-            JSON.parse(
-                fs.readFileSync(
-                    DATA_FILE,
-                    "utf8"
-                )
+        const db = JSON.parse(
+            fs.readFileSync(
+                DATA_FILE,
+                "utf8"
+            )
+        );
+
+        if (!db.accounts) {
+            db.accounts = [];
+        }
+
+        if (!db.appeals) {
+            db.appeals = [];
+        }
+
+        if (!db.redeemCodes) {
+            db.redeemCodes = {};
+        }
+
+        if (!db.globalMessage) {
+            db.globalMessage = "";
+        }
+
+        db.accounts =
+            db.accounts.map(normalizeAccount);
+
+        const maxId =
+            db.accounts.reduce(
+                (max, a) =>
+                    Math.max(max, number(a.id)),
+                1
+            );
+
+        db.nextAccountId =
+            Math.max(
+                number(db.nextAccountId),
+                maxId + 1
             );
 
         return db;
@@ -132,7 +247,8 @@ function loadDatabase() {
     } catch (error) {
 
         console.error(
-            "Database lỗi, tạo database mới."
+            "Database lỗi:",
+            error
         );
 
         const db = defaultDatabase();
@@ -143,19 +259,28 @@ function loadDatabase() {
     }
 }
 
+/* =========================================================
+   SAVE DATABASE
+========================================================= */
 
-function saveDatabase(db) {
+function saveDatabase(database) {
+
+    const tempFile =
+        DATA_FILE + ".tmp";
 
     fs.writeFileSync(
-        DATA_FILE,
-        JSON.stringify(db, null, 2),
+        tempFile,
+        JSON.stringify(database, null, 2),
         "utf8"
+    );
+
+    fs.renameSync(
+        tempFile,
+        DATA_FILE
     );
 }
 
-
 let db = loadDatabase();
-
 
 /* =========================================================
    GAME DATA
@@ -192,7 +317,6 @@ const GAME_DATA = {
 
     ],
 
-
     royals: [
 
         {
@@ -227,14 +351,14 @@ const GAME_DATA = {
 
     ],
 
-
     armors: [
 
         {
             id: 1,
             name: "Iron Armor",
             displayName: "Iron Armor",
-            description: "Giáp cơ bản dành cho chiến binh.",
+            description:
+                "Giáp cơ bản dành cho chiến binh.",
             effects: [
                 "+10% Defense"
             ],
@@ -245,7 +369,8 @@ const GAME_DATA = {
             id: 2,
             name: "Knight Armor",
             displayName: "Knight Armor",
-            description: "Giáp hiệp sĩ chắc chắn.",
+            description:
+                "Giáp hiệp sĩ chắc chắn.",
             effects: [
                 "+20% Defense",
                 "+5% HP"
@@ -257,7 +382,8 @@ const GAME_DATA = {
             id: 3,
             name: "Dragon Armor",
             displayName: "Dragon Armor",
-            description: "Giáp mang sức mạnh của rồng.",
+            description:
+                "Giáp mang sức mạnh của rồng.",
             effects: [
                 "+30% Defense",
                 "+10% Damage"
@@ -269,7 +395,8 @@ const GAME_DATA = {
             id: 4,
             name: "Shadow Armor",
             displayName: "Shadow Armor",
-            description: "Giáp bóng tối.",
+            description:
+                "Giáp bóng tối.",
             effects: [
                 "+20% Speed",
                 "+15% Damage"
@@ -281,7 +408,8 @@ const GAME_DATA = {
             id: 5,
             name: "Royal Armor",
             displayName: "Royal Armor",
-            description: "Giáp hoàng gia.",
+            description:
+                "Giáp hoàng gia.",
             effects: [
                 "+35% Defense",
                 "+15% HP"
@@ -293,7 +421,8 @@ const GAME_DATA = {
             id: 6,
             name: "Titan Armor",
             displayName: "Titan Armor",
-            description: "Bộ giáp khổng lồ.",
+            description:
+                "Bộ giáp khổng lồ.",
             effects: [
                 "+50% Defense",
                 "+25% HP"
@@ -305,7 +434,8 @@ const GAME_DATA = {
             id: 7,
             name: "Inferno Armor",
             displayName: "Inferno Armor",
-            description: "Giáp lửa địa ngục.",
+            description:
+                "Giáp lửa địa ngục.",
             effects: [
                 "+30% Damage",
                 "Burn Effect"
@@ -317,7 +447,8 @@ const GAME_DATA = {
             id: 8,
             name: "Void Armor",
             displayName: "Void Armor",
-            description: "Giáp hư không.",
+            description:
+                "Giáp hư không.",
             effects: [
                 "+40% Defense",
                 "+20% Damage"
@@ -329,7 +460,8 @@ const GAME_DATA = {
             id: 9,
             name: "Celestial Armor",
             displayName: "Celestial Armor",
-            description: "Giáp thiên giới.",
+            description:
+                "Giáp thiên giới.",
             effects: [
                 "+50% Defense",
                 "+30% HP",
@@ -342,7 +474,8 @@ const GAME_DATA = {
             id: 10,
             name: "Legendary Armor",
             displayName: "Legendary Armor",
-            description: "Bộ giáp huyền thoại tối thượng.",
+            description:
+                "Bộ giáp huyền thoại tối thượng.",
             effects: [
                 "+75% Defense",
                 "+50% HP",
@@ -353,114 +486,39 @@ const GAME_DATA = {
 
     ],
 
-
     spells: [
 
-        {
-            id: 1,
-            name: "Lightning"
-        },
+        { id: 1, name: "Lightning" },
+        { id: 2, name: "Meteor" },
+        { id: 3, name: "Fireball" },
+        { id: 4, name: "Freeze" },
+        { id: 5, name: "Heal" },
+        { id: 6, name: "Rage" },
+        { id: 7, name: "Shield" },
+        { id: 8, name: "Tornado" },
+        { id: 9, name: "Earthquake" },
+        { id: 10, name: "Poison" },
+        { id: 11, name: "Clone" },
+        { id: 12, name: "Teleport" },
+        { id: 13, name: "Arrow Rain" },
+        { id: 14, name: "Darkness" },
+        { id: 15, name: "Thunder Storm" },
+        { id: 16, name: "Time Stop" },
+        { id: 17, name: "Stone Skin" },
+        { id: 18, name: "Speed" },
+        { id: 19, name: "Summon" }
 
-        {
-            id: 2,
-            name: "Meteor"
-        },
+    ],
 
-        {
-            id: 3,
-            name: "Fireball"
-        },
+    campaign: [],
 
-        {
-            id: 4,
-            name: "Freeze"
-        },
-
-        {
-            id: 5,
-            name: "Heal"
-        },
-
-        {
-            id: 6,
-            name: "Rage"
-        },
-
-        {
-            id: 7,
-            name: "Shield"
-        },
-
-        {
-            id: 8,
-            name: "Tornado"
-        },
-
-        {
-            id: 9,
-            name: "Earthquake"
-        },
-
-        {
-            id: 10,
-            name: "Poison"
-        },
-
-        {
-            id: 11,
-            name: "Clone"
-        },
-
-        {
-            id: 12,
-            name: "Teleport"
-        },
-
-        {
-            id: 13,
-            name: "Arrow Rain"
-        },
-
-        {
-            id: 14,
-            name: "Darkness"
-        },
-
-        {
-            id: 15,
-            name: "Thunder Storm"
-        },
-
-        {
-            id: 16,
-            name: "Time Stop"
-        },
-
-        {
-            id: 17,
-            name: "Stone Skin"
-        },
-
-        {
-            id: 18,
-            name: "Speed"
-        },
-
-        {
-            id: 19,
-            name: "Summon"
-        }
-
-    ]
+    missions: []
 
 };
 
-
 /* =========================================================
-   CAMPAIGN
+   CAMPAIGN DATA
 ========================================================= */
-
-GAME_DATA.campaign = [];
 
 for (let i = 1; i <= 10; i++) {
 
@@ -478,12 +536,9 @@ for (let i = 1; i <= 10; i++) {
 
 }
 
-
 /* =========================================================
-   MISSIONS
+   MISSION DATA
 ========================================================= */
-
-GAME_DATA.missions = [];
 
 for (let i = 1; i <= 10; i++) {
 
@@ -501,7 +556,6 @@ for (let i = 1; i <= 10; i++) {
 
 }
 
-
 /* =========================================================
    PUBLIC ACCOUNT
 ========================================================= */
@@ -518,44 +572,62 @@ function publicAccount(account) {
 
         role: account.role,
 
-        gold: account.gold,
+        gold: number(account.gold),
 
-        gems: account.gems,
+        gems: number(account.gems),
 
         completedCampaign:
-            account.completedCampaign || [],
+            uniqueArray(account.completedCampaign),
 
         completedMissions:
-            account.completedMissions || [],
+            uniqueArray(account.completedMissions),
 
         ownedUnits:
-            account.ownedUnits || [],
+            uniqueArray(account.ownedUnits),
 
         ownedRoyals:
-            account.ownedRoyals || [],
+            uniqueArray(account.ownedRoyals),
 
         ownedArmors:
-            account.ownedArmors || [],
+            uniqueArray(account.ownedArmors),
 
         equippedArmor:
             account.equippedArmor ?? null,
 
         ownedSpells:
-            account.ownedSpells || [],
+            uniqueArray(account.ownedSpells),
 
         equippedSpells:
-            account.equippedSpells || [],
+            uniqueArray(account.equippedSpells),
 
         redeemedCodes:
-            account.redeemedCodes || [],
+            Array.isArray(account.redeemedCodes)
+                ? account.redeemedCodes
+                : [],
 
         banned:
             !!account.banned
 
     };
-
 }
 
+/* =========================================================
+   ACCOUNT FINDER
+========================================================= */
+
+function findAccount(id) {
+
+    const accountId = number(id, NaN);
+
+    if (!Number.isFinite(accountId)) {
+        return null;
+    }
+
+    return db.accounts.find(
+        account =>
+            account.id === accountId
+    );
+}
 
 /* =========================================================
    ROOT
@@ -565,266 +637,279 @@ app.get("/", (req, res) => {
 
     res.json({
 
-        game: "Stick War Ultimate Legends",
+        game:
+            "Stick War Ultimate Legends",
 
-        version: VERSION,
+        version:
+            VERSION,
 
-        status: "online"
+        status:
+            "online"
 
     });
 
 });
 
+/* =========================================================
+   HEALTH
+========================================================= */
+
+app.get("/health", (req, res) => {
+
+    res.json({
+
+        status:
+            "ok",
+
+        game:
+            "Stick War Ultimate Legends",
+
+        version:
+            VERSION,
+
+        accounts:
+            db.accounts.length
+
+    });
+
+});
 
 /* =========================================================
    GAME DATA
 ========================================================= */
 
-app.get(
-    "/api/game-data",
-    (req, res) => {
+app.get("/api/game-data", (req, res) => {
 
-        res.json(GAME_DATA);
+    res.json(GAME_DATA);
 
-    }
-);
-
+});
 
 /* =========================================================
    REGISTER
 ========================================================= */
 
-app.post(
-    "/api/register",
-    (req, res) => {
+app.post("/api/register", (req, res) => {
 
-        const username =
-            String(
-                req.body.username || ""
-            ).trim();
+    const username =
+        cleanUsername(req.body.username);
 
-        const password =
-            String(
-                req.body.password || ""
-            );
+    const password =
+        String(req.body.password || "");
 
-        if (
-            username.length < 3 ||
-            username.length > 20
-        ) {
+    if (
+        username.length < 3 ||
+        username.length > 20
+    ) {
 
-            return res.status(400).json({
-
-                message:
-                    "Username phải từ 3 đến 20 ký tự."
-
-            });
-
-        }
-
-        if (password.length < 4) {
-
-            return res.status(400).json({
-
-                message:
-                    "Mật khẩu phải có ít nhất 4 ký tự."
-
-            });
-
-        }
-
-        const exists =
-            db.accounts.find(
-                account =>
-                    account.username.toLowerCase() ===
-                    username.toLowerCase()
-            );
-
-        if (exists) {
-
-            return res.status(409).json({
-
-                message:
-                    "Tên tài khoản đã tồn tại."
-
-            });
-
-        }
-
-        const account = {
-
-            id: db.nextAccountId++,
-
-            username,
-
-            password:
-                hashPassword(password),
-
-            role: "player",
-
-            gold: 5000,
-
-            gems: 100,
-
-            completedCampaign: [],
-
-            completedMissions: [],
-
-            ownedUnits: [1],
-
-            ownedRoyals: [],
-
-            ownedArmors: [],
-
-            equippedArmor: null,
-
-            ownedSpells: [],
-
-            equippedSpells: [],
-
-            redeemedCodes: [],
-
-            banned: false,
-
-            permanentBan: false
-
-        };
-
-        db.accounts.push(account);
-
-        saveDatabase(db);
-
-        res.json({
+        return res.status(400).json({
 
             message:
-                "Tạo tài khoản thành công.",
-
-            account:
-                publicAccount(account)
+                "Username phải từ 3 đến 20 ký tự."
 
         });
 
     }
-);
 
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+
+        return res.status(400).json({
+
+            message:
+                "Username chỉ được dùng chữ, số và dấu _."
+
+        });
+
+    }
+
+    if (password.length < 4) {
+
+        return res.status(400).json({
+
+            message:
+                "Mật khẩu phải có ít nhất 4 ký tự."
+
+        });
+
+    }
+
+    const exists =
+        db.accounts.find(
+            account =>
+                account.username.toLowerCase() ===
+                username.toLowerCase()
+        );
+
+    if (exists) {
+
+        return res.status(409).json({
+
+            message:
+                "Tên tài khoản đã tồn tại."
+
+        });
+
+    }
+
+    const account = {
+
+        id:
+            db.nextAccountId++,
+
+        username,
+
+        password:
+            hashPassword(password),
+
+        role:
+            "player",
+
+        gold:
+            5000,
+
+        gems:
+            100,
+
+        completedCampaign: [],
+
+        completedMissions: [],
+
+        ownedUnits: [1],
+
+        ownedRoyals: [],
+
+        ownedArmors: [],
+
+        equippedArmor: null,
+
+        ownedSpells: [],
+
+        equippedSpells: [],
+
+        redeemedCodes: [],
+
+        banned: false,
+
+        permanentBan: false
+
+    };
+
+    db.accounts.push(account);
+
+    saveDatabase(db);
+
+    res.status(201).json({
+
+        message:
+            "Tạo tài khoản thành công.",
+
+        account:
+            publicAccount(account)
+
+    });
+
+});
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
-app.post(
-    "/api/login",
-    (req, res) => {
+app.post("/api/login", (req, res) => {
 
-        const username =
-            String(
-                req.body.username || ""
-            ).trim();
+    const username =
+        cleanUsername(req.body.username);
 
-        const password =
-            String(
-                req.body.password || ""
-            );
+    const password =
+        String(req.body.password || "");
 
-        const account =
-            db.accounts.find(
-                acc =>
-                    acc.username.toLowerCase() ===
-                    username.toLowerCase()
-            );
+    const account =
+        db.accounts.find(
+            acc =>
+                acc.username.toLowerCase() ===
+                username.toLowerCase()
+        );
 
-        if (!account) {
+    if (!account) {
 
-            return res.status(401).json({
-
-                message:
-                    "Sai tài khoản hoặc mật khẩu."
-
-            });
-
-        }
-
-        if (
-            account.password !==
-            hashPassword(password)
-        ) {
-
-            return res.status(401).json({
-
-                message:
-                    "Sai tài khoản hoặc mật khẩu."
-
-            });
-
-        }
-
-        if (account.banned) {
-
-            return res.status(403).json({
-
-                message:
-                    "Tài khoản đang bị ban.",
-
-                banned: true,
-
-                accountId:
-                    account.id
-
-            });
-
-        }
-
-        res.json({
+        return res.status(401).json({
 
             message:
-                "Đăng nhập thành công.",
-
-            account:
-                publicAccount(account)
+                "Sai tài khoản hoặc mật khẩu."
 
         });
 
     }
-);
 
+    if (
+        account.password !==
+        hashPassword(password)
+    ) {
+
+        return res.status(401).json({
+
+            message:
+                "Sai tài khoản hoặc mật khẩu."
+
+        });
+
+    }
+
+    if (account.banned) {
+
+        return res.status(403).json({
+
+            message:
+                "Tài khoản đang bị ban.",
+
+            banned:
+                true,
+
+            accountId:
+                account.id
+
+        });
+
+    }
+
+    res.json({
+
+        message:
+            "Đăng nhập thành công.",
+
+        account:
+            publicAccount(account)
+
+    });
+
+});
 
 /* =========================================================
    ACCOUNT
 ========================================================= */
 
-app.get(
-    "/api/account/:id",
-    (req, res) => {
+app.get("/api/account/:id", (req, res) => {
 
-        const id =
-            Number(req.params.id);
+    const account =
+        findAccount(req.params.id);
 
-        const account =
-            db.accounts.find(
-                acc => acc.id === id
-            );
+    if (!account) {
 
-        if (!account) {
+        return res.status(404).json({
 
-            return res.status(404).json({
-
-                message:
-                    "Không tìm thấy tài khoản."
-
-            });
-
-        }
-
-        res.json({
-
-            account:
-                publicAccount(account)
+            message:
+                "Không tìm thấy tài khoản."
 
         });
 
     }
-);
 
+    res.json({
+
+        account:
+            publicAccount(account)
+
+    });
+
+});
 
 /* =========================================================
    CAMPAIGN COMPLETE
@@ -835,14 +920,10 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const mapId =
-            Number(req.body.mapId);
+            number(req.body.mapId, NaN);
 
         if (!account) {
 
@@ -899,11 +980,12 @@ app.post(
 
         if (mapId > 1) {
 
-            if (
-                !account.completedCampaign.includes(
+            const previous =
+                account.completedCampaign.includes(
                     mapId - 1
-                )
-            ) {
+                );
+
+            if (!previous) {
 
                 return res.status(400).json({
 
@@ -935,7 +1017,6 @@ app.post(
     }
 );
 
-
 /* =========================================================
    MISSION COMPLETE
 ========================================================= */
@@ -945,14 +1026,10 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const missionId =
-            Number(req.body.missionId);
+            number(req.body.missionId, NaN);
 
         if (!account) {
 
@@ -960,6 +1037,17 @@ app.post(
 
                 message:
                     "Account không tồn tại."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đã bị ban."
 
             });
 
@@ -1036,7 +1124,6 @@ app.post(
     }
 );
 
-
 /* =========================================================
    ARMOR UNLOCK
 ========================================================= */
@@ -1046,14 +1133,10 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const armorId =
-            Number(req.body.armorId);
+            number(req.body.armorId, NaN);
 
         if (!account) {
 
@@ -1061,6 +1144,17 @@ app.post(
 
                 message:
                     "Account không tồn tại."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đã bị ban."
 
             });
 
@@ -1097,7 +1191,9 @@ app.post(
 
         }
 
-        if (account.gold < armor.cost) {
+        if (
+            account.gold < armor.cost
+        ) {
 
             return res.status(400).json({
 
@@ -1128,7 +1224,6 @@ app.post(
     }
 );
 
-
 /* =========================================================
    ARMOR EQUIP
 ========================================================= */
@@ -1138,14 +1233,10 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const armorId =
-            Number(req.body.armorId);
+            number(req.body.armorId, NaN);
 
         if (!account) {
 
@@ -1153,6 +1244,33 @@ app.post(
 
                 message:
                     "Account không tồn tại."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đã bị ban."
+
+            });
+
+        }
+
+        const armor =
+            GAME_DATA.armors.find(
+                a => a.id === armorId
+            );
+
+        if (!armor) {
+
+            return res.status(404).json({
+
+                message:
+                    "Armor không tồn tại."
 
             });
 
@@ -1178,11 +1296,6 @@ app.post(
 
         saveDatabase(db);
 
-        const armor =
-            GAME_DATA.armors.find(
-                a => a.id === armorId
-            );
-
         res.json({
 
             account:
@@ -1195,7 +1308,6 @@ app.post(
     }
 );
 
-
 /* =========================================================
    SPELL UNLOCK
 ========================================================= */
@@ -1205,14 +1317,10 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const spellId =
-            Number(req.body.spellId);
+            number(req.body.spellId, NaN);
 
         if (!account) {
 
@@ -1220,6 +1328,17 @@ app.post(
 
                 message:
                     "Account không tồn tại."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đã bị ban."
 
             });
 
@@ -1292,7 +1411,6 @@ app.post(
     }
 );
 
-
 /* =========================================================
    SPELL EQUIP
 ========================================================= */
@@ -1302,14 +1420,10 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const spellId =
-            Number(req.body.spellId);
+            number(req.body.spellId, NaN);
 
         if (!account) {
 
@@ -1317,6 +1431,33 @@ app.post(
 
                 message:
                     "Account không tồn tại."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đã bị ban."
+
+            });
+
+        }
+
+        const spell =
+            GAME_DATA.spells.find(
+                s => s.id === spellId
+            );
+
+        if (!spell) {
+
+            return res.status(404).json({
+
+                message:
+                    "Spell không tồn tại."
 
             });
 
@@ -1354,13 +1495,14 @@ app.post(
         res.json({
 
             account:
-                publicAccount(account)
+                publicAccount(account),
+
+            spell
 
         });
 
     }
 );
-
 
 /* =========================================================
    LEADERBOARD
@@ -1371,14 +1513,15 @@ app.get(
     (req, res) => {
 
         const leaderboard =
-            db.accounts
+            [...db.accounts]
                 .filter(
                     account =>
                         !account.banned
                 )
                 .sort(
                     (a, b) =>
-                        b.gold - a.gold
+                        number(b.gold) -
+                        number(a.gold)
                 )
                 .slice(0, 100)
                 .map(
@@ -1391,10 +1534,10 @@ app.get(
                             account.username,
 
                         gold:
-                            account.gold,
+                            number(account.gold),
 
                         gems:
-                            account.gems
+                            number(account.gems)
 
                     })
                 );
@@ -1408,9 +1551,8 @@ app.get(
     }
 );
 
-
 /* =========================================================
-   REDEEM
+   REDEEM CODE
 ========================================================= */
 
 app.post(
@@ -1418,16 +1560,10 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const code =
-            String(
-                req.body.code || ""
-            ).trim().toUpperCase();
+            cleanCode(req.body.code);
 
         if (!account) {
 
@@ -1435,6 +1571,28 @@ app.post(
 
                 message:
                     "Account không tồn tại."
+
+            });
+
+        }
+
+        if (account.banned) {
+
+            return res.status(403).json({
+
+                message:
+                    "Tài khoản đã bị ban."
+
+            });
+
+        }
+
+        if (!code) {
+
+            return res.status(400).json({
+
+                message:
+                    "Code không được để trống."
 
             });
 
@@ -1454,6 +1612,10 @@ app.post(
 
         }
 
+        if (!Array.isArray(reward.usedBy)) {
+            reward.usedBy = [];
+        }
+
         if (
             reward.usedBy.includes(
                 account.id
@@ -1469,19 +1631,26 @@ app.post(
 
         }
 
-        account.gold +=
-            Number(reward.gold || 0);
+        const gold =
+            number(reward.gold);
 
-        account.gems +=
-            Number(reward.gems || 0);
+        const gems =
+            number(reward.gems);
+
+        account.gold += gold;
+        account.gems += gems;
 
         reward.usedBy.push(
             account.id
         );
 
-        account.redeemedCodes.push(
-            code
-        );
+        if (
+            !account.redeemedCodes.includes(code)
+        ) {
+
+            account.redeemedCodes.push(code);
+
+        }
 
         saveDatabase(db);
 
@@ -1492,11 +1661,9 @@ app.post(
 
             reward: {
 
-                gold:
-                    reward.gold,
+                gold,
 
-                gems:
-                    reward.gems
+                gems
 
             }
 
@@ -1504,7 +1671,6 @@ app.post(
 
     }
 );
-
 
 /* =========================================================
    APPEAL
@@ -1515,11 +1681,7 @@ app.post(
     (req, res) => {
 
         const account =
-            db.accounts.find(
-                acc =>
-                    acc.id ===
-                    Number(req.body.accountId)
-            );
+            findAccount(req.body.accountId);
 
         const message =
             String(
@@ -1548,6 +1710,35 @@ app.post(
 
         }
 
+        if (message.length > 3000) {
+
+            return res.status(400).json({
+
+                message:
+                    "Appeal tối đa 3000 ký tự."
+
+            });
+
+        }
+
+        const pending =
+            db.appeals.find(
+                appeal =>
+                    appeal.accountId === account.id &&
+                    appeal.status === "pending"
+            );
+
+        if (pending) {
+
+            return res.status(400).json({
+
+                message:
+                    "Bạn đã có một appeal đang chờ xử lý."
+
+            });
+
+        }
+
         const appeal = {
 
             id:
@@ -1569,9 +1760,7 @@ app.post(
 
         };
 
-        db.appeals.push(
-            appeal
-        );
+        db.appeals.push(appeal);
 
         saveDatabase(db);
 
@@ -1587,55 +1776,34 @@ app.post(
     }
 );
 
-
 /* =========================================================
-   ADMIN CHECK
+   ADMIN HELPER
 ========================================================= */
 
-function requireAdmin(req, res, next) {
-
-    const accountId =
-        Number(
-            req.body.accountId ||
-            req.query.accountId ||
-            req.headers["x-account-id"]
-        );
+function isAdmin(accountId) {
 
     const account =
-        db.accounts.find(
-            acc =>
-                acc.id === accountId
-        );
+        findAccount(accountId);
 
-    if (
-        !account ||
-        account.role !== "admin"
-    ) {
-
-        return res.status(403).json({
-
-            message:
-                "Không có quyền Admin."
-
-        });
-
-    }
-
-    req.admin = account;
-
-    next();
-
+    return !!(
+        account &&
+        account.role === "admin" &&
+        !account.banned
+    );
 }
 
-
 /*
-   Frontend hiện tại không gửi admin accountId
-   trong các request admin.
+   LƯU Ý:
 
-   Vì vậy middleware bên dưới cho phép kiểm tra
-   bằng query/header nếu sau này frontend thêm vào.
+   index.html hiện tại không gửi admin accountId
+   trong các API admin.
+
+   Vì vậy các route admin vẫn giữ tương thích
+   với index hiện tại.
+
+   Khi nâng cấp frontend sang authentication token,
+   nên khóa toàn bộ admin API bằng token.
 */
-
 
 /* =========================================================
    ADMIN ACCOUNTS
@@ -1646,28 +1814,21 @@ app.get(
     (req, res) => {
 
         const accountId =
-            Number(
-                req.query.accountId ||
-                req.headers["x-account-id"]
-            );
-
-        const admin =
-            db.accounts.find(
-                a =>
-                    a.id === accountId &&
-                    a.role === "admin"
-            );
+            req.query.accountId ||
+            req.headers["x-account-id"];
 
         /*
-           Frontend hiện tại gọi endpoint này
-           không truyền accountId.
+           index.html hiện tại gọi:
+           GET /api/admin/accounts
 
-           Cho bản local/demo, cho phép đọc.
+           không gửi accountId.
+
+           Cho phép tương thích với frontend hiện tại.
         */
 
         if (
             accountId &&
-            !admin
+            !isAdmin(accountId)
         ) {
 
             return res.status(403).json({
@@ -1695,10 +1856,10 @@ app.get(
                             account.role,
 
                         gold:
-                            account.gold,
+                            number(account.gold),
 
                         gems:
-                            account.gems,
+                            number(account.gems),
 
                         banned:
                             !!account.banned
@@ -1711,7 +1872,6 @@ app.get(
     }
 );
 
-
 /* =========================================================
    ADMIN BAN
 ========================================================= */
@@ -1721,12 +1881,10 @@ app.post(
     (req, res) => {
 
         const id =
-            Number(req.body.accountId);
+            number(req.body.accountId, NaN);
 
         const target =
-            db.accounts.find(
-                a => a.id === id
-            );
+            findAccount(id);
 
         if (!target) {
 
@@ -1760,13 +1918,17 @@ app.post(
         res.json({
 
             message:
-                "Account đã bị ban."
+                target.permanentBan
+                    ? "Account đã bị permanent ban."
+                    : "Account đã bị ban.",
+
+            account:
+                publicAccount(target)
 
         });
 
     }
 );
-
 
 /* =========================================================
    ADMIN UNBAN
@@ -1777,12 +1939,10 @@ app.post(
     (req, res) => {
 
         const id =
-            Number(req.body.accountId);
+            number(req.body.accountId, NaN);
 
         const target =
-            db.accounts.find(
-                a => a.id === id
-            );
+            findAccount(id);
 
         if (!target) {
 
@@ -1796,7 +1956,6 @@ app.post(
         }
 
         target.banned = false;
-
         target.permanentBan = false;
 
         saveDatabase(db);
@@ -1804,13 +1963,15 @@ app.post(
         res.json({
 
             message:
-                "Account đã được unban."
+                "Account đã được unban.",
+
+            account:
+                publicAccount(target)
 
         });
 
     }
 );
-
 
 /* =========================================================
    ADMIN APPEALS
@@ -1830,7 +1991,6 @@ app.get(
     }
 );
 
-
 /* =========================================================
    ADMIN APPEAL RESPONSE
 ========================================================= */
@@ -1840,19 +2000,18 @@ app.post(
     (req, res) => {
 
         const accountId =
-            Number(req.body.accountId);
+            number(req.body.accountId, NaN);
 
         const appealId =
-            Number(req.body.appealId);
+            number(req.body.appealId, NaN);
 
         const action =
-            req.body.action;
+            String(
+                req.body.action || ""
+            ).toLowerCase();
 
         const account =
-            db.accounts.find(
-                a =>
-                    a.id === accountId
-            );
+            findAccount(accountId);
 
         const appeal =
             db.appeals.find(
@@ -1890,12 +2049,13 @@ app.post(
                 ? "approved"
                 : "rejected";
 
+        appeal.respondedAt =
+            new Date().toISOString();
+
         if (action === "approve") {
 
             account.banned = false;
-
-            account.permanentBan =
-                false;
+            account.permanentBan = false;
 
         }
 
@@ -1906,13 +2066,15 @@ app.post(
             message:
                 "Đã xử lý appeal.",
 
-            appeal
+            appeal,
+
+            account:
+                publicAccount(account)
 
         });
 
     }
 );
-
 
 /* =========================================================
    ADMIN GIFT
@@ -1923,13 +2085,10 @@ app.post(
     (req, res) => {
 
         const accountId =
-            Number(req.body.accountId);
+            number(req.body.accountId, NaN);
 
         const target =
-            db.accounts.find(
-                a =>
-                    a.id === accountId
-            );
+            findAccount(accountId);
 
         if (!target) {
 
@@ -1945,18 +2104,40 @@ app.post(
         const gold =
             Math.max(
                 0,
-                Number(req.body.gold) || 0
+                number(req.body.gold)
             );
 
         const gems =
             Math.max(
                 0,
-                Number(req.body.gems) || 0
+                number(req.body.gems)
             );
 
-        target.gold += gold;
+        const skin =
+            String(
+                req.body.skin || ""
+            ).trim();
 
+        target.gold += gold;
         target.gems += gems;
+
+        /*
+           Frontend hiện tại chỉ gửi skin dạng string.
+           Lưu skin vào ownedSkins để không mất dữ liệu.
+        */
+
+        if (!Array.isArray(target.ownedSkins)) {
+            target.ownedSkins = [];
+        }
+
+        if (
+            skin &&
+            !target.ownedSkins.includes(skin)
+        ) {
+
+            target.ownedSkins.push(skin);
+
+        }
 
         saveDatabase(db);
 
@@ -1973,7 +2154,6 @@ app.post(
     }
 );
 
-
 /* =========================================================
    GLOBAL MESSAGE
 ========================================================= */
@@ -1986,6 +2166,17 @@ app.post(
             String(
                 req.body.message || ""
             ).trim();
+
+        if (message.length > 1000) {
+
+            return res.status(400).json({
+
+                message:
+                    "Global Message tối đa 1000 ký tự."
+
+            });
+
+        }
 
         db.globalMessage =
             message;
@@ -2005,33 +2196,45 @@ app.post(
     }
 );
 
-
 /* =========================================================
-   HEALTH
+   GLOBAL MESSAGE GET
 ========================================================= */
 
 app.get(
-    "/health",
+    "/api/global-message",
     (req, res) => {
 
         res.json({
 
-            status: "ok",
-
-            game:
-                "Stick War Ultimate Legends",
-
-            version:
-                VERSION,
-
-            accounts:
-                db.accounts.length
+            globalMessage:
+                db.globalMessage || ""
 
         });
 
     }
 );
 
+/* =========================================================
+   ADMIN STATUS
+========================================================= */
+
+app.get(
+    "/api/admin/status",
+    (req, res) => {
+
+        const accountId =
+            req.query.accountId ||
+            req.headers["x-account-id"];
+
+        res.json({
+
+            isAdmin:
+                isAdmin(accountId)
+
+        });
+
+    }
+);
 
 /* =========================================================
    404
@@ -2053,7 +2256,6 @@ app.use(
     }
 );
 
-
 /* =========================================================
    ERROR HANDLER
 ========================================================= */
@@ -2061,7 +2263,10 @@ app.use(
 app.use(
     (error, req, res, next) => {
 
-        console.error(error);
+        console.error(
+            "SERVER ERROR:",
+            error
+        );
 
         res.status(500).json({
 
@@ -2073,9 +2278,8 @@ app.use(
     }
 );
 
-
 /* =========================================================
-   START
+   START SERVER
 ========================================================= */
 
 app.listen(
@@ -2099,7 +2303,11 @@ app.listen(
         );
 
         console.log(
-            "Admin: admin"
+            "Admin ID: admin"
+        );
+
+        console.log(
+            "Admin Password: AdLegend2026"
         );
 
         console.log(
