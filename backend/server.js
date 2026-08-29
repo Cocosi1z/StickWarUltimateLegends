@@ -1,28 +1,26 @@
-'javascript'
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
+// Serve frontend index.html từ thư mục gốc của repository
+app.use(express.static(path.join(__dirname, "../")));
+
+app.get("/game", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
+});
+
 /*
 ========================================================
 ⚔️ STICK WAR ULTIMATE LEGENDS
 Backend v2026.27.8
 ========================================================
-
-LƯU Ý:
-Đây là backend nền để test API.
-Database online thật sẽ được kết nối ở bước tiếp theo.
-Không lưu password thật trong frontend.
 */
-
-// ------------------------------------------------------
-// TEMP DATABASE - CHỈ DÙNG ĐỂ TEST
-// ------------------------------------------------------
 
 const accounts = [
     {
@@ -44,21 +42,17 @@ const codes = [];
 
 let globalMessage = "Welcome to Stick War Ultimate Legends!";
 
-// ------------------------------------------------------
+// ======================================================
 // HOME
-// ------------------------------------------------------
+// ======================================================
 
 app.get("/", (req, res) => {
-    res.json({
-        game: "Stick War Ultimate Legends",
-        version: "2026.27.8",
-        status: "online"
-    });
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 
-// ------------------------------------------------------
+// ======================================================
 // HEALTH CHECK
-// ------------------------------------------------------
+// ======================================================
 
 app.get("/api/status", (req, res) => {
     res.json({
@@ -68,12 +62,11 @@ app.get("/api/status", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // REGISTER
-// ------------------------------------------------------
+// ======================================================
 
 app.post("/api/register", (req, res) => {
-
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -137,12 +130,11 @@ app.post("/api/register", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // LOGIN
-// ------------------------------------------------------
+// ======================================================
 
 app.post("/api/login", (req, res) => {
-
     const { username, password } = req.body;
 
     const account = accounts.find(
@@ -182,12 +174,11 @@ app.post("/api/login", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
-// GET ACCOUNTS - ADMIN
-// ------------------------------------------------------
+// ======================================================
+// ADMIN ACCOUNTS
+// ======================================================
 
 app.get("/api/admin/accounts", (req, res) => {
-
     res.json({
         success: true,
         accounts: accounts.map(acc => ({
@@ -202,15 +193,16 @@ app.get("/api/admin/accounts", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // ADMIN BAN
-// ------------------------------------------------------
+// ======================================================
 
 app.post("/api/admin/ban", (req, res) => {
-
     const { accountId, permanent } = req.body;
 
-    const account = accounts.find(acc => acc.id === Number(accountId));
+    const account = accounts.find(
+        acc => acc.id === Number(accountId)
+    );
 
     if (!account) {
         return res.status(404).json({
@@ -241,15 +233,16 @@ app.post("/api/admin/ban", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // ADMIN UNBAN
-// ------------------------------------------------------
+// ======================================================
 
 app.post("/api/admin/unban", (req, res) => {
-
     const { accountId } = req.body;
 
-    const account = accounts.find(acc => acc.id === Number(accountId));
+    const account = accounts.find(
+        acc => acc.id === Number(accountId)
+    );
 
     if (!account) {
         return res.status(404).json({
@@ -267,12 +260,11 @@ app.post("/api/admin/unban", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // ADMIN GIFT
-// ------------------------------------------------------
+// ======================================================
 
 app.post("/api/admin/gift", (req, res) => {
-
     const {
         accountId,
         gold = 0,
@@ -280,7 +272,9 @@ app.post("/api/admin/gift", (req, res) => {
         skin = null
     } = req.body;
 
-    const account = accounts.find(acc => acc.id === Number(accountId));
+    const account = accounts.find(
+        acc => acc.id === Number(accountId)
+    );
 
     if (!account) {
         return res.status(404).json({
@@ -308,12 +302,11 @@ app.post("/api/admin/gift", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // CREATE CODE
-// ------------------------------------------------------
+// ======================================================
 
 app.post("/api/admin/create-code", (req, res) => {
-
     const {
         code,
         gold = 0,
@@ -355,18 +348,19 @@ app.post("/api/admin/create-code", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // REDEEM CODE
-// ------------------------------------------------------
+// ======================================================
 
 app.post("/api/redeem-code", (req, res) => {
-
     const {
         accountId,
         code
     } = req.body;
 
-    const account = accounts.find(acc => acc.id === Number(accountId));
+    const account = accounts.find(
+        acc => acc.id === Number(accountId)
+    );
 
     if (!account) {
         return res.status(404).json({
@@ -404,12 +398,11 @@ app.post("/api/redeem-code", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // GLOBAL MESSAGE
-// ------------------------------------------------------
+// ======================================================
 
 app.get("/api/global-message", (req, res) => {
-
     res.json({
         success: true,
         message: globalMessage
@@ -417,7 +410,6 @@ app.get("/api/global-message", (req, res) => {
 });
 
 app.post("/api/admin/global-message", (req, res) => {
-
     const { message } = req.body;
 
     if (!message) {
@@ -435,12 +427,11 @@ app.post("/api/admin/global-message", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // LEADERBOARD
-// ------------------------------------------------------
+// ======================================================
 
 app.get("/api/leaderboard", (req, res) => {
-
     const leaderboard = [...accounts]
         .sort((a, b) => b.gold - a.gold)
         .map((acc, index) => ({
@@ -456,14 +447,14 @@ app.get("/api/leaderboard", (req, res) => {
     });
 });
 
-// ------------------------------------------------------
+// ======================================================
 // SERVER
-// ------------------------------------------------------
+// ======================================================
 
 app.listen(PORT, () => {
     console.log("=================================");
     console.log("⚔️ SWUL BACKEND ONLINE");
     console.log("Version: 2026.27.8");
-    console.log(`Port: ${PORT}`);
+    console.log("Port: " + PORT);
     console.log("=================================");
 });
