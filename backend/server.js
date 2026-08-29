@@ -1,4 +1,4 @@
-```javascript
+'javascript'
 const express = require("express");
 const cors = require("cors");
 
@@ -467,4 +467,3 @@ app.listen(PORT, () => {
     console.log(`Port: ${PORT}`);
     console.log("=================================");
 });
-```
