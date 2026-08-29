@@ -26,7 +26,7 @@ const accounts = [
     {
         id: 1,
         username: "admin",
-        password: "CHANGE_THIS_PASSWORD",
+        password: "AdLegend2026",
         role: "admin",
         gold: 999999999,
         gems: 999999999,
