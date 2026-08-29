@@ -2,2663 +2,3862 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Stick War Ultimate Legends v2026.27.8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stick War Ultimate Legends</title>
 
 <style>
-:root{
- --bg:#07090d;
- --panel:#111722;
- --panel2:#171e2a;
- --line:#354052;
- --gold:#e6b84b;
- --gold2:#ffe08a;
- --red:#d94b43;
- --green:#54d78b;
- --blue:#55a9ff;
- --muted:#8995a8;
- --white:#f4f7fb;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-*{box-sizing:border-box}
+:root{
+    --bg:#080b10;
+    --panel:#111720;
+    --panel2:#171e28;
+    --panel3:#202a36;
+    --border:#344152;
+    --gold:#e5a32d;
+    --gold2:#b96d0c;
+    --text:#f4f6f8;
+    --muted:#8e99a9;
+    --green:#49b878;
+    --red:#d9534f;
+    --blue:#4c8ed9;
+}
 
-html,body{
- margin:0;
- width:100%;
- height:100%;
- overflow:hidden;
- background:#05070a;
- color:var(--white);
- font-family:Arial,Helvetica,sans-serif;
+body{
+    background:
+        radial-gradient(circle at 50% -20%,#3a3f46 0,#171c24 32%,#080b10 72%);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+button,input{
+    font:inherit;
 }
 
 button{
- font:inherit;
- border:0;
- cursor:pointer;
+    cursor:pointer;
 }
 
-.hidden{display:none!important}
-
-/* =====================================================
-   APP
-===================================================== */
-
-#app{
- width:100%;
- height:100%;
- background:
- radial-gradient(circle at 50% 0,#34475c 0,#111824 35%,#05070a 75%);
+.hidden{
+    display:none!important;
 }
 
-#top{
- height:68px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 18px;
- background:linear-gradient(#171e2a,#0b1017);
- border-bottom:2px solid #303b4b;
- box-shadow:0 5px 25px #000;
- position:relative;
- z-index:20;
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#090d12;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#3d4857;
+    border-radius:10px;
+}
+
+/* =========================
+   AUTH
+========================= */
+
+#authScreen{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at center,#323942 0,#12171e 45%,#06080c 100%);
+}
+
+.authBox{
+    width:430px;
+    max-width:100%;
+    background:rgba(13,18,25,.97);
+    border:1px solid #4b5665;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 25px 100px rgba(0,0,0,.8);
+}
+
+.authLogo{
+    text-align:center;
+    margin-bottom:24px;
+}
+
+.authLogo .sword{
+    font-size:55px;
+    margin-bottom:5px;
+}
+
+.authLogo h1{
+    color:var(--gold);
+    font-size:28px;
+    text-shadow:0 0 18px rgba(229,163,45,.25);
+}
+
+.authLogo p{
+    color:var(--muted);
+    margin-top:7px;
+}
+
+.authTabs{
+    display:flex;
+    gap:7px;
+    margin-bottom:18px;
+}
+
+.authTabs button{
+    flex:1;
+    border:0;
+    padding:12px;
+    background:#202936;
+    color:#9da8b6;
+    border-radius:8px;
+}
+
+.authTabs button.active{
+    background:linear-gradient(135deg,#efb13c,#a9640c);
+    color:#111;
+    font-weight:bold;
+}
+
+.authInput{
+    width:100%;
+    background:#0b1017;
+    color:white;
+    border:1px solid #354151;
+    border-radius:8px;
+    padding:13px;
+    margin-bottom:11px;
+    outline:none;
+}
+
+.authInput:focus{
+    border-color:var(--gold);
+}
+
+.primaryBtn{
+    width:100%;
+    border:0;
+    border-radius:8px;
+    padding:13px;
+    background:linear-gradient(135deg,#efb13c,#a9640c);
+    color:#111;
+    font-weight:900;
+}
+
+.authMessage{
+    min-height:24px;
+    text-align:center;
+    margin-top:12px;
+    color:#ffc75b;
+    font-size:14px;
+}
+
+/* =========================
+   GAME
+========================= */
+
+#game{
+    min-height:100vh;
+}
+
+.topbar{
+    height:68px;
+    background:rgba(9,13,18,.97);
+    border-bottom:1px solid #303b49;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:0 18px;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .brand{
- display:flex;
- align-items:center;
- gap:12px;
+    color:var(--gold);
+    font-weight:900;
+    white-space:nowrap;
+    font-size:18px;
 }
 
-.logo{
- width:43px;
- height:43px;
- border-radius:10px;
- display:grid;
- place-items:center;
- font-size:25px;
- background:linear-gradient(145deg,#f4d56b,#8f5e18);
- border:1px solid #ffe9a4;
- box-shadow:inset 0 1px #fff8,0 3px 12px #000;
+.topStats{
+    display:flex;
+    gap:7px;
+    margin-left:auto;
 }
 
-.brand b{
- display:block;
- font-size:18px;
+.stat{
+    background:#151c25;
+    border:1px solid #344050;
+    border-radius:7px;
+    padding:8px 12px;
+    font-size:13px;
+    font-weight:bold;
 }
 
-.brand small{
- display:block;
- color:var(--muted);
- margin-top:2px;
+.logoutBtn{
+    border:1px solid #553333;
+    background:#241719;
+    color:#ff9b98;
+    padding:8px 12px;
+    border-radius:7px;
 }
 
-.resources{
- display:flex;
- align-items:center;
- gap:7px;
+.refreshBtn{
+    border:1px solid #39485a;
+    background:#1b2430;
+    color:#c6d0dc;
+    padding:8px 11px;
+    border-radius:7px;
 }
 
-.resource{
- background:#151d29;
- border:1px solid #354156;
- border-radius:9px;
- padding:8px 11px;
- font-weight:bold;
+/* NAV */
+
+.navbar{
+    display:flex;
+    gap:4px;
+    padding:8px;
+    background:#10161e;
+    border-bottom:1px solid #303b49;
+    overflow-x:auto;
 }
 
-.resource span{
- color:var(--gold2);
+.navbar button{
+    border:0;
+    background:transparent;
+    color:#98a3b2;
+    padding:11px 15px;
+    border-radius:7px;
+    white-space:nowrap;
 }
 
-.iconButton{
- width:42px;
- height:40px;
- border-radius:9px;
- background:#202a3a;
- color:white;
- border:1px solid #3b485d;
+.navbar button:hover,
+.navbar button.active{
+    background:#293443;
+    color:white;
 }
 
-.iconButton:hover{
- filter:brightness(1.2);
+/* CONTENT */
+
+.container{
+    max-width:1500px;
+    margin:auto;
+    padding:25px;
 }
 
-/* =====================================================
-   LAYOUT
-===================================================== */
-
-#body{
- height:calc(100% - 68px);
- display:flex;
+.section{
+    display:none;
 }
 
-#sidebar{
- width:220px;
- padding:13px 10px;
- overflow:auto;
- background:linear-gradient(#111823,#090d13);
- border-right:1px solid #303a4a;
+.section.active{
+    display:block;
 }
 
-.nav{
- width:100%;
- padding:12px;
- margin-bottom:7px;
- border-radius:9px;
- background:#141c28;
- color:#aeb9c9;
- border:1px solid transparent;
- text-align:left;
+.sectionHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:15px;
+    margin-bottom:18px;
 }
 
-.nav:hover{
- filter:brightness(1.15);
+.sectionHeader h2{
+    font-size:28px;
 }
 
-.nav.active{
- color:white;
- background:linear-gradient(90deg,#55431d,#20271e);
- border-color:#80662b;
+.sectionHeader p{
+    color:var(--muted);
+    margin-top:5px;
 }
 
-.nav .ico{
- width:25px;
- display:inline-block;
-}
-
-.nav small{
- display:block;
- margin-left:27px;
- color:#718096;
- margin-top:3px;
-}
-
-#content{
- flex:1;
- min-width:0;
- overflow:auto;
- padding:22px;
-}
-
-.view{
- display:none;
- max-width:1450px;
- margin:auto;
-}
-
-.view.active{
- display:block;
-}
-
-.title{
- font-size:31px;
- font-weight:900;
- margin-bottom:4px;
-}
-
-.subtitle{
- color:var(--muted);
- margin-bottom:20px;
-}
-
-/* =====================================================
-   COMMON
-===================================================== */
-
-.panel{
- background:linear-gradient(145deg,#171f2b,#101620);
- border:1px solid var(--line);
- border-radius:14px;
- padding:18px;
- box-shadow:0 9px 30px #0005;
-}
-
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fill,minmax(225px,1fr));
- gap:14px;
-}
-
-.goldBtn{
- background:linear-gradient(#f3d16b,#a66e18);
- color:#171109;
- font-weight:900;
- padding:11px 16px;
- border-radius:8px;
- border:1px solid #ffe59c;
- box-shadow:0 3px 12px #0007;
-}
-
-.darkBtn{
- background:#222d3e;
- color:white;
- border:1px solid #425068;
- padding:10px 14px;
- border-radius:8px;
-}
-
-.redBtn{
- background:#8e2d2b;
- color:white;
- padding:10px 14px;
- border-radius:8px;
-}
-
-.greenBtn{
- background:#246b48;
- color:white;
- padding:10px 14px;
- border-radius:8px;
-}
-
-/* =====================================================
+/* =========================
    HOME
-===================================================== */
+========================= */
 
 .hero{
- min-height:265px;
- padding:30px;
- border-radius:17px;
- border:1px solid #44536a;
- background:
- linear-gradient(110deg,#182333e8,#0c1119ed),
- radial-gradient(circle at 80% 30%,#8a671d55,transparent 42%);
- position:relative;
- overflow:hidden;
- box-shadow:0 15px 50px #0009;
+    min-height:410px;
+    border:1px solid #414d5d;
+    border-radius:18px;
+    overflow:hidden;
+    position:relative;
+    padding:45px;
+    display:flex;
+    align-items:center;
+    background:
+        linear-gradient(90deg,rgba(5,8,12,.98),rgba(8,12,17,.70),rgba(8,12,17,.28)),
+        radial-gradient(circle at 80% 50%,#73501b,#252c34 28%,#111720 65%);
 }
 
 .hero:after{
- content:"⚔";
- position:absolute;
- right:40px;
- bottom:-70px;
- font-size:310px;
- opacity:.05;
- transform:rotate(-15deg);
+    content:"⚔";
+    position:absolute;
+    right:8%;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:230px;
+    opacity:.08;
 }
 
-.hero h1{
- font-size:43px;
- margin:0 0 8px;
+.heroContent{
+    position:relative;
+    z-index:2;
+}
+
+.hero small{
+    color:#c39445;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.hero h2{
+    font-size:50px;
+    line-height:1;
+    max-width:750px;
+    margin-top:10px;
+}
+
+.hero h2 span{
+    color:var(--gold);
 }
 
 .hero p{
- max-width:650px;
- line-height:1.6;
- color:#aab6c8;
+    color:#b1bbc8;
+    max-width:650px;
+    line-height:1.6;
+    margin-top:15px;
 }
 
-.quick{
- margin-top:22px;
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
- gap:12px;
+.heroButtons{
+    display:flex;
+    gap:10px;
+    margin-top:25px;
+    flex-wrap:wrap;
 }
 
-.quick .panel{
- text-align:center;
+.heroButtons button{
+    border:0;
+    padding:13px 21px;
+    border-radius:8px;
+    font-weight:bold;
 }
 
-.quickIcon{
- font-size:36px;
+.playBtn{
+    background:linear-gradient(135deg,#efb13c,#a9640c);
+    color:#111;
 }
 
-/* =====================================================
-   CAMPAIGN / MISSIONS
-===================================================== */
-
-.level{
- position:relative;
- overflow:hidden;
- min-height:210px;
+.darkBtn{
+    background:#293443;
+    color:white;
 }
 
-.level.locked{
- opacity:.45;
+.homeCards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-top:18px;
 }
 
-.level.completed{
- border-color:#3fa76d;
+.homeCard{
+    background:#141b24;
+    border:1px solid #303c4b;
+    border-radius:12px;
+    padding:20px;
 }
 
-.levelNumber{
- color:var(--gold2);
- font-weight:900;
- font-size:13px;
- margin-bottom:8px;
+.homeCard .icon{
+    font-size:30px;
+    margin-bottom:10px;
 }
 
-.level h3{
- margin:0 0 7px;
- font-size:20px;
+.homeCard h3{
+    margin-bottom:7px;
 }
 
-.level p{
- color:#909caf;
- min-height:38px;
+.homeCard p{
+    color:var(--muted);
+    line-height:1.4;
+}
+
+/* =========================
+   CAMPAIGN / MISSION
+========================= */
+
+.mapGrid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+}
+
+.mapCard{
+    min-height:205px;
+    background:
+        linear-gradient(145deg,#1c2632,#10161e);
+    border:1px solid #3a4656;
+    border-radius:13px;
+    padding:18px;
+    position:relative;
+    overflow:hidden;
+}
+
+.mapCard:hover{
+    border-color:#a47a35;
+    transform:translateY(-2px);
+}
+
+.mapCard.locked{
+    opacity:.48;
+    filter:grayscale(.5);
+}
+
+.mapNumber{
+    font-size:38px;
+    font-weight:900;
+    color:#d99a30;
+}
+
+.mapCard h3{
+    margin-top:8px;
+    font-size:17px;
+}
+
+.mapCard p{
+    color:#8995a4;
+    font-size:13px;
+    margin-top:7px;
 }
 
 .reward{
- color:#ffd968;
- margin:9px 0;
+    color:#f1bb4f!important;
+    margin-top:12px!important;
 }
 
-.lock{
- position:absolute;
- right:15px;
- top:15px;
- font-size:25px;
+.mapCard button{
+    width:100%;
+    margin-top:13px;
+    padding:10px;
+    border:0;
+    border-radius:7px;
+    background:#bd791b;
+    color:#111;
+    font-weight:bold;
 }
 
-.map{
- height:45px;
- margin-top:10px;
- border-radius:8px;
- border:1px solid #414d60;
- background:
- linear-gradient(90deg,#1c2d24,#25391f,#1b2a20);
- position:relative;
- overflow:hidden;
+.mapCard button:disabled{
+    background:#333c47;
+    color:#737d89;
+    cursor:not-allowed;
 }
 
-.map:after{
- content:"";
- position:absolute;
- left:0;
- top:50%;
- width:100%;
- height:2px;
- background:#7d754d;
- opacity:.7;
-}
-
-/* =====================================================
+/* =========================
    ARMORY
-===================================================== */
+========================= */
 
-.armor{
- min-height:310px;
+.armoryLayout{
+    display:grid;
+    grid-template-columns:245px 1fr;
+    gap:18px;
+}
+
+.unitPanel{
+    background:#121923;
+    border:1px solid #344151;
+    border-radius:13px;
+    padding:14px;
+    height:max-content;
+}
+
+.unitPanel h3{
+    color:#d9a143;
+    margin-bottom:12px;
+}
+
+.unitButton{
+    width:100%;
+    border:1px solid transparent;
+    background:#202936;
+    color:#adb7c5;
+    padding:13px;
+    text-align:left;
+    border-radius:7px;
+    margin-bottom:7px;
+}
+
+.unitButton:hover,
+.unitButton.selected{
+    background:#865817;
+    border-color:#b27b2a;
+    color:#fff;
+}
+
+.equipmentPreview{
+    margin-top:15px;
+    padding:14px;
+    border:1px solid #303c4b;
+    border-radius:9px;
+    background:#0c1118;
+}
+
+.equipmentPreview small{
+    color:#7f8a9a;
+}
+
+.equippedName{
+    color:#e7ac3e;
+    margin-top:7px;
+    font-weight:bold;
+}
+
+.armorGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.armorCard{
+    background:#141b24;
+    border:1px solid #354253;
+    border-radius:13px;
+    padding:17px;
+    transition:.15s;
+}
+
+.armorCard:hover{
+    border-color:#9c722e;
+}
+
+.armorCard.equipped{
+    border-color:#e5a32d;
+    box-shadow:0 0 20px rgba(229,163,45,.13);
 }
 
 .armorIcon{
- height:105px;
- display:grid;
- place-items:center;
- font-size:70px;
- border-radius:10px;
- background:
- radial-gradient(circle,#4e586733,transparent 60%),
- linear-gradient(#202a39,#101620);
- margin-bottom:13px;
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    border:2px solid #596879;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:33px;
+    margin-bottom:11px;
+    background:radial-gradient(circle,#3a4757,#111720);
 }
 
-.rarity{
- display:inline-block;
- padding:4px 8px;
- border-radius:6px;
- font-size:11px;
- font-weight:900;
- margin-bottom:8px;
+.armorCard h3{
+    font-size:17px;
 }
 
-.common{background:#4a535e}
-.uncommon{background:#276a43}
-.rare{background:#255e9d}
-.epic{background:#673b91}
-.legendary{background:#a3651a}
-.golden{background:#9b7717}
-.mythic{background:#9b263e}
-.limited{background:#6b2d80}
-
-.effects{
- margin-top:9px;
- color:#71e19b;
- font-size:13px;
- line-height:1.55;
+.armorCard p{
+    color:#8f9aaa;
+    line-height:1.45;
+    font-size:13px;
+    margin:8px 0;
 }
 
-.equip{
- margin-top:12px;
- width:100%;
+.effectList{
+    list-style:none;
+    color:#bfc9d5;
+    font-size:12px;
+    line-height:1.65;
 }
 
-/* =====================================================
-   SPELL
-===================================================== */
+.effectList li:before{
+    content:"◆ ";
+    color:#d89a32;
+}
 
-.spell{
- text-align:center;
- min-height:185px;
+.armorAction{
+    width:100%;
+    border:0;
+    border-radius:7px;
+    padding:10px;
+    margin-top:13px;
+    background:#bd791b;
+    color:#111;
+    font-weight:bold;
+}
+
+.armorAction.equippedBtn{
+    background:#315f45;
+    color:#d9ffe7;
+}
+
+/* =========================
+   SPELLS
+========================= */
+
+.spellGrid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+}
+
+.spellCard{
+    background:#141b24;
+    border:1px solid #354253;
+    border-radius:13px;
+    padding:18px;
+}
+
+.spellCard.owned{
+    border-color:#477c5d;
 }
 
 .spellIcon{
- font-size:48px;
- margin-bottom:9px;
+    width:65px;
+    height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:radial-gradient(circle,#334255,#111720);
+    font-size:31px;
+    margin-bottom:11px;
 }
 
-.cooldown{
- color:#8390a3;
- font-size:12px;
+.spellCard h3{
+    font-size:16px;
 }
 
-/* =====================================================
-   UNITS
-===================================================== */
-
-.unit{
- min-height:230px;
+.spellCard p{
+    color:#8c98a8;
+    font-size:13px;
+    margin-top:6px;
 }
 
-.unitVisual{
- height:100px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:70px;
- background:linear-gradient(#1b2533,#10151e);
- border-radius:10px;
- margin-bottom:12px;
+.spellCard button{
+    width:100%;
+    border:0;
+    margin-top:12px;
+    padding:9px;
+    border-radius:7px;
+    background:#354559;
+    color:white;
 }
 
-.statline{
- color:#9da9bb;
- font-size:13px;
- margin-top:5px;
+.spellCard button.ownedBtn{
+    background:#315f45;
 }
 
-/* =====================================================
-   BATTLE
-===================================================== */
+/* =========================
+   ROYALS / UNITS
+========================= */
 
-#battle{
- position:fixed;
- inset:0;
- background:#05070a;
- z-index:100;
- display:none;
+.characterGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
 }
 
-#battle.active{
- display:block;
+.characterCard{
+    background:#141b24;
+    border:1px solid #354253;
+    border-radius:14px;
+    padding:20px;
 }
 
-.battleTop{
- height:62px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 15px;
- background:#111823;
- border-bottom:1px solid #354052;
+.characterAvatar{
+    width:100px;
+    height:130px;
+    margin:auto auto 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    background:linear-gradient(180deg,#2d3948,#111720);
+    border-radius:12px;
 }
 
-.battleTitle{
- font-weight:900;
+.characterCard h3{
+    text-align:center;
+    color:#e5aa3c;
 }
 
-.battleTop button{
- padding:9px 13px;
- border-radius:8px;
- background:#8e2d2b;
- color:white;
+.characterCard p{
+    color:#8d99a9;
+    text-align:center;
+    margin-top:7px;
 }
 
-#battleCanvas{
- width:100%;
- height:calc(100% - 145px);
- display:block;
- background:#162235;
+/* =========================
+   ACCOUNT
+========================= */
+
+.profileGrid{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:18px;
 }
 
-.battleBottom{
- height:83px;
- display:flex;
- justify-content:center;
- align-items:center;
- gap:8px;
- flex-wrap:wrap;
- background:#101722;
- border-top:1px solid #354052;
+.profileBox,
+.infoBox{
+    background:#141b24;
+    border:1px solid #354253;
+    border-radius:13px;
+    padding:22px;
 }
 
-.battleBottom button{
- padding:10px 13px;
- border-radius:8px;
- background:#222d3e;
- color:white;
- border:1px solid #3a485d;
+.avatar{
+    width:110px;
+    height:110px;
+    margin:auto auto 15px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:50px;
+    background:radial-gradient(circle,#57451f,#202a36);
+    border:2px solid #76603a;
 }
 
-.battleBottom .spellButton{
- background:#553b87;
+.profileName{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
 }
 
-.battleMessage{
- position:absolute;
- top:90px;
- left:50%;
- transform:translateX(-50%);
- font-size:28px;
- font-weight:900;
- text-shadow:0 3px 12px #000;
- pointer-events:none;
+.profileRole{
+    text-align:center;
+    color:#e2a33a;
+    margin-top:5px;
 }
 
-/* =====================================================
-   PROFILE / EQUIPMENT
-===================================================== */
-
-.equipment{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
- gap:12px;
+.infoRow{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid #293340;
 }
 
-.slot{
- min-height:110px;
- background:#0e141d;
- border:1px solid #364154;
- border-radius:10px;
- padding:12px;
- text-align:center;
+.infoRow span:first-child{
+    color:#8c98a8;
 }
 
-.slotIcon{
- font-size:32px;
+.progressBar{
+    width:100%;
+    height:12px;
+    border-radius:10px;
+    background:#0b1016;
+    overflow:hidden;
+    margin-top:9px;
 }
 
-/* =====================================================
-   SHOP
-===================================================== */
-
-.price{
- color:#ffdc6a;
- font-weight:900;
- margin:8px 0;
+.progressFill{
+    height:100%;
+    background:linear-gradient(90deg,#bd791b,#f2b63f);
 }
 
-/* =====================================================
+/* =========================
+   LEADERBOARD
+========================= */
+
+.tableWrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#141b24;
+    border:1px solid #354253;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+th,td{
+    padding:14px;
+    text-align:left;
+    border-bottom:1px solid #293340;
+}
+
+th{
+    background:#202a36;
+    color:#e2a33a;
+}
+
+tr:hover td{
+    background:#1a222d;
+}
+
+/* =========================
+   CODES
+========================= */
+
+.codeBox{
+    max-width:600px;
+    background:#141b24;
+    border:1px solid #354253;
+    border-radius:13px;
+    padding:22px;
+}
+
+.codeInput{
+    width:100%;
+    background:#0b1017;
+    border:1px solid #374354;
+    color:white;
+    padding:13px;
+    border-radius:8px;
+    outline:none;
+}
+
+.codeBtn{
+    width:100%;
+    margin-top:10px;
+    border:0;
+    background:#bd791b;
+    color:#111;
+    font-weight:bold;
+    padding:12px;
+    border-radius:8px;
+}
+
+/* =========================
+   APPEAL
+========================= */
+
+.appealBox{
+    max-width:700px;
+    background:#141b24;
+    border:1px solid #354253;
+    border-radius:13px;
+    padding:22px;
+}
+
+textarea{
+    width:100%;
+    min-height:150px;
+    resize:vertical;
+    background:#0b1017;
+    color:white;
+    border:1px solid #354253;
+    border-radius:8px;
+    padding:13px;
+    outline:none;
+}
+
+.appealBtn{
+    margin-top:10px;
+    border:0;
+    padding:12px 18px;
+    border-radius:8px;
+    background:#bd791b;
+    color:#111;
+    font-weight:bold;
+}
+
+/* =========================
+   ADMIN
+========================= */
+
+.adminOnly{
+    display:none;
+}
+
+.adminBox{
+    background:#17151a;
+    border:1px solid #5a3b3b;
+    border-radius:13px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.adminBox h3{
+    color:#ffb34d;
+    margin-bottom:14px;
+}
+
+.adminGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+}
+
+.adminGrid input,
+.adminGrid select{
+    background:#0b1017;
+    color:white;
+    border:1px solid #394555;
+    border-radius:7px;
+    padding:10px;
+}
+
+.adminGrid button{
+    border:0;
+    border-radius:7px;
+    background:#9b6419;
+    color:white;
+}
+
+.adminAction{
+    padding:10px;
+    border:0;
+    border-radius:7px;
+    margin-right:5px;
+    background:#3b4859;
+    color:white;
+}
+
+.adminAction.red{
+    background:#713737;
+}
+
+.adminAction.green{
+    background:#326445;
+}
+
+/* =========================
    TOAST
-===================================================== */
+========================= */
 
 #toast{
- position:fixed;
- right:18px;
- bottom:18px;
- z-index:999;
- display:none;
- padding:13px 17px;
- border-radius:9px;
- background:#202b3c;
- border:1px solid #44536b;
- box-shadow:0 7px 25px #000;
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:9999;
+    background:#171f29;
+    border:1px solid #4b596b;
+    border-radius:9px;
+    padding:13px 17px;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+    transform:translateY(100px);
+    opacity:0;
+    transition:.25s;
+    max-width:350px;
 }
 
-/* =====================================================
+#toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+#toast.success{
+    border-color:#427854;
+}
+
+#toast.error{
+    border-color:#754040;
+}
+
+/* =========================
    MOBILE
-===================================================== */
+========================= */
+
+@media(max-width:1100px){
+    .mapGrid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .armorGrid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .spellGrid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .homeCards{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
 
 @media(max-width:800px){
+    .topbar{
+        height:auto;
+        min-height:62px;
+        flex-wrap:wrap;
+        padding:10px;
+    }
 
- #sidebar{
-  width:65px;
-  padding:8px 6px;
- }
+    .topStats{
+        margin-left:0;
+        width:100%;
+        overflow-x:auto;
+    }
 
- .nav{
-  text-align:center;
-  padding:11px 4px;
- }
+    .container{
+        padding:15px;
+    }
 
- .nav .ico{
-  width:auto;
-  font-size:20px;
- }
+    .hero{
+        padding:28px;
+        min-height:390px;
+    }
 
- .nav strong,
- .nav small{
-  display:none;
- }
+    .hero h2{
+        font-size:35px;
+    }
 
- .brand b,
- .brand small{
-  display:none;
- }
+    .mapGrid,
+    .characterGrid{
+        grid-template-columns:repeat(2,1fr);
+    }
 
- #content{
-  padding:13px;
- }
+    .armoryLayout,
+    .profileGrid{
+        grid-template-columns:1fr;
+    }
 
- .title{
-  font-size:25px;
- }
+    .adminGrid{
+        grid-template-columns:1fr;
+    }
+}
 
- .hero h1{
-  font-size:31px;
- }
+@media(max-width:560px){
+    .mapGrid,
+    .armorGrid,
+    .spellGrid,
+    .characterGrid,
+    .homeCards{
+        grid-template-columns:1fr;
+    }
 
- .resources .resource{
-  padding:7px;
-  font-size:12px;
- }
+    .hero{
+        padding:22px;
+    }
 
+    .hero h2{
+        font-size:31px;
+    }
+
+    .brand{
+        width:100%;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div id="app">
-
-<header id="top">
-
- <div class="brand">
-  <div class="logo">⚔️</div>
-  <div>
-   <b>STICK WAR ULTIMATE LEGENDS</b>
-   <small>LEGENDS EDITION • v2026.27.8</small>
-  </div>
- </div>
-
- <div class="resources">
-  <div class="resource">🪙 <span id="gold">2500</span></div>
-  <div class="resource">💎 <span id="gems">100</span></div>
-  <button class="iconButton" onclick="refreshGame()">🔄</button>
- </div>
-
-</header>
-
-<div id="body">
-
-<aside id="sidebar">
-
- <button class="nav active" onclick="showView('home',this)">
-  <span class="ico">🏠</span>
-  <strong>Trang chủ</strong>
-  <small>Home</small>
- </button>
-
- <button class="nav" onclick="showView('campaign',this)">
-  <span class="ico">🗺️</span>
-  <strong>Campaign</strong>
-  <small>10 Battles</small>
- </button>
-
- <button class="nav" onclick="showView('missions',this)">
-  <span class="ico">🎯</span>
-  <strong>Mission</strong>
-  <small>10 Missions</small>
- </button>
-
- <button class="nav" onclick="showView('armory',this)">
-  <span class="ico">🛡️</span>
-  <strong>Armory</strong>
-  <small>Armor & Skins</small>
- </button>
-
- <button class="nav" onclick="showView('spells',this)">
-  <span class="ico">✨</span>
-  <strong>Spells</strong>
-  <small>19 Spells</small>
- </button>
-
- <button class="nav" onclick="showView('units',this)">
-  <span class="ico">⚔️</span>
-  <strong>Units</strong>
-  <small>Army</small>
- </button>
-
- <button class="nav" onclick="showView('royals',this)">
-  <span class="ico">👑</span>
-  <strong>Royals</strong>
-  <small>Heroes</small>
- </button>
-
- <button class="nav" onclick="showView('shop',this)">
-  <span class="ico">🛒</span>
-  <strong>Shop</strong>
-  <small>Skins</small>
- </button>
-
- <button class="nav" onclick="showView('profile',this)">
-  <span class="ico">👤</span>
-  <strong>Profile</strong>
-  <small>Equipment</small>
- </button>
-
-</aside>
-
-<main id="content">
-
-<!-- ===================================================
- HOME
-=================================================== -->
-
-<section id="home" class="view active">
-
- <div class="hero">
-
-  <h1>⚔️ Stick War Ultimate Legends</h1>
-
-  <p>
-   Chào mừng đến với chiến trường Legends.
-   Xây dựng đội quân, trang bị giáp huyền thoại,
-   sử dụng phép thuật và chinh phục toàn bộ 10 Campaign
-   cùng 10 Mission.
-  </p>
-
-  <button class="goldBtn" onclick="startBattle('campaign',1)">
-   ⚔️ BẮT ĐẦU CHIẾN ĐẤU
-  </button>
-
- </div>
-
- <br>
-
- <div class="quick">
-
-  <div class="panel">
-   <div class="quickIcon">🗺️</div>
-   <h3>10 Campaign</h3>
-   <p>Chiến dịch chính</p>
-  </div>
-
-  <div class="panel">
-   <div class="quickIcon">🎯</div>
-   <h3>10 Missions</h3>
-   <p>Nhiệm vụ đặc biệt</p>
-  </div>
-
-  <div class="panel">
-   <div class="quickIcon">🛡️</div>
-   <h3>10 Legendary Armor</h3>
-   <p>Giáp có hiệu ứng</p>
-  </div>
-
-  <div class="panel">
-   <div class="quickIcon">✨</div>
-   <h3>19 Spells</h3>
-   <p>Phép thuật chiến trường</p>
-  </div>
-
- </div>
-
- <br>
-
- <div class="panel">
-  <b>📢 THÔNG BÁO</b>
-  <p id="announcement">
-   Campaign Battle System đã sẵn sàng.
-   Chúc chiến binh may mắn!
-  </p>
- </div>
-
-</section>
-
-
-<!-- ===================================================
- CAMPAIGN
-=================================================== -->
-
-<section id="campaign" class="view">
-
- <div class="title">🗺️ Campaign</div>
- <div class="subtitle">
-  Chinh phục 10 trận chiến. Mỗi trận mở khóa trận tiếp theo.
- </div>
-
- <div id="campaignGrid" class="grid"></div>
-
-</section>
-
-
-<!-- ===================================================
- MISSIONS
-=================================================== -->
-
-<section id="missions" class="view">
-
- <div class="title">🎯 Missions</div>
- <div class="subtitle">
-  10 nhiệm vụ đặc biệt với luật chiến đấu khác nhau.
- </div>
-
- <div id="missionGrid" class="grid"></div>
-
-</section>
-
-
-<!-- ===================================================
- ARMORY
-=================================================== -->
-
-<section id="armory" class="view">
-
- <div class="title">🛡️ Armory</div>
- <div class="subtitle">
-  Trang bị riêng cho từng chiến binh. Mỗi giáp có hiệu ứng gameplay.
- </div>
-
- <div id="armorGrid" class="grid"></div>
-
-</section>
-
-
-<!-- ===================================================
- SPELLS
-=================================================== -->
-
-<section id="spells" class="view">
-
- <div class="title">✨ Spell Book</div>
- <div class="subtitle">
-  19 phép thuật huyền thoại.
- </div>
-
- <div id="spellGrid" class="grid"></div>
-
-</section>
-
-
-<!-- ===================================================
- UNITS
-=================================================== -->
-
-<section id="units" class="view">
-
- <div class="title">⚔️ Army</div>
- <div class="subtitle">
-  Mỗi unit có trang bị và skin riêng.
- </div>
-
- <div id="unitGrid" class="grid"></div>
-
-</section>
-
-
-<!-- ===================================================
- ROYALS
-=================================================== -->
-
-<section id="royals" class="view">
-
- <div class="title">👑 Royals</div>
- <div class="subtitle">
-  Những chiến binh huyền thoại.
- </div>
-
- <div id="royalGrid" class="grid"></div>
-
-</section>
-
-
-<!-- ===================================================
- SHOP
-=================================================== -->
-
-<section id="shop" class="view">
-
- <div class="title">🛒 Legendary Shop</div>
-
- <div class="subtitle">
-  Skin hiếm, Golden và Limited.
- </div>
-
- <div id="shopGrid" class="grid"></div>
-
-</section>
-
-
-<!-- ===================================================
- PROFILE
-=================================================== -->
-
-<section id="profile" class="view">
-
- <div class="title">👤 Warrior Profile</div>
-
- <div class="panel">
-
-  <h2>Starter Loadout</h2>
-
-  <p>
-   Account thường khi mới vào game sẽ có skin mặc định.
-   Skin hiếm phải unlock, mua hoặc nhận từ event.
-  </p>
-
-  <div class="equipment">
-
-   <div class="slot">
-    <div class="slotIcon">⚔️</div>
-    <b>Weapon</b>
-    <p id="weaponSlot">Default Sword</p>
-   </div>
-
-   <div class="slot">
-    <div class="slotIcon">🛡️</div>
-    <b>Armor</b>
-    <p id="armorSlot">Default Armor</p>
-   </div>
-
-   <div class="slot">
-    <div class="slotIcon">👢</div>
-    <b>Boots</b>
-    <p>Default Boots</p>
-   </div>
-
-   <div class="slot">
-    <div class="slotIcon">✨</div>
-    <b>Effect</b>
-    <p id="effectSlot">None</p>
-   </div>
-
-  </div>
-
- </div>
-
-</section>
-
-</main>
-</div>
-</div>
-
-
 <!-- =====================================================
- BATTLE
+     LOGIN / REGISTER
 ===================================================== -->
 
-<div id="battle">
+<div id="authScreen">
 
- <div class="battleTop">
+    <div class="authBox">
 
-  <div class="battleTitle">
-   ⚔️ <span id="battleName">Battle</span>
-  </div>
+        <div class="authLogo">
+            <div class="sword">⚔️</div>
+            <h1>STICK WAR ULTIMATE LEGENDS</h1>
+            <p>Version 2026.27.8</p>
+        </div>
 
-  <div>
-   🪙 <span id="battleReward">0</span>
-  </div>
+        <div class="authTabs">
+            <button id="loginTab" class="active" onclick="showAuth('login')">
+                Đăng nhập
+            </button>
 
-  <button onclick="closeBattle()">
-   EXIT
-  </button>
+            <button id="registerTab" onclick="showAuth('register')">
+                Tạo tài khoản
+            </button>
+        </div>
 
- </div>
+        <div id="loginForm">
 
- <canvas id="battleCanvas"></canvas>
+            <input
+                id="loginUsername"
+                class="authInput"
+                placeholder="Tên tài khoản"
+                autocomplete="username"
+            >
 
- <div id="battleMessage" class="battleMessage"></div>
+            <input
+                id="loginPassword"
+                class="authInput"
+                type="password"
+                placeholder="Mật khẩu"
+                autocomplete="current-password"
+            >
 
- <div class="battleBottom">
+            <button class="primaryBtn" onclick="login()">
+                ⚔️ ĐĂNG NHẬP
+            </button>
 
-  <button onclick="spawnPlayer('Swordwrath')">
-   ⚔️ Swordwrath
-  </button>
+        </div>
 
-  <button onclick="spawnPlayer('Archidon')">
-   🏹 Archidon
-  </button>
+        <div id="registerForm" class="hidden">
 
-  <button onclick="spawnPlayer('Spearton')">
-   🛡️ Spearton
-  </button>
+            <input
+                id="registerUsername"
+                class="authInput"
+                placeholder="Tên tài khoản"
+                autocomplete="username"
+            >
 
-  <button onclick="spawnPlayer('Magikill')">
-   🔮 Magikill
-  </button>
+            <input
+                id="registerPassword"
+                class="authInput"
+                type="password"
+                placeholder="Mật khẩu"
+                autocomplete="new-password"
+            >
 
-  <button onclick="spawnPlayer('Giant')">
-   👹 Giant
-  </button>
+            <button class="primaryBtn" onclick="register()">
+                👤 TẠO TÀI KHOẢN
+            </button>
 
-  <button class="spellButton" onclick="battleSpell('Lightning')">
-   ⚡ Lightning
-  </button>
+        </div>
 
-  <button class="spellButton" onclick="battleSpell('Meteor')">
-   ☄️ Meteor
-  </button>
+        <div id="authMessage" class="authMessage"></div>
 
-  <button class="spellButton" onclick="battleSpell('Heal')">
-   ❤️ Heal
-  </button>
+    </div>
 
- </div>
+</div>
+
+<!-- =====================================================
+     GAME
+===================================================== -->
+
+<div id="game" class="hidden">
+
+    <header class="topbar">
+
+        <div class="brand">
+            ⚔️ SWUL
+        </div>
+
+        <div class="topStats">
+
+            <div class="stat">
+                🪙 <span id="gold">0</span>
+            </div>
+
+            <div class="stat">
+                💎 <span id="gems">0</span>
+            </div>
+
+            <div class="stat">
+                👤 <span id="topUsername">---</span>
+            </div>
+
+        </div>
+
+        <button class="refreshBtn" onclick="refreshAll()">
+            🔄
+        </button>
+
+        <button class="logoutBtn" onclick="logout()">
+            Đăng xuất
+        </button>
+
+    </header>
+
+    <nav class="navbar">
+
+        <button class="navBtn active" data-section="home">
+            🏠 Trang chủ
+        </button>
+
+        <button class="navBtn" data-section="campaign">
+            🗺️ Campaign
+        </button>
+
+        <button class="navBtn" data-section="missions">
+            🎯 Mission
+        </button>
+
+        <button class="navBtn" data-section="armory">
+            🛡️ Armory
+        </button>
+
+        <button class="navBtn" data-section="spells">
+            ✨ Spells
+        </button>
+
+        <button class="navBtn" data-section="royals">
+            👑 Royals
+        </button>
+
+        <button class="navBtn" data-section="account">
+            👤 Account
+        </button>
+
+        <button class="navBtn" data-section="leaderboard">
+            🏆 BXH
+        </button>
+
+        <button class="navBtn" data-section="code">
+            🎁 Code
+        </button>
+
+        <button class="navBtn" data-section="appeal">
+            📩 Appeal
+        </button>
+
+        <button
+            id="adminNav"
+            class="navBtn adminOnly"
+            data-section="admin"
+        >
+            👑 Admin
+        </button>
+
+    </nav>
+
+    <main class="container">
+
+        <!-- HOME -->
+
+        <section id="home" class="section active">
+
+            <div class="hero">
+
+                <div class="heroContent">
+
+                    <small>THE ULTIMATE STICK WAR EXPERIENCE</small>
+
+                    <h2>
+                        STICK WAR
+                        <span>ULTIMATE LEGENDS</span>
+                    </h2>
+
+                    <p>
+                        Xây dựng đội quân, mở khóa chiến binh,
+                        trang bị giáp huyền thoại, sử dụng phép thuật
+                        và chinh phục toàn bộ chiến dịch.
+                    </p>
+
+                    <div class="heroButtons">
+
+                        <button
+                            class="playBtn"
+                            onclick="openSection('campaign')"
+                        >
+                            ⚔️ CHƠI CAMPAIGN
+                        </button>
+
+                        <button
+                            class="darkBtn"
+                            onclick="openSection('armory')"
+                        >
+                            🛡️ VÀO ARMORY
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="homeCards">
+
+                <div class="homeCard">
+                    <div class="icon">🗺️</div>
+                    <h3>10 Campaign</h3>
+                    <p>
+                        Chinh phục 10 bản đồ từ Training Grounds
+                        đến Final Battle.
+                    </p>
+                </div>
+
+                <div class="homeCard">
+                    <div class="icon">🎯</div>
+                    <h3>10 Mission</h3>
+                    <p>
+                        Hoàn thành từng nhiệm vụ để mở khóa
+                        Ultimate Battle.
+                    </p>
+                </div>
+
+                <div class="homeCard">
+                    <div class="icon">🛡️</div>
+                    <h3>10 Armor</h3>
+                    <p>
+                        Trang bị giáp riêng cho từng chiến binh
+                        với hiệu ứng đặc biệt.
+                    </p>
+                </div>
+
+                <div class="homeCard">
+                    <div class="icon">✨</div>
+                    <h3>19 Spells</h3>
+                    <p>
+                        Sử dụng hệ thống phép thuật để thay đổi
+                        cục diện trận chiến.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- CAMPAIGN -->
+
+        <section id="campaign" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>🗺️ Campaign</h2>
+                    <p>10 bản đồ chiến dịch</p>
+                </div>
+
+                <strong id="campaignProgress">
+                    0 / 10
+                </strong>
+
+            </div>
+
+            <div id="campaignGrid" class="mapGrid"></div>
+
+        </section>
+
+        <!-- MISSIONS -->
+
+        <section id="missions" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>🎯 Missions</h2>
+                    <p>10 nhiệm vụ đặc biệt</p>
+                </div>
+
+                <strong id="missionProgress">
+                    0 / 10
+                </strong>
+
+            </div>
+
+            <div id="missionGrid" class="mapGrid"></div>
+
+        </section>
+
+        <!-- ARMORY -->
+
+        <section id="armory" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>🛡️ Armory</h2>
+                    <p>
+                        Chọn chiến binh rồi trang bị giáp cho riêng
+                        chiến binh đó.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="armoryLayout">
+
+                <aside class="unitPanel">
+
+                    <h3>CHIẾN BINH</h3>
+
+                    <div id="unitList"></div>
+
+                    <div class="equipmentPreview">
+
+                        <small>ĐANG TRANG BỊ</small>
+
+                        <div
+                            id="equippedArmorName"
+                            class="equippedName"
+                        >
+                            Chưa trang bị
+                        </div>
+
+                    </div>
+
+                </aside>
+
+                <div id="armorGrid" class="armorGrid"></div>
+
+            </div>
+
+        </section>
+
+        <!-- SPELLS -->
+
+        <section id="spells" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>✨ Spells</h2>
+                    <p>19 phép thuật</p>
+                </div>
+
+            </div>
+
+            <div id="spellGrid" class="spellGrid"></div>
+
+        </section>
+
+        <!-- ROYALS -->
+
+        <section id="royals" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>👑 Royals</h2>
+                    <p>Các nhân vật hoàng gia</p>
+                </div>
+
+            </div>
+
+            <div id="royalGrid" class="characterGrid"></div>
+
+        </section>
+
+        <!-- ACCOUNT -->
+
+        <section id="account" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>👤 Account</h2>
+                    <p>Thông tin tài khoản của bạn</p>
+                </div>
+
+            </div>
+
+            <div class="profileGrid">
+
+                <div class="profileBox">
+
+                    <div class="avatar">
+                        ⚔️
+                    </div>
+
+                    <div
+                        id="profileUsername"
+                        class="profileName"
+                    >
+                        ---
+                    </div>
+
+                    <div
+                        id="profileRole"
+                        class="profileRole"
+                    >
+                        PLAYER
+                    </div>
+
+                </div>
+
+                <div class="infoBox">
+
+                    <div class="infoRow">
+                        <span>ID</span>
+                        <strong id="profileId">---</strong>
+                    </div>
+
+                    <div class="infoRow">
+                        <span>Gold</span>
+                        <strong id="profileGold">0</strong>
+                    </div>
+
+                    <div class="infoRow">
+                        <span>Gems</span>
+                        <strong id="profileGems">0</strong>
+                    </div>
+
+                    <div class="infoRow">
+                        <span>Armor sở hữu</span>
+                        <strong id="profileArmor">0</strong>
+                    </div>
+
+                    <div class="infoRow">
+                        <span>Spells sở hữu</span>
+                        <strong id="profileSpells">0</strong>
+                    </div>
+
+                    <div class="infoRow">
+                        <span>Campaign</span>
+                        <strong id="profileCampaign">0 / 10</strong>
+                    </div>
+
+                    <div class="progressBar">
+                        <div
+                            id="campaignFill"
+                            class="progressFill"
+                            style="width:0%"
+                        ></div>
+                    </div>
+
+                    <div class="infoRow">
+                        <span>Mission</span>
+                        <strong id="profileMission">0 / 10</strong>
+                    </div>
+
+                    <div class="progressBar">
+                        <div
+                            id="missionFill"
+                            class="progressFill"
+                            style="width:0%"
+                        ></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- LEADERBOARD -->
+
+        <section id="leaderboard" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>🏆 Leaderboard</h2>
+                    <p>Bảng xếp hạng người chơi</p>
+                </div>
+
+            </div>
+
+            <div class="tableWrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Người chơi</th>
+                            <th>🪙 Gold</th>
+                            <th>💎 Gems</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="leaderboardBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- CODE -->
+
+        <section id="code" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>🎁 Redeem Code</h2>
+                    <p>Nhập code để nhận phần thưởng.</p>
+                </div>
+
+            </div>
+
+            <div class="codeBox">
+
+                <input
+                    id="redeemCode"
+                    class="codeInput"
+                    placeholder="Nhập code..."
+                >
+
+                <button
+                    class="codeBtn"
+                    onclick="redeemCode()"
+                >
+                    🎁 NHẬN QUÀ
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- APPEAL -->
+
+        <section id="appeal" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>📩 Appeal</h2>
+                    <p>
+                        Nếu tài khoản bị ban, gửi yêu cầu xem xét.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="appealBox">
+
+                <textarea
+                    id="appealMessage"
+                    placeholder="Nhập lý do bạn muốn appeal..."
+                ></textarea>
+
+                <button
+                    class="appealBtn"
+                    onclick="submitAppeal()"
+                >
+                    📩 GỬI APPEAL
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- ADMIN -->
+
+        <section id="admin" class="section">
+
+            <div class="sectionHeader">
+
+                <div>
+                    <h2>👑 Admin Panel</h2>
+                    <p>Quản lý tài khoản và hệ thống.</p>
+                </div>
+
+            </div>
+
+            <div class="adminBox">
+
+                <h3>👥 Accounts</h3>
+
+                <div class="tableWrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Gold</th>
+                                <th>Gems</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="adminAccountsBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="adminBox">
+
+                <h3>🎁 Gift</h3>
+
+                <div class="adminGrid">
+
+                    <input
+                        id="giftAccountId"
+                        placeholder="Account ID"
+                    >
+
+                    <input
+                        id="giftGold"
+                        type="number"
+                        placeholder="Gold"
+                    >
+
+                    <input
+                        id="giftGems"
+                        type="number"
+                        placeholder="Gems"
+                    >
+
+                    <input
+                        id="giftSkin"
+                        placeholder="Skin (optional)"
+                    >
+
+                    <button onclick="adminGift()">
+                        GỬI QUÀ
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="adminBox">
+
+                <h3>🎫 Create Code</h3>
+
+                <div class="adminGrid">
+
+                    <input
+                        id="newCode"
+                        placeholder="Code"
+                    >
+
+                    <input
+                        id="newCodeGold"
+                        type="number"
+                        placeholder="Gold"
+                    >
+
+                    <input
+                        id="newCodeGems"
+                        type="number"
+                        placeholder="Gems"
+                    >
+
+                    <input
+                        id="newCodeSkin"
+                        placeholder="Skin (optional)"
+                    >
+
+                    <button onclick="adminCreateCode()">
+                        TẠO CODE
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="adminBox">
+
+                <h3>📢 Global Message</h3>
+
+                <div class="adminGrid">
+
+                    <input
+                        id="globalMessageInput"
+                        placeholder="Thông báo..."
+                    >
+
+                    <button onclick="adminGlobalMessage()">
+                        CẬP NHẬT
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="adminBox">
+
+                <h3>📩 Appeals</h3>
+
+                <div class="tableWrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Nội dung</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="appealsBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
 
 <div id="toast"></div>
 
-
 <script>
 
 /* =====================================================
- DATA
+   CONFIG
 ===================================================== */
 
-const CAMPAIGNS=[
- "Training Grounds",
- "Swordwrath Valley",
- "Archidon Forest",
- "Spearton Fortress",
- "Magikill Ruins",
- "Shadow Lands",
- "Frozen Battlefield",
- "Volcano Kingdom",
- "Royal War",
- "Final Battle"
-];
+/*
+    🔥 QUAN TRỌNG:
 
-const CAMPAIGN_REWARDS=[
- 500,700,900,1200,1500,
- 2000,2500,3000,4000,10000
-];
+    Nếu backend Render của bro là:
 
-const MISSIONS=[
- "First Battle",
- "Defend the Statue",
- "Enemy Rush",
- "Night Attack",
- "Giant Attack",
- "Magic War",
- "Frozen Siege",
- "Volcano Assault",
- "Royal Challenge",
- "Ultimate Battle"
-];
+    const API_URL = "https://stick-war-ultimate-legends-1.onrender.com";
 
-const MISSION_REWARDS=[
- 300,500,700,900,1200,
- 1500,2000,2500,4000,10000
-];
+    thì sửa thành:
 
-const UNITS=[
- {
-  name:"Swordwrath",
-  icon:"⚔️",
-  hp:100,
-  damage:12,
-  speed:1.25
- },
- {
-  name:"Archidon",
-  icon:"🏹",
-  hp:80,
-  damage:18,
-  speed:1
- },
- {
-  name:"Spearton",
-  icon:"🛡️",
-  hp:170,
-  damage:16,
-  speed:.8
- },
- {
-  name:"Magikill",
-  icon:"🔮",
-  hp:110,
-  damage:25,
-  speed:.7
- },
- {
-  name:"Giant",
-  icon:"👹",
-  hp:350,
-  damage:30,
-  speed:.45
- }
-];
+    const API_URL = "https://stick-war-ultimate-legends-1.onrender.com";
 
-const ROYALS=[
- "Xiphos",
- "Kytchu",
- "Atreyos",
- "Icaron",
- "Thera",
- "Adicai"
-];
+    KHÔNG thêm dấu / ở cuối.
 
-const SPELLS=[
- ["⚡","Lightning","Damage enemy group"],
- ["☄️","Meteor","Massive area damage"],
- ["🔥","Fireball","Burn enemies"],
- ["❄️","Freeze","Slow enemies"],
- ["❤️","Heal","Heal army"],
- ["😡","Rage","Increase attack"],
- ["🛡️","Shield","Protect army"],
- ["🌪️","Tornado","Push enemies"],
- ["🌎","Earthquake","Damage battlefield"],
- ["☠️","Poison","Poison enemies"],
- ["👥","Clone","Clone a unit"],
- ["🌀","Teleport","Teleport army"],
- ["🏹","Arrow Rain","Rain arrows"],
- ["🌑","Darkness","Reduce enemy power"],
- ["⛈️","Thunder Storm","Repeated lightning"],
- ["⏱️","Time Stop","Stop enemies"],
- ["🗿","Stone Skin","Increase defense"],
- ["💨","Speed","Increase movement"],
- ["👹","Summon","Summon giant"]
-];
+    Nếu index.html và server.js cùng server:
+*/
 
-const ARMORS=[
- {
-  icon:"🌋",
-  name:"Giáp Hỏa Long",
-  rarity:"Legendary",
-  class:"legendary",
-  desc:"Magma đen bóng với dung nham đỏ rực.",
-  effects:[
-   "+15% sát thương",
-   "+10% kháng vật lý",
-   "20% cơ hội thiêu đốt"
-  ]
- },
- {
-  icon:"🔵",
-  name:"Giáp Cổ Tự",
-  rarity:"Epic",
-  class:"epic",
-  desc:"Giáp đá cổ phủ rune xanh.",
-  effects:[
-   "+20% hồi máu",
-   "+15% kháng phép",
-   "-10% cooldown"
-  ]
- },
- {
-  icon:"🟢",
-  name:"Giáp Công Nghệ Cyber",
-  rarity:"Epic",
-  class:"epic",
-  desc:"Exosuit cơ khí với năng lượng neon.",
-  effects:[
-   "+20% tốc độ đánh",
-   "+15% tốc độ di chuyển"
-  ]
- },
- {
-  icon:"🟣",
-  name:"Giáp Linh Hồn",
-  rarity:"Rare",
-  class:"rare",
-  desc:"Cơ thể nửa hư nửa thực.",
-  effects:[
-   "+15% né tránh",
-   "-10% máu tối đa"
-  ]
- },
- {
-  icon:"🟡",
-  name:"Giáp Sa Mạc Hoàng Kim",
-  rarity:"Golden",
-  class:"golden",
-  desc:"Giáp vàng phong cách Pharaoh.",
-  effects:[
-   "+25% vàng nhận được",
-   "+5% máu"
-  ]
- },
- {
-  icon:"❄️",
-  name:"Giáp Băng Vĩnh Cửu",
-  rarity:"Legendary",
-  class:"legendary",
-  desc:"Băng vĩnh cửu không bao giờ tan.",
-  effects:[
-   "+25% máu",
-   "Làm chậm địch 30%",
-   "-5% tốc độ"
-  ]
- },
- {
-  icon:"☣️",
-  name:"Giáp Độc Dược",
-  rarity:"Epic",
-  class:"epic",
-  desc:"Bộ giáp sinh hóa độc.",
-  effects:[
-   "Miễn nhiễm độc",
-   "+10% poison damage",
-   "Chết tạo vùng độc"
-  ]
- },
- {
-  icon:"🌌",
-  name:"Giáp Hư Không",
-  rarity:"Mythic",
-  class:"mythic",
-  desc:"Khoảng không vũ trụ chuyển động.",
-  effects:[
-   "Mỗi 10s xuyên giáp",
-   "+10% crit damage",
-   "+10% kháng khống chế"
-  ]
- },
- {
-  icon:"👼",
-  name:"Giáp Thiên Thần Hoàng Kim",
-  rarity:"Mythic",
-  class:"mythic",
-  desc:"Giáp thiên thần với cánh vàng.",
-  effects:[
-   "Hồi máu đồng minh",
-   "+15% hiệu suất heal",
-   "+10% giáp"
-  ]
- },
- {
-  icon:"🌿",
-  name:"Giáp Gai Đầm Lầy",
-  rarity:"Legendary",
-  class:"legendary",
-  desc:"Giáp dây leo cổ đại đầy gai.",
-  effects:[
-   "Phản 20% melee damage",
-   "+15% giáp",
-   "+5% kháng hiệu ứng"
-  ]
- }
-];
+const API_URL = "https://stick-war-ultimate-legends-1.onrender.com";
 
-const SHOP_ITEMS=[
- {
-  name:"Golden Swordwrath",
-  rarity:"Golden",
-  class:"golden",
-  icon:"⚔️",
-  price:1200,
-  currency:"gold"
- },
- {
-  name:"Shadow Spearton",
-  rarity:"Epic",
-  class:"epic",
-  icon:"🛡️",
-  price:80,
-  currency:"gems"
- },
- {
-  name:"Void Giant",
-  rarity:"Mythic",
-  class:"mythic",
-  icon:"👹",
-  price:250,
-  currency:"gems"
- },
- {
-  name:"Royal Eclipse",
-  rarity:"Limited",
-  class:"limited",
-  icon:"👑",
-  price:300,
-  currency:"gems"
- }
-];
 
 /* =====================================================
- SAVE
+   STATE
 ===================================================== */
 
-let save={
- gold:2500,
- gems:100,
- campaign:0,
- mission:0,
- armor:"Default Armor",
- unlockedArmors:[],
- skins:["Default Skin"],
- equippedUnit:"Swordwrath",
- equippedSkin:"Default Skin"
+let currentAccount = null;
+let gameData = {
+    units: [],
+    royals: [],
+    armors: [],
+    spells: [],
+    campaign: [],
+    missions: []
 };
 
-function loadSave(){
+let selectedUnitId = 1;
 
- try{
-
-  const old=
-   JSON.parse(localStorage.getItem("SWUL_SAVE"));
-
-  if(old)
-   save=Object.assign(save,old);
-
- }catch(e){}
-
- updateResources();
-
-}
-
-function saveGame(){
-
- localStorage.setItem(
-  "SWUL_SAVE",
-  JSON.stringify(save)
- );
-
- updateResources();
-
-}
-
-function updateResources(){
-
- document.getElementById("gold").textContent=
-  Number(save.gold).toLocaleString();
-
- document.getElementById("gems").textContent=
-  Number(save.gems).toLocaleString();
-
-}
 
 /* =====================================================
- NAVIGATION
+   API HELPER
 ===================================================== */
 
-function showView(id,btn){
+async function api(path, options = {}){
 
- document.querySelectorAll(".view")
- .forEach(v=>v.classList.remove("active"));
+    try{
 
- const view=document.getElementById(id);
+        const response = await fetch(
+            API_URL + path,
+            {
+                ...options,
+                headers:{
+                    "Content-Type":"application/json",
+                    ...(options.headers || {})
+                }
+            }
+        );
 
- if(view)
-  view.classList.add("active");
+        const data = await response.json();
 
- document.querySelectorAll(".nav")
- .forEach(n=>n.classList.remove("active"));
+        if(!response.ok){
 
- if(btn)
-  btn.classList.add("active");
+            throw new Error(
+                data.message ||
+                "Server error."
+            );
 
+        }
+
+        return data;
+
+    }catch(error){
+
+        console.error(error);
+
+        throw error;
+    }
 }
 
+
 /* =====================================================
- TOAST
+   TOAST
 ===================================================== */
 
-function toast(text){
+function toast(message,type="success"){
 
- const t=document.getElementById("toast");
+    const el =
+        document.getElementById("toast");
 
- t.textContent=text;
- t.style.display="block";
+    el.textContent = message;
 
- clearTimeout(t.timer);
+    el.className = "";
 
- t.timer=setTimeout(()=>{
-  t.style.display="none";
- },2300);
+    el.id = "toast";
 
+    el.classList.add("show",type);
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer =
+        setTimeout(()=>{
+            el.classList.remove("show");
+        },3000);
 }
 
+
 /* =====================================================
- CAMPAIGN
+   AUTH UI
+===================================================== */
+
+function showAuth(type){
+
+    const login =
+        document.getElementById("loginForm");
+
+    const register =
+        document.getElementById("registerForm");
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const registerTab =
+        document.getElementById("registerTab");
+
+    document.getElementById("authMessage").textContent="";
+
+    if(type==="login"){
+
+        login.classList.remove("hidden");
+        register.classList.add("hidden");
+
+        loginTab.classList.add("active");
+        registerTab.classList.remove("active");
+
+    }else{
+
+        login.classList.add("hidden");
+        register.classList.remove("hidden");
+
+        loginTab.classList.remove("active");
+        registerTab.classList.add("active");
+
+    }
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+async function register(){
+
+    const username =
+        document
+        .getElementById("registerUsername")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("registerPassword")
+        .value;
+
+    const msg =
+        document.getElementById("authMessage");
+
+    msg.textContent = "Đang tạo tài khoản...";
+
+    try{
+
+        const data =
+            await api(
+                "/api/register",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        username,
+                        password
+                    })
+                }
+            );
+
+        msg.textContent =
+            "Tạo tài khoản thành công!";
+
+        toast(
+            "Tài khoản đã được tạo.",
+            "success"
+        );
+
+        document
+            .getElementById("loginUsername")
+            .value = username;
+
+        document
+            .getElementById("loginPassword")
+            .value = password;
+
+        showAuth("login");
+
+    }catch(error){
+
+        msg.textContent =
+            error.message;
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function login(){
+
+    const username =
+        document
+        .getElementById("loginUsername")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+    const msg =
+        document.getElementById("authMessage");
+
+    if(!username || !password){
+
+        msg.textContent =
+            "Nhập đầy đủ ID và mật khẩu.";
+
+        return;
+    }
+
+    msg.textContent =
+        "Đang đăng nhập...";
+
+    try{
+
+        const data =
+            await api(
+                "/api/login",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        username,
+                        password
+                    })
+                }
+            );
+
+        currentAccount =
+            data.account;
+
+        localStorage.setItem(
+            "swulAccountId",
+            currentAccount.id
+        );
+
+        document
+            .getElementById("authScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("game")
+            .classList.remove("hidden");
+
+        updateAccountUI();
+
+        await loadGameData();
+
+        await loadLeaderboard();
+
+        if(currentAccount.role==="admin"){
+
+            document
+                .getElementById("adminNav")
+                .style.display = "block";
+
+            await loadAdminData();
+
+        }
+
+        openSection("home");
+
+        toast(
+            "Đăng nhập thành công!",
+            "success"
+        );
+
+    }catch(error){
+
+        msg.textContent =
+            error.message;
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   AUTO LOGIN
+===================================================== */
+
+async function autoLogin(){
+
+    const id =
+        localStorage.getItem(
+            "swulAccountId"
+        );
+
+    if(!id) return;
+
+    try{
+
+        const data =
+            await api(
+                "/api/account/" + id
+            );
+
+        currentAccount =
+            data.account;
+
+        document
+            .getElementById("authScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("game")
+            .classList.remove("hidden");
+
+        updateAccountUI();
+
+        await loadGameData();
+
+        await loadLeaderboard();
+
+        if(currentAccount.role==="admin"){
+
+            document
+                .getElementById("adminNav")
+                .style.display = "block";
+
+            await loadAdminData();
+
+        }
+
+    }catch(error){
+
+        localStorage.removeItem(
+            "swulAccountId"
+        );
+    }
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    currentAccount = null;
+
+    localStorage.removeItem(
+        "swulAccountId"
+    );
+
+    document
+        .getElementById("game")
+        .classList.add("hidden");
+
+    document
+        .getElementById("authScreen")
+        .classList.remove("hidden");
+
+    showAuth("login");
+
+    toast(
+        "Đã đăng xuất.",
+        "success"
+    );
+}
+
+
+/* =====================================================
+   LOAD GAME DATA
+===================================================== */
+
+async function loadGameData(){
+
+    const data =
+        await api(
+            "/api/game-data"
+        );
+
+    gameData =
+        data;
+
+    renderCampaign();
+
+    renderMissions();
+
+    renderUnits();
+
+    renderArmors();
+
+    renderSpells();
+
+    renderRoyals();
+}
+
+
+/* =====================================================
+   ACCOUNT
+===================================================== */
+
+async function refreshAccount(){
+
+    if(!currentAccount) return;
+
+    const data =
+        await api(
+            "/api/account/" +
+            currentAccount.id
+        );
+
+    currentAccount =
+        data.account;
+
+    updateAccountUI();
+
+    renderCampaign();
+
+    renderMissions();
+
+    renderArmors();
+
+    renderSpells();
+}
+
+
+function updateAccountUI(){
+
+    if(!currentAccount) return;
+
+    document
+        .getElementById("gold")
+        .textContent =
+        Number(currentAccount.gold || 0)
+        .toLocaleString();
+
+    document
+        .getElementById("gems")
+        .textContent =
+        Number(currentAccount.gems || 0)
+        .toLocaleString();
+
+    document
+        .getElementById("topUsername")
+        .textContent =
+        currentAccount.username;
+
+    document
+        .getElementById("profileUsername")
+        .textContent =
+        currentAccount.username;
+
+    document
+        .getElementById("profileRole")
+        .textContent =
+        String(currentAccount.role || "player")
+        .toUpperCase();
+
+    document
+        .getElementById("profileId")
+        .textContent =
+        currentAccount.id;
+
+    document
+        .getElementById("profileGold")
+        .textContent =
+        Number(currentAccount.gold || 0)
+        .toLocaleString();
+
+    document
+        .getElementById("profileGems")
+        .textContent =
+        Number(currentAccount.gems || 0)
+        .toLocaleString();
+
+    document
+        .getElementById("profileArmor")
+        .textContent =
+        (currentAccount.ownedArmors || []).length;
+
+    document
+        .getElementById("profileSpells")
+        .textContent =
+        (currentAccount.ownedSpells || []).length;
+
+    const cp =
+        currentAccount.campaignProgress || 0;
+
+    const mp =
+        currentAccount.missionProgress || 0;
+
+    document
+        .getElementById("profileCampaign")
+        .textContent =
+        cp + " / 10";
+
+    document
+        .getElementById("profileMission")
+        .textContent =
+        mp + " / 10";
+
+    document
+        .getElementById("campaignFill")
+        .style.width =
+        Math.min(cp,10) * 10 + "%";
+
+    document
+        .getElementById("missionFill")
+        .style.width =
+        Math.min(mp,10) * 10 + "%";
+
+    document
+        .getElementById("campaignProgress")
+        .textContent =
+        cp + " / 10";
+
+    document
+        .getElementById("missionProgress")
+        .textContent =
+        mp + " / 10";
+
+    if(currentAccount.role==="admin"){
+
+        document
+            .getElementById("adminNav")
+            .style.display = "block";
+
+    }
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function openSection(section){
+
+    document
+        .querySelectorAll(".section")
+        .forEach(el=>{
+            el.classList.remove("active");
+        });
+
+    document
+        .querySelectorAll(".navBtn")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+    const target =
+        document.getElementById(section);
+
+    if(target)
+        target.classList.add("active");
+
+    const btn =
+        document.querySelector(
+            `.navBtn[data-section="${section}"]`
+        );
+
+    if(btn)
+        btn.classList.add("active");
+
+    if(section==="leaderboard")
+        loadLeaderboard();
+
+    if(section==="admin")
+        loadAdminData();
+
+    if(section==="account")
+        refreshAccount();
+}
+
+document
+    .querySelectorAll(".navBtn")
+    .forEach(btn=>{
+
+        btn.addEventListener(
+            "click",
+            ()=>{
+                openSection(
+                    btn.dataset.section
+                );
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   CAMPAIGN
 ===================================================== */
 
 function renderCampaign(){
 
- const grid=document.getElementById("campaignGrid");
+    const grid =
+        document.getElementById(
+            "campaignGrid"
+        );
 
- grid.innerHTML="";
+    grid.innerHTML = "";
 
- CAMPAIGNS.forEach((name,i)=>{
+    const completed =
+        currentAccount?.completedCampaign || [];
 
-  const id=i+1;
-  const unlocked=id<=save.campaign+1;
-  const completed=id<=save.campaign;
+    gameData.campaign.forEach(map=>{
 
-  const card=document.createElement("div");
+        const unlocked =
+            map.id === 1 ||
+            completed.includes(map.id - 1);
 
-  card.className=
-   "panel level"+
-   (completed?" completed":"")+
-   (!unlocked?" locked":"");
+        const done =
+            completed.includes(map.id);
 
-  card.innerHTML=`
+        const card =
+            document.createElement("div");
 
-   <div class="levelNumber">
-    CAMPAIGN ${id}
-   </div>
+        card.className =
+            "mapCard " +
+            (!unlocked ? "locked" : "");
 
-   <h3>${name}</h3>
+        card.innerHTML = `
 
-   <p>
-    Battle ${id}/10
-   </p>
+            <div class="mapNumber">
+                ${String(map.id).padStart(2,"0")}
+            </div>
 
-   <div class="map"></div>
+            <h3>${escapeHTML(map.name)}</h3>
 
-   <div class="reward">
-    🪙 ${CAMPAIGN_REWARDS[i]}
-   </div>
+            <p>
+                Campaign Map ${map.id}
+            </p>
 
-   ${
-    !unlocked
-    ?
-    `<div class="lock">🔒</div>`
-    :
-    `<button class="goldBtn"
-       onclick="startBattle('campaign',${id})">
-       ${completed?"PLAY AGAIN":"START BATTLE"}
-     </button>`
-   }
+            <p class="reward">
+                🪙 +${Number(map.reward).toLocaleString()}
+            </p>
 
-  `;
+            <button
+                ${!unlocked || done ? "disabled" : ""}
+                onclick="completeCampaign(${map.id})"
+            >
+                ${
+                    done
+                    ? "✅ ĐÃ HOÀN THÀNH"
+                    : unlocked
+                    ? "⚔️ CHƠI MAP"
+                    : "🔒 KHÓA"
+                }
+            </button>
 
-  grid.appendChild(card);
+        `;
 
- });
+        grid.appendChild(card);
 
+    });
 }
 
+
+async function completeCampaign(id){
+
+    try{
+
+        const data =
+            await api(
+                "/api/campaign/complete",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId:
+                            currentAccount.id,
+                        mapId:id
+                    })
+                }
+            );
+
+        currentAccount =
+            data.account;
+
+        updateAccountUI();
+
+        renderCampaign();
+
+        toast(
+            "Campaign " +
+            id +
+            " hoàn thành! +" +
+            data.reward +
+            " Gold",
+            "success"
+        );
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
 /* =====================================================
- MISSIONS
+   MISSIONS
 ===================================================== */
 
 function renderMissions(){
 
- const grid=document.getElementById("missionGrid");
+    const grid =
+        document.getElementById(
+            "missionGrid"
+        );
 
- grid.innerHTML="";
+    grid.innerHTML = "";
 
- MISSIONS.forEach((name,i)=>{
+    const completed =
+        currentAccount?.completedMissions || [];
 
-  const id=i+1;
-  const unlocked=id<=save.mission+1;
-  const completed=id<=save.mission;
+    gameData.missions.forEach(mission=>{
 
-  const card=document.createElement("div");
+        const unlocked =
+            mission.id === 1 ||
+            completed.includes(mission.id - 1);
 
-  card.className=
-   "panel level"+
-   (completed?" completed":"")+
-   (!unlocked?" locked":"");
+        const done =
+            completed.includes(mission.id);
 
-  card.innerHTML=`
+        const card =
+            document.createElement("div");
 
-   <div class="levelNumber">
-    MISSION ${id}
-   </div>
+        card.className =
+            "mapCard " +
+            (!unlocked ? "locked" : "");
 
-   <h3>${name}</h3>
+        card.innerHTML = `
 
-   <p>
-    Special Battle ${id}/10
-   </p>
+            <div class="mapNumber">
+                ${String(mission.id).padStart(2,"0")}
+            </div>
 
-   <div class="map"></div>
+            <h3>${escapeHTML(mission.name)}</h3>
 
-   <div class="reward">
-    🪙 ${MISSION_REWARDS[i]}
-   </div>
+            <p>
+                Mission ${mission.id}
+            </p>
 
-   ${
-    !unlocked
-    ?
-    `<div class="lock">🔒</div>`
-    :
-    `<button class="goldBtn"
-       onclick="startBattle('mission',${id})">
-       ${completed?"PLAY AGAIN":"START MISSION"}
-     </button>`
-   }
+            <p class="reward">
+                🪙 +${Number(mission.reward).toLocaleString()}
+            </p>
 
-  `;
+            <button
+                ${!unlocked || done ? "disabled" : ""}
+                onclick="completeMission(${mission.id})"
+            >
+                ${
+                    done
+                    ? "✅ ĐÃ HOÀN THÀNH"
+                    : unlocked
+                    ? "⚔️ CHƠI MISSION"
+                    : "🔒 KHÓA"
+                }
+            </button>
 
-  grid.appendChild(card);
+        `;
 
- });
+        grid.appendChild(card);
 
+    });
 }
 
-/* =====================================================
- ARMORY
-===================================================== */
 
-function renderArmory(){
+async function completeMission(id){
 
- const grid=document.getElementById("armorGrid");
+    try{
 
- grid.innerHTML="";
+        const data =
+            await api(
+                "/api/mission/complete",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId:
+                            currentAccount.id,
+                        missionId:id
+                    })
+                }
+            );
 
- ARMORS.forEach((a,i)=>{
+        currentAccount =
+            data.account;
 
-  const owned=
-   save.unlockedArmors.includes(a.name);
+        updateAccountUI();
 
-  const card=document.createElement("div");
+        renderMissions();
 
-  card.className="panel armor";
+        toast(
+            "Mission " +
+            id +
+            " hoàn thành! +" +
+            data.reward +
+            " Gold",
+            "success"
+        );
 
-  card.innerHTML=`
+        if(id===9){
 
-   <div class="armorIcon">
-    ${a.icon}
-   </div>
+            toast(
+                "🔥 Mission 10 đã được mở khóa!",
+                "success"
+            );
 
-   <span class="rarity ${a.class}">
-    ${a.rarity}
-   </span>
+        }
 
-   <h3>${a.name}</h3>
+    }catch(error){
 
-   <p>${a.desc}</p>
-
-   <div class="effects">
-    ${a.effects.map(x=>"✓ "+x).join("<br>")}
-   </div>
-
-   <button
-    class="${save.armor===a.name?"greenBtn":"goldBtn"} equip"
-    onclick="equipArmor(${i})">
-    ${save.armor===a.name?"✓ EQUIPPED":"EQUIP"}
-   </button>
-
-  `;
-
-  grid.appendChild(card);
-
- });
-
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
-/* =====================================================
- EQUIP ARMOR
-===================================================== */
-
-function equipArmor(index){
-
- const armor=ARMORS[index];
-
- if(
-  !save.unlockedArmors.includes(armor.name)
- ){
-
-  /* starter account can unlock first armor */
-  if(index===0){
-
-   if(save.gold<500){
-
-    toast("Không đủ vàng!");
-
-    return;
-
-   }
-
-   save.gold-=500;
-   save.unlockedArmors.push(armor.name);
-
-  }else{
-
-   toast("Giáp này chưa được unlock!");
-
-   return;
-
-  }
-
- }
-
- save.armor=armor.name;
-
- saveGame();
-
- renderArmory();
-
- document.getElementById("armorSlot").textContent=
-  armor.name;
-
- document.getElementById("effectSlot").textContent=
-  armor.effects[0];
-
- toast("Đã trang bị "+armor.name);
-
-}
 
 /* =====================================================
- SPELLS
-===================================================== */
-
-function renderSpells(){
-
- const grid=document.getElementById("spellGrid");
-
- grid.innerHTML="";
-
- SPELLS.forEach((s,i)=>{
-
-  const card=document.createElement("div");
-
-  card.className="panel spell";
-
-  card.innerHTML=`
-
-   <div class="spellIcon">${s[0]}</div>
-
-   <h3>${s[1]}</h3>
-
-   <p>${s[2]}</p>
-
-   <div class="cooldown">
-    Spell ${i+1}/19
-   </div>
-
-  `;
-
-  grid.appendChild(card);
-
- });
-
-}
-
-/* =====================================================
- UNITS
+   UNITS
 ===================================================== */
 
 function renderUnits(){
 
- const grid=document.getElementById("unitGrid");
+    const list =
+        document.getElementById(
+            "unitList"
+        );
 
- grid.innerHTML="";
+    list.innerHTML = "";
 
- UNITS.forEach(u=>{
+    gameData.units.forEach(unit=>{
 
-  const card=document.createElement("div");
+        const button =
+            document.createElement("button");
 
-  card.className="panel unit";
+        button.className =
+            "unitButton " +
+            (selectedUnitId===unit.id
+                ? "selected"
+                : "");
 
-  card.innerHTML=`
+        button.textContent =
+            "⚔️ " + unit.name;
 
-   <div class="unitVisual">
-    ${u.icon}
-   </div>
+        button.onclick = ()=>{
 
-   <h3>${u.name}</h3>
+            selectedUnitId =
+                unit.id;
 
-   <div class="statline">
-    ❤️ HP: ${u.hp}
-   </div>
+            renderUnits();
 
-   <div class="statline">
-    ⚔️ Damage: ${u.damage}
-   </div>
+            renderArmors();
 
-   <div class="statline">
-    💨 Speed: ${u.speed}
-   </div>
+        };
 
-   <br>
+        list.appendChild(button);
 
-   <button
-    class="goldBtn"
-    onclick="selectUnit('${u.name}')">
-    EQUIP SKIN
-   </button>
-
-  `;
-
-  grid.appendChild(card);
-
- });
+    });
 
 }
 
-function selectUnit(name){
-
- save.equippedUnit=name;
-
- saveGame();
-
- toast(name+" selected");
-
-}
 
 /* =====================================================
- ROYALS
+   ARMOR ICON
+===================================================== */
+
+function armorIcon(armor){
+
+    const icons = {
+        1:"🌋",
+        2:"🔵",
+        3:"🟢",
+        4:"🟣",
+        5:"🟡",
+        6:"❄️",
+        7:"☣️",
+        8:"🌌",
+        9:"👼",
+        10:"🌿"
+    };
+
+    return icons[armor.id] || "🛡️";
+}
+
+
+/* =====================================================
+   ARMOR
+===================================================== */
+
+function renderArmors(){
+
+    const grid =
+        document.getElementById(
+            "armorGrid"
+        );
+
+    grid.innerHTML = "";
+
+    if(!gameData.armors.length)
+        return;
+
+    const owned =
+        currentAccount?.ownedArmors || [];
+
+    const equipped =
+        currentAccount?.equippedArmor;
+
+    const selectedArmor =
+        gameData.armors.find(
+            a=>a.id===equipped
+        );
+
+    document
+        .getElementById(
+            "equippedArmorName"
+        )
+        .textContent =
+        selectedArmor
+        ? selectedArmor.displayName +
+          " → " +
+          getSelectedUnitName()
+        : "Chưa trang bị";
+
+    gameData.armors.forEach(armor=>{
+
+        const isOwned =
+            owned.includes(armor.id);
+
+        const isEquipped =
+            equipped === armor.id;
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "armorCard " +
+            (isEquipped ? "equipped" : "");
+
+        card.innerHTML = `
+
+            <div class="armorIcon">
+                ${armorIcon(armor)}
+            </div>
+
+            <h3>
+                ${escapeHTML(
+                    armor.displayName
+                )}
+            </h3>
+
+            <p>
+                ${escapeHTML(
+                    armor.description || ""
+                )}
+            </p>
+
+            <ul class="effectList">
+
+                ${
+                    (armor.effects || [])
+                    .map(
+                        effect =>
+                        `<li>${escapeHTML(effect)}</li>`
+                    )
+                    .join("")
+                }
+
+            </ul>
+
+            <button
+                class="armorAction ${
+                    isEquipped
+                    ? "equippedBtn"
+                    : ""
+                }"
+                onclick="${
+                    isOwned
+                    ? `equipArmor(${armor.id})`
+                    : `unlockArmor(${armor.id})`
+                }"
+            >
+                ${
+                    isEquipped
+                    ? "✅ ĐANG TRANG BỊ"
+                    : isOwned
+                    ? "🛡️ TRANG BỊ"
+                    : "🔒 MỞ KHÓA"
+                }
+            </button>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+}
+
+
+function getSelectedUnitName(){
+
+    const unit =
+        gameData.units.find(
+            u=>u.id===selectedUnitId
+        );
+
+    return unit
+        ? unit.name
+        : "Unit";
+}
+
+
+/* =====================================================
+   EQUIP ARMOR
+===================================================== */
+
+async function equipArmor(id){
+
+    try{
+
+        const data =
+            await api(
+                "/api/armor/equip",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId:
+                            currentAccount.id,
+                        armorId:id
+                    })
+                }
+            );
+
+        currentAccount =
+            data.account;
+
+        updateAccountUI();
+
+        renderArmors();
+
+        toast(
+            "Đã trang bị " +
+            data.armor.displayName +
+            " cho " +
+            getSelectedUnitName(),
+            "success"
+        );
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   UNLOCK ARMOR
+===================================================== */
+
+async function unlockArmor(id){
+
+    /*
+       Backend hiện tại của bro cho phép unlock
+       trực tiếp. Khi muốn làm shop thật,
+       sau này có thể thêm giá Gold/Gems.
+    */
+
+    try{
+
+        const data =
+            await api(
+                "/api/armor/unlock",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId:
+                            currentAccount.id,
+                        armorId:id
+                    })
+                }
+            );
+
+        currentAccount =
+            data.account;
+
+        updateAccountUI();
+
+        renderArmors();
+
+        toast(
+            data.message,
+            "success"
+        );
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   SPELL ICON
+===================================================== */
+
+function spellIcon(name){
+
+    const icons = {
+        "Lightning":"⚡",
+        "Meteor":"☄️",
+        "Fireball":"🔥",
+        "Freeze":"❄️",
+        "Heal":"💚",
+        "Rage":"😡",
+        "Shield":"🛡️",
+        "Tornado":"🌪️",
+        "Earthquake":"🌎",
+        "Poison":"☠️",
+        "Clone":"👥",
+        "Teleport":"🌀",
+        "Arrow Rain":"🏹",
+        "Darkness":"🌑",
+        "Thunder Storm":"⛈️",
+        "Time Stop":"⏱️",
+        "Stone Skin":"🪨",
+        "Speed":"💨",
+        "Summon":"👹"
+    };
+
+    return icons[name] || "✨";
+}
+
+
+/* =====================================================
+   SPELLS
+===================================================== */
+
+function renderSpells(){
+
+    const grid =
+        document.getElementById(
+            "spellGrid"
+        );
+
+    grid.innerHTML = "";
+
+    const owned =
+        currentAccount?.ownedSpells || [];
+
+    gameData.spells.forEach(spell=>{
+
+        const isOwned =
+            owned.includes(spell.id);
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "spellCard " +
+            (isOwned ? "owned" : "");
+
+        card.innerHTML = `
+
+            <div class="spellIcon">
+                ${spellIcon(spell.name)}
+            </div>
+
+            <h3>
+                ${escapeHTML(spell.name)}
+            </h3>
+
+            <p>
+                Spell #${spell.id}
+            </p>
+
+            <button
+                class="${isOwned ? "ownedBtn" : ""}"
+                onclick="${
+                    isOwned
+                    ? `equipSpell(${spell.id})`
+                    : `toast('Spell chưa được mở khóa','error')`
+                }"
+            >
+                ${
+                    isOwned
+                    ? "✨ TRANG BỊ"
+                    : "🔒 KHÓA"
+                }
+            </button>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+}
+
+
+/* =====================================================
+   EQUIP SPELL
+===================================================== */
+
+async function equipSpell(id){
+
+    try{
+
+        const data =
+            await api(
+                "/api/spell/equip",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId:
+                            currentAccount.id,
+                        spellId:id
+                    })
+                }
+            );
+
+        currentAccount =
+            data.account;
+
+        updateAccountUI();
+
+        renderSpells();
+
+        toast(
+            "Spell đã được trang bị.",
+            "success"
+        );
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
+}
+
+
+/* =====================================================
+   ROYALS
 ===================================================== */
 
 function renderRoyals(){
 
- const grid=document.getElementById("royalGrid");
+    const grid =
+        document.getElementById(
+            "royalGrid"
+        );
 
- grid.innerHTML="";
+    grid.innerHTML = "";
 
- ROYALS.forEach((name,i)=>{
+    gameData.royals.forEach(royal=>{
 
-  const card=document.createElement("div");
+        const card =
+            document.createElement("div");
 
-  card.className="panel unit";
+        card.className =
+            "characterCard";
 
-  card.innerHTML=`
+        card.innerHTML = `
 
-   <div class="unitVisual">
-    👑
-   </div>
+            <div class="characterAvatar">
+                👑
+            </div>
 
-   <h3>${name}</h3>
+            <h3>
+                ${escapeHTML(royal.name)}
+            </h3>
 
-   <p>
-    Royal Hero ${i+1}
-   </p>
+            <p>
+                Royal Character #${royal.id}
+            </p>
 
-   <button class="goldBtn"
-    onclick="toast('${name} selected')">
-    SELECT
-   </button>
+        `;
 
-  `;
+        grid.appendChild(card);
 
-  grid.appendChild(card);
-
- });
-
+    });
 }
+
 
 /* =====================================================
- SHOP
+   LEADERBOARD
 ===================================================== */
 
-function renderShop(){
+async function loadLeaderboard(){
 
- const grid=document.getElementById("shopGrid");
+    try{
 
- grid.innerHTML="";
+        const data =
+            await api(
+                "/api/leaderboard"
+            );
 
- SHOP_ITEMS.forEach((item,i)=>{
+        const body =
+            document.getElementById(
+                "leaderboardBody"
+            );
 
-  const card=document.createElement("div");
+        body.innerHTML = "";
 
-  card.className="panel armor";
+        data.leaderboard.forEach(player=>{
 
-  card.innerHTML=`
+            const tr =
+                document.createElement("tr");
 
-   <div class="armorIcon">
-    ${item.icon}
-   </div>
+            tr.innerHTML = `
 
-   <span class="rarity ${item.class}">
-    ${item.rarity}
-   </span>
+                <td>
+                    ${player.rank}
+                </td>
 
-   <h3>${item.name}</h3>
+                <td>
+                    ⚔️ ${escapeHTML(
+                        player.username
+                    )}
+                </td>
 
-   <div class="price">
-    ${item.currency==="gold"?"🪙":"💎"}
-    ${item.price}
-   </div>
+                <td>
+                    🪙 ${Number(
+                        player.gold
+                    ).toLocaleString()}
+                </td>
 
-   <button class="goldBtn equip"
-    onclick="buySkin(${i})">
-    BUY
-   </button>
+                <td>
+                    💎 ${Number(
+                        player.gems
+                    ).toLocaleString()}
+                </td>
 
-  `;
+            `;
 
-  grid.appendChild(card);
+            body.appendChild(tr);
 
- });
+        });
 
+    }catch(error){
+
+        console.error(error);
+    }
 }
 
-function buySkin(index){
-
- const item=SHOP_ITEMS[index];
-
- if(item.currency==="gold"){
-
-  if(save.gold<item.price){
-
-   toast("Không đủ vàng!");
-
-   return;
-
-  }
-
-  save.gold-=item.price;
-
- }else{
-
-  if(save.gems<item.price){
-
-   toast("Không đủ gems!");
-
-   return;
-
-  }
-
-  save.gems-=item.price;
-
- }
-
- save.skins.push(item.name);
-
- save.equippedSkin=item.name;
-
- saveGame();
-
- toast("Đã nhận "+item.name);
-
-}
 
 /* =====================================================
- BATTLE STATE
+   REDEEM CODE
 ===================================================== */
 
-let battle={
- active:false,
- type:null,
- id:0,
- reward:0,
- playerBase:100,
- enemyBase:100,
- players:[],
- enemies:[],
- particles:[],
- timer:null,
- enemyTimer:null
-};
+async function redeemCode(){
 
-const canvas=document.getElementById("battleCanvas");
-const ctx=canvas.getContext("2d");
+    const code =
+        document
+        .getElementById("redeemCode")
+        .value
+        .trim();
 
-function resizeCanvas(){
+    if(!code){
 
- const rect=canvas.getBoundingClientRect();
+        toast(
+            "Nhập code trước.",
+            "error"
+        );
 
- canvas.width=Math.max(600,rect.width*devicePixelRatio);
- canvas.height=Math.max(300,rect.height*devicePixelRatio);
+        return;
+    }
 
- ctx.setTransform(
-  devicePixelRatio,
-  0,0,
-  devicePixelRatio,
-  0,0
- );
+    try{
 
+        const data =
+            await api(
+                "/api/redeem-code",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId:
+                            currentAccount.id,
+                        code
+                    })
+                }
+            );
+
+        await refreshAccount();
+
+        document
+            .getElementById("redeemCode")
+            .value = "";
+
+        toast(
+            data.message,
+            "success"
+        );
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
-window.addEventListener("resize",resizeCanvas);
 
 /* =====================================================
- START BATTLE
+   APPEAL
 ===================================================== */
 
-function startBattle(type,id){
+async function submitAppeal(){
 
- const names=
-  type==="campaign"?CAMPAIGNS:MISSIONS;
+    const message =
+        document
+        .getElementById("appealMessage")
+        .value
+        .trim();
 
- const rewards=
-  type==="campaign"?CAMPAIGN_REWARDS:MISSION_REWARDS;
+    if(!message){
 
- battle.active=true;
- battle.type=type;
- battle.id=id;
- battle.reward=rewards[id-1];
- battle.playerBase=100;
- battle.enemyBase=100;
- battle.players=[];
- battle.enemies=[];
- battle.particles=[];
+        toast(
+            "Nhập nội dung appeal.",
+            "error"
+        );
 
- document.getElementById("battleName").textContent=
-  `${type==="campaign"?"Campaign":"Mission"} ${id}: ${names[id-1]}`;
+        return;
+    }
 
- document.getElementById("battleReward").textContent=
-  battle.reward;
+    try{
 
- document.getElementById("battle").classList.add("active");
+        const data =
+            await api(
+                "/api/appeal",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId:
+                            currentAccount.id,
+                        message
+                    })
+                }
+            );
 
- document.getElementById("battleMessage").textContent="";
+        document
+            .getElementById("appealMessage")
+            .value = "";
 
- resizeCanvas();
+        toast(
+            data.message,
+            "success"
+        );
 
- spawnEnemy();
+    }catch(error){
 
- spawnEnemy();
-
- clearInterval(battle.timer);
- clearInterval(battle.enemyTimer);
-
- battle.timer=setInterval(updateBattle,30);
-
- battle.enemyTimer=setInterval(()=>{
-
-  if(battle.active)
-   spawnEnemy();
-
- },4500);
-
- requestAnimationFrame(drawBattle);
-
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- CLOSE
+   ADMIN
 ===================================================== */
 
-function closeBattle(){
+async function loadAdminData(){
 
- battle.active=false;
+    if(!currentAccount ||
+       currentAccount.role!=="admin")
+        return;
 
- clearInterval(battle.timer);
- clearInterval(battle.enemyTimer);
+    try{
 
- document.getElementById("battle").classList.remove("active");
+        const accounts =
+            await api(
+                "/api/admin/accounts"
+            );
 
+        const body =
+            document.getElementById(
+                "adminAccountsBody"
+            );
+
+        body.innerHTML = "";
+
+        accounts.accounts.forEach(acc=>{
+
+            const tr =
+                document.createElement("tr");
+
+            tr.innerHTML = `
+
+                <td>${acc.id}</td>
+
+                <td>
+                    ${escapeHTML(acc.username)}
+                </td>
+
+                <td>
+                    ${escapeHTML(acc.role)}
+                </td>
+
+                <td>
+                    ${Number(acc.gold)
+                    .toLocaleString()}
+                </td>
+
+                <td>
+                    ${Number(acc.gems)
+                    .toLocaleString()}
+                </td>
+
+                <td>
+                    ${
+                        acc.banned
+                        ? "🚫 BANNED"
+                        : "🟢 ACTIVE"
+                    }
+                </td>
+
+                <td>
+
+                    ${
+                        acc.role !== "admin"
+                        ? `
+                        <button
+                            class="adminAction red"
+                            onclick="adminBan(${acc.id},false)"
+                        >
+                            Ban
+                        </button>
+
+                        <button
+                            class="adminAction red"
+                            onclick="adminBan(${acc.id},true)"
+                        >
+                            Perm
+                        </button>
+
+                        <button
+                            class="adminAction green"
+                            onclick="adminUnban(${acc.id})"
+                        >
+                            Unban
+                        </button>
+                        `
+                        : "ADMIN"
+                    }
+
+                </td>
+
+            `;
+
+            body.appendChild(tr);
+
+        });
+
+        await loadAppeals();
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- PLAYER UNIT
+   ADMIN BAN
 ===================================================== */
 
-function spawnPlayer(type){
+async function adminBan(
+    accountId,
+    permanent
+){
 
- if(!battle.active)
-  return;
+    try{
 
- const base=UNITS.find(u=>u.name===type);
+        const data =
+            await api(
+                "/api/admin/ban",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId,
+                        permanent
+                    })
+                }
+            );
 
- if(!base)
-  return;
+        toast(
+            data.message,
+            "success"
+        );
 
- const armor=ARMORS.find(
-  a=>a.name===save.armor
- );
+        loadAdminData();
 
- let hp=base.hp;
- let damage=base.damage;
- let speed=base.speed;
+    }catch(error){
 
- if(armor){
-
-  if(armor.name==="Giáp Hỏa Long")
-   damage*=1.15;
-
-  if(armor.name==="Giáp Băng Vĩnh Cửu")
-   hp*=1.25;
-
-  if(armor.name==="Giáp Công Nghệ Cyber")
-   speed*=1.15;
-
-  if(armor.name==="Giáp Sa Mạc Hoàng Kim")
-   hp*=1.05;
-
- }
-
- battle.players.push({
-
-  type,
-  icon:base.icon,
-  x:90,
-  y:canvas.clientHeight*.58-
-   Math.random()*80,
-  hp,
-  maxHp:hp,
-  damage,
-  speed,
-  frame:0,
-  attack:0
-
- });
-
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- ENEMY
+   ADMIN UNBAN
 ===================================================== */
 
-function spawnEnemy(){
+async function adminUnban(accountId){
 
- if(!battle.active)
-  return;
+    try{
 
- const base=
-  UNITS[
-   Math.floor(Math.random()*UNITS.length)
-  ];
+        const data =
+            await api(
+                "/api/admin/unban",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId
+                    })
+                }
+            );
 
- const x=Math.max(
-  500,
-  canvas.clientWidth-120
- );
+        toast(
+            data.message,
+            "success"
+        );
 
- battle.enemies.push({
+        loadAdminData();
 
-  type:base.name,
-  icon:base.icon,
-  x,
-  y:canvas.clientHeight*.58-
-   Math.random()*80,
-  hp:base.hp,
-  maxHp:base.hp,
-  damage:base.damage*.85,
-  speed:base.speed*.72,
-  frame:0,
-  attack:0
+    }catch(error){
 
- });
-
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- UPDATE BATTLE
+   ADMIN GIFT
 ===================================================== */
 
-function updateBattle(){
+async function adminGift(){
 
- if(!battle.active)
-  return;
+    const accountId =
+        Number(
+            document
+            .getElementById("giftAccountId")
+            .value
+        );
 
- for(const p of battle.players){
+    const gold =
+        Number(
+            document
+            .getElementById("giftGold")
+            .value
+        ) || 0;
 
-  const target=
-   battle.enemies.find(e=>e.hp>0);
+    const gems =
+        Number(
+            document
+            .getElementById("giftGems")
+            .value
+        ) || 0;
 
-  if(!target){
+    const skin =
+        document
+        .getElementById("giftSkin")
+        .value
+        .trim();
 
-   battle.enemyBase-=p.damage*.01;
+    if(!accountId){
 
-   continue;
+        toast(
+            "Nhập Account ID.",
+            "error"
+        );
 
-  }
+        return;
+    }
 
-  const distance=target.x-p.x;
+    try{
 
-  if(distance>55){
+        const data =
+            await api(
+                "/api/admin/gift",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId,
+                        gold,
+                        gems,
+                        skin
+                    })
+                }
+            );
 
-   p.x+=p.speed;
+        toast(
+            data.message,
+            "success"
+        );
 
-  }else{
+        loadAdminData();
 
-   p.attack++;
+    }catch(error){
 
-   if(p.attack>=25){
-
-    target.hp-=p.damage;
-
-    p.attack=0;
-
-    createHit(target.x,target.y);
-
-   }
-
-  }
-
-  p.frame++;
-
- }
-
- for(const e of battle.enemies){
-
-  const target=
-   battle.players.find(p=>p.hp>0);
-
-  if(!target){
-
-   battle.playerBase-=e.damage*.006;
-
-   continue;
-
-  }
-
-  const distance=e.x-target.x;
-
-  if(distance>55){
-
-   e.x-=e.speed;
-
-  }else{
-
-   e.attack++;
-
-   if(e.attack>=28){
-
-    target.hp-=e.damage;
-
-    e.attack=0;
-
-    createHit(target.x,target.y);
-
-   }
-
-  }
-
-  e.frame++;
-
- }
-
- battle.players=
-  battle.players.filter(p=>p.hp>0);
-
- battle.enemies=
-  battle.enemies.filter(e=>e.hp>0);
-
- battle.particles=
-  battle.particles.filter(p=>p.life>0);
-
- for(const p of battle.particles){
-
-  p.x+=p.vx;
-  p.y+=p.vy;
-  p.life--;
-
- }
-
- if(battle.enemyBase<=0){
-
-  battle.enemyBase=0;
-  winBattle();
-
- }
-
- if(battle.playerBase<=0){
-
-  battle.playerBase=0;
-  loseBattle();
-
- }
-
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- PARTICLES
+   ADMIN CREATE CODE
 ===================================================== */
 
-function createHit(x,y){
+async function adminCreateCode(){
 
- for(let i=0;i<5;i++){
+    const code =
+        document
+        .getElementById("newCode")
+        .value
+        .trim();
 
-  battle.particles.push({
+    const gold =
+        Number(
+            document
+            .getElementById("newCodeGold")
+            .value
+        ) || 0;
 
-   x,
-   y,
-   vx:(Math.random()-.5)*3,
-   vy:(Math.random()-.5)*3,
-   life:25
+    const gems =
+        Number(
+            document
+            .getElementById("newCodeGems")
+            .value
+        ) || 0;
 
-  });
+    const skin =
+        document
+        .getElementById("newCodeSkin")
+        .value
+        .trim();
 
- }
+    if(!code){
 
+        toast(
+            "Nhập code.",
+            "error"
+        );
+
+        return;
+    }
+
+    try{
+
+        const data =
+            await api(
+                "/api/admin/create-code",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        code,
+                        gold,
+                        gems,
+                        skin
+                    })
+                }
+            );
+
+        toast(
+            "Đã tạo code: " +
+            data.code.code,
+            "success"
+        );
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- DRAW
+   GLOBAL MESSAGE
 ===================================================== */
 
-function drawBattle(){
+async function adminGlobalMessage(){
 
- if(!battle.active)
-  return;
+    const message =
+        document
+        .getElementById(
+            "globalMessageInput"
+        )
+        .value
+        .trim();
 
- const w=canvas.clientWidth;
- const h=canvas.clientHeight;
+    if(!message){
 
- ctx.clearRect(0,0,w,h);
+        toast(
+            "Nhập thông báo.",
+            "error"
+        );
 
- /* SKY */
+        return;
+    }
 
- const sky=ctx.createLinearGradient(0,0,0,h);
+    try{
 
- sky.addColorStop(0,"#172b43");
- sky.addColorStop(.55,"#263f52");
- sky.addColorStop(.56,"#24311e");
- sky.addColorStop(1,"#10180d");
+        const data =
+            await api(
+                "/api/admin/global-message",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        message
+                    })
+                }
+            );
 
- ctx.fillStyle=sky;
- ctx.fillRect(0,0,w,h);
+        toast(
+            data.message,
+            "success"
+        );
 
- /* MOUNTAINS */
+    }catch(error){
 
- ctx.fillStyle="#101b27";
-
- ctx.beginPath();
-
- ctx.moveTo(0,h*.55);
- ctx.lineTo(w*.18,h*.25);
- ctx.lineTo(w*.32,h*.48);
- ctx.lineTo(w*.48,h*.2);
- ctx.lineTo(w*.65,h*.46);
- ctx.lineTo(w*.82,h*.27);
- ctx.lineTo(w,h*.5);
- ctx.lineTo(w,h*.6);
- ctx.lineTo(0,h*.6);
- ctx.fill();
-
- /* GROUND */
-
- ctx.fillStyle="#1c2c16";
-
- ctx.fillRect(
-  0,
-  h*.56,
-  w,
-  h*.44
- );
-
- /* GROUND LINES */
-
- ctx.strokeStyle="#344827";
-
- for(let x=0;x<w;x+=45){
-
-  ctx.beginPath();
-  ctx.moveTo(x,h*.65);
-  ctx.lineTo(x+20,h*.63);
-  ctx.stroke();
-
- }
-
- /* BASES */
-
- drawBase(60,h*.48,false);
- drawBase(w-145,h*.48,true);
-
- /* UNITS */
-
- battle.players.forEach(
-  p=>drawStick(p,false)
- );
-
- battle.enemies.forEach(
-  e=>drawStick(e,true)
- );
-
- /* PARTICLES */
-
- for(const p of battle.particles){
-
-  ctx.fillStyle="#ffd35e";
-
-  ctx.fillRect(
-   p.x,
-   p.y,
-   4,
-   4
-  );
-
- }
-
- /* HP */
-
- drawBattleBar(
-  25,
-  20,
-  230,
-  battle.playerBase,
-  "#54d78b"
- );
-
- drawBattleBar(
-  w-255,
-  20,
-  230,
-  battle.enemyBase,
-  "#d94b43"
- );
-
- requestAnimationFrame(drawBattle);
-
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- BASE
+   ADMIN APPEALS
 ===================================================== */
 
-function drawBase(x,y,enemy){
+async function loadAppeals(){
 
- ctx.save();
+    const data =
+        await api(
+            "/api/admin/appeals"
+        );
 
- ctx.fillStyle=enemy?"#572724":"#283646";
+    const body =
+        document.getElementById(
+            "appealsBody"
+        );
 
- ctx.fillRect(x,y,85,115);
+    body.innerHTML = "";
 
- ctx.fillStyle=enemy?"#8e3932":"#455a70";
+    data.appeals.forEach(appeal=>{
 
- ctx.fillRect(x+12,y-22,61,25);
+        const tr =
+            document.createElement("tr");
 
- ctx.strokeStyle="#aeb7c3";
- ctx.lineWidth=3;
+        tr.innerHTML = `
 
- ctx.strokeRect(x,y,85,115);
+            <td>${appeal.id}</td>
 
- /* statue */
+            <td>
+                ${escapeHTML(
+                    appeal.username
+                )}
+            </td>
 
- ctx.fillStyle=enemy?"#b34a43":"#9aa5b0";
+            <td>
+                ${escapeHTML(
+                    appeal.message
+                )}
+            </td>
 
- ctx.beginPath();
+            <td>
+                ${escapeHTML(
+                    appeal.status
+                )}
+            </td>
 
- ctx.arc(
-  x+42,
-  y+38,
-  15,
-  0,
-  Math.PI*2
- );
+            <td>
 
- ctx.fill();
+                ${
+                    appeal.status==="pending"
+                    ? `
+                    <button
+                        class="adminAction green"
+                        onclick="respondAppeal(
+                            ${appeal.accountId},
+                            ${appeal.id},
+                            'approve'
+                        )"
+                    >
+                        Approve
+                    </button>
 
- ctx.fillRect(
-  x+33,
-  y+52,
-  18,
-  45
- );
+                    <button
+                        class="adminAction red"
+                        onclick="respondAppeal(
+                            ${appeal.accountId},
+                            ${appeal.id},
+                            'reject'
+                        )"
+                    >
+                        Reject
+                    </button>
+                    `
+                    : "—"
+                }
 
- ctx.restore();
+            </td>
 
+        `;
+
+        body.appendChild(tr);
+
+    });
 }
 
+
 /* =====================================================
- STICKMAN
+   ADMIN RESPOND APPEAL
 ===================================================== */
 
-function drawStick(u,enemy){
+async function respondAppeal(
+    accountId,
+    appealId,
+    action
+){
 
- ctx.save();
+    try{
 
- const x=u.x;
- const y=u.y;
+        const data =
+            await api(
+                "/api/admin/appeal/respond",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        accountId,
+                        appealId,
+                        action
+                    })
+                }
+            );
 
- ctx.strokeStyle=enemy?"#db4e49":"#e9edf3";
- ctx.fillStyle=enemy?"#db4e49":"#e9edf3";
+        toast(
+            data.message,
+            "success"
+        );
 
- ctx.lineWidth=5;
- ctx.lineCap="round";
+        loadAdminData();
 
- /* head */
+    }catch(error){
 
- ctx.beginPath();
-
- ctx.arc(
-  x,
-  y-34,
-  12,
-  0,
-  Math.PI*2
- );
-
- ctx.fill();
-
- /* body */
-
- ctx.beginPath();
-
- ctx.moveTo(x,y-22);
- ctx.lineTo(x,y+15);
-
- /* legs animation */
-
- const step=
-  Math.sin(u.frame*.18)*9;
-
- ctx.moveTo(x,y+15);
- ctx.lineTo(x-12+step,y+37);
-
- ctx.moveTo(x,y+15);
- ctx.lineTo(x+12-step,y+37);
-
- /* arms */
-
- ctx.moveTo(x,y-10);
- ctx.lineTo(x-18-step,y+5);
-
- ctx.moveTo(x,y-10);
- ctx.lineTo(x+18+step,y+4);
-
- ctx.stroke();
-
- /* weapon */
-
- ctx.beginPath();
-
- ctx.moveTo(
-  x+12,
-  y+2
- );
-
- ctx.lineTo(
-  x+38,
-  y-16
- );
-
- ctx.stroke();
-
- /* armor glow */
-
- if(save.armor!=="Default Armor"){
-
-  ctx.globalAlpha=.28;
-
-  ctx.beginPath();
-
-  ctx.arc(
-   x,
-   y,
-   27+
-    Math.sin(Date.now()/150)*3,
-   0,
-   Math.PI*2
-  );
-
-  ctx.strokeStyle="#ffd45b";
-  ctx.stroke();
-
-  ctx.globalAlpha=1;
-
- }
-
- /* HP */
-
- const ratio=
-  Math.max(0,u.hp/u.maxHp);
-
- ctx.fillStyle="#321719";
-
- ctx.fillRect(
-  x-23,
-  y-56,
-  46,
-  5
- );
-
- ctx.fillStyle=enemy?"#e4544b":"#51d782";
-
- ctx.fillRect(
-  x-23,
-  y-56,
-  46*ratio,
-  5
- );
-
- ctx.restore();
-
+        toast(
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- BATTLE BAR
+   REFRESH ALL
 ===================================================== */
 
-function drawBattleBar(x,y,width,value,color){
+async function refreshAll(){
 
- ctx.fillStyle="#281316";
+    try{
 
- ctx.fillRect(
-  x,y,width,12
- );
+        await refreshAccount();
 
- ctx.fillStyle=color;
+        await loadGameData();
 
- ctx.fillRect(
-  x,
-  y,
-  width*Math.max(0,value)/100,
-  12
- );
+        await loadLeaderboard();
 
- ctx.strokeStyle="#cbd3df";
+        if(
+            currentAccount &&
+            currentAccount.role==="admin"
+        ){
 
- ctx.strokeRect(
-  x,y,width,12
- );
+            await loadAdminData();
 
+        }
+
+        toast(
+            "Đã refresh dữ liệu.",
+            "success"
+        );
+
+    }catch(error){
+
+        toast(
+            "Không thể refresh: " +
+            error.message,
+            "error"
+        );
+    }
 }
 
+
 /* =====================================================
- SPELLS IN BATTLE
+   ESCAPE HTML
 ===================================================== */
 
-function battleSpell(name){
+function escapeHTML(value){
 
- if(!battle.active)
-  return;
-
- if(name==="Lightning"){
-
-  battle.enemies
-   .slice(0,3)
-   .forEach(e=>{
-    e.hp-=70;
-    createHit(e.x,e.y);
-   });
-
-  toast("⚡ Lightning!");
-
- }
-
- if(name==="Meteor"){
-
-  battle.enemies.forEach(e=>{
-   e.hp-=55;
-   createHit(e.x,e.y);
-  });
-
-  battle.enemyBase-=15;
-
-  toast("☄️ Meteor!");
-
- }
-
- if(name==="Heal"){
-
-  battle.players.forEach(p=>{
-   p.hp=Math.min(
-    p.maxHp,
-    p.hp+55
-   );
-  });
-
-  toast("❤️ Army healed!");
-
- }
-
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 }
 
-/* =====================================================
- WIN
-===================================================== */
-
-function winBattle(){
-
- if(!battle.active)
-  return;
-
- const reward=battle.reward;
-
- save.gold+=reward;
-
- if(battle.type==="campaign"){
-
-  if(battle.id>save.campaign)
-   save.campaign=battle.id;
-
- }else{
-
-  if(battle.id>save.mission)
-   save.mission=battle.id;
-
- }
-
- saveGame();
-
- renderCampaign();
- renderMissions();
-
- document.getElementById("battleMessage").textContent=
-  "🏆 VICTORY! +"+reward+" GOLD";
-
- toast(
-  "🏆 Victory! +" +
-  reward +
-  " Gold"
- );
-
- setTimeout(()=>{
-
-  if(battle.active)
-   closeBattle();
-
- },1800);
-
-}
 
 /* =====================================================
- LOSE
+   GLOBAL ERROR
 ===================================================== */
 
-function loseBattle(){
+window.addEventListener(
+    "error",
+    event=>{
+        console.error(
+            "Frontend error:",
+            event.error
+        );
+    }
+);
 
- if(!battle.active)
-  return;
-
- document.getElementById("battleMessage").textContent=
-  "💀 DEFEAT";
-
- toast("💀 Battle lost!");
-
- setTimeout(()=>{
-
-  if(battle.active)
-   closeBattle();
-
- },1800);
-
-}
 
 /* =====================================================
- REFRESH
+   START
 ===================================================== */
 
-function refreshGame(){
-
- loadSave();
-
- renderCampaign();
- renderMissions();
- renderArmory();
- renderSpells();
- renderUnits();
- renderRoyals();
- renderShop();
-
- toast("🔄 Game refreshed!");
-
-}
-
-/* =====================================================
- INITIALIZE
-===================================================== */
-
-loadSave();
-
-renderCampaign();
-renderMissions();
-renderArmory();
-renderSpells();
-renderUnits();
-renderRoyals();
-renderShop();
+autoLogin();
 
 </script>
 
