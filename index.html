@@ -1,413 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SWUL - Stick War Ultimate Legends</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+*{box-sizing:border-box}
 
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#fff;
     background:
-        radial-gradient(circle at top, #26364d 0%, #111827 45%, #05070b 100%);
-    color: white;
-    min-height: 100vh;
+        radial-gradient(circle at top,#334155 0%,#111827 42%,#020617 100%);
+    min-height:100vh;
 }
 
-button,
-input {
-    font: inherit;
+button,input{
+    font:inherit;
 }
 
-button {
-    cursor: pointer;
+button{
+    cursor:pointer;
 }
 
-.hidden {
-    display: none !important;
+.hidden{
+    display:none!important;
 }
 
-/* =========================
-   LOADING
-========================= */
+/* LOADING */
 
-#loading {
-    position: fixed;
-    inset: 0;
-    background: #05070b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity .4s;
+#loading{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#020617;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-.loading-box {
-    text-align: center;
+.loading-box{
+    width:min(90%,500px);
+    text-align:center;
 }
 
-.loading-title {
-    font-size: 42px;
-    font-weight: 900;
-    margin-bottom: 15px;
+.loading-title{
+    font-size:48px;
+    font-weight:900;
 }
 
-.loading-sub {
-    color: #aab4c3;
+.loading-version{
+    color:#94a3b8;
+    margin:10px 0 25px;
 }
 
-.loader {
-    width: 220px;
-    height: 7px;
-    background: #252d38;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 25px auto;
+.loader{
+    height:8px;
+    background:#1e293b;
+    border-radius:20px;
+    overflow:hidden;
 }
 
-.loader-bar {
-    width: 0%;
-    height: 100%;
-    background: #f59e0b;
-    animation: loading 1.8s forwards;
+.loader-bar{
+    width:0;
+    height:100%;
+    background:#f59e0b;
+    animation:load 1.8s forwards;
 }
 
-@keyframes loading {
-    to {
-        width: 100%;
-    }
+@keyframes load{
+    to{width:100%}
 }
 
-/* =========================
-   LOGIN
-========================= */
+/* AUTH */
 
-#authScreen {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+#authScreen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.auth-box {
-    width: 100%;
-    max-width: 460px;
-    background: rgba(15, 23, 42, .96);
-    border: 1px solid #334155;
-    border-radius: 20px;
-    padding: 35px;
-    box-shadow: 0 20px 70px rgba(0,0,0,.55);
+.auth-box{
+    width:min(100%,450px);
+    background:rgba(15,23,42,.96);
+    border:1px solid #475569;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 20px 70px rgba(0,0,0,.6);
 }
 
-.logo {
-    text-align: center;
-    font-size: 38px;
-    font-weight: 900;
+.logo{
+    text-align:center;
+    font-size:42px;
+    font-weight:900;
 }
 
-.version {
-    text-align: center;
-    color: #94a3b8;
-    margin: 8px 0 30px;
+.version{
+    text-align:center;
+    color:#94a3b8;
+    margin:8px 0 28px;
 }
 
-.auth-title {
-    text-align: center;
-    margin-bottom: 20px;
+.field{
+    margin:15px 0;
 }
 
-.field {
-    margin-bottom: 15px;
+.field label{
+    display:block;
+    margin-bottom:7px;
+    color:#cbd5e1;
 }
 
-.field label {
-    display: block;
-    margin-bottom: 7px;
-    color: #cbd5e1;
+.field input{
+    width:100%;
+    padding:13px;
+    border-radius:9px;
+    border:1px solid #475569;
+    background:#020617;
+    color:white;
+    outline:none;
 }
 
-.field input {
-    width: 100%;
-    padding: 13px;
-    border-radius: 10px;
-    border: 1px solid #475569;
-    background: #0f172a;
-    color: white;
-    outline: none;
+.field input:focus{
+    border-color:#f59e0b;
 }
 
-.field input:focus {
-    border-color: #f59e0b;
+.main-btn,
+.secondary-btn,
+.guest-btn{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    font-weight:900;
+    margin-top:9px;
 }
 
-.main-btn {
-    width: 100%;
-    border: 0;
-    border-radius: 10px;
-    padding: 13px;
-    background: #f59e0b;
-    color: #111827;
-    font-weight: 900;
-    margin-top: 7px;
+.main-btn{
+    border:0;
+    background:#f59e0b;
+    color:#111827;
 }
 
-.main-btn:hover {
-    background: #fbbf24;
+.main-btn:hover{
+    background:#fbbf24;
 }
 
-.secondary-btn {
-    width: 100%;
-    border: 1px solid #475569;
-    border-radius: 10px;
-    padding: 12px;
-    background: #1e293b;
-    color: white;
-    font-weight: bold;
-    margin-top: 10px;
+.secondary-btn{
+    border:1px solid #475569;
+    background:#1e293b;
+    color:#fff;
 }
 
-.secondary-btn:hover {
-    background: #334155;
+.guest-btn{
+    border:1px solid #64748b;
+    background:transparent;
+    color:#cbd5e1;
 }
 
-.guest-btn {
-    width: 100%;
-    border: 1px solid #64748b;
-    border-radius: 10px;
-    padding: 12px;
-    background: transparent;
-    color: #cbd5e1;
-    font-weight: bold;
-    margin-top: 10px;
+.status{
+    min-height:22px;
+    text-align:center;
+    margin-top:14px;
+    color:#fbbf24;
 }
 
-.status {
-    text-align: center;
-    margin-top: 15px;
-    min-height: 20px;
-    color: #fbbf24;
+/* TOPBAR */
+
+.topbar{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:10px 20px;
+    background:#020617;
+    border-bottom:1px solid #334155;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
-/* =========================
-   GAME
-========================= */
-
-#gameScreen {
-    min-height: 100vh;
+.brand{
+    font-size:25px;
+    font-weight:900;
 }
 
-.topbar {
-    height: 70px;
-    background: rgba(2, 6, 23, .96);
-    border-bottom: 1px solid #334155;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+.resources{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:center;
 }
 
-.brand {
-    font-size: 24px;
-    font-weight: 900;
+.resource{
+    padding:8px 12px;
+    border-radius:9px;
+    background:#172033;
+    border:1px solid #334155;
 }
 
-.resources {
-    display: flex;
-    gap: 15px;
+/* NAV */
+
+.nav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    padding:12px;
+    background:#0b1220;
+    border-bottom:1px solid #334155;
 }
 
-.resource {
-    background: #172033;
-    border: 1px solid #334155;
-    padding: 9px 13px;
-    border-radius: 10px;
+.nav button{
+    padding:9px 12px;
+    border-radius:8px;
+    border:1px solid #334155;
+    background:#172033;
+    color:#fff;
+    font-weight:bold;
 }
 
-.nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    padding: 15px;
-    background: #0b1220;
-    border-bottom: 1px solid #273449;
+.nav button:hover{
+    background:#334155;
 }
 
-.nav button {
-    background: #172033;
-    border: 1px solid #334155;
-    color: white;
-    border-radius: 8px;
-    padding: 9px 13px;
-    font-weight: bold;
+.admin-nav{
+    background:#7c2d12!important;
+    border-color:#ea580c!important;
 }
 
-.nav button:hover {
-    background: #334155;
+/* CONTENT */
+
+.content{
+    max-width:1250px;
+    margin:auto;
+    padding:25px;
 }
 
-.nav .admin-nav {
-    background: #7c2d12;
-    border-color: #c2410c;
+.panel{
+    background:rgba(15,23,42,.94);
+    border:1px solid #334155;
+    border-radius:16px;
+    padding:25px;
 }
 
-.content {
-    max-width: 1200px;
-    margin: auto;
-    padding: 25px;
+.panel h1{
+    margin-top:0;
 }
 
-.panel {
-    background: rgba(15, 23, 42, .94);
-    border: 1px solid #334155;
-    border-radius: 16px;
-    padding: 25px;
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
 }
 
-.panel h1 {
-    margin-top: 0;
+.card{
+    background:#172033;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:18px;
 }
 
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
+.card h3{
+    margin-top:0;
 }
 
-.card {
-    background: #172033;
-    border: 1px solid #334155;
-    border-radius: 12px;
-    padding: 20px;
+.big{
+    font-size:30px;
+    font-weight:900;
 }
 
-.card h3 {
-    margin-top: 0;
+.locked{
+    opacity:.55;
 }
 
-.big {
-    font-size: 30px;
-    font-weight: 900;
+.success{
+    color:#4ade80;
 }
 
-.danger {
-    background: #7f1d1d !important;
-    border-color: #ef4444 !important;
+.warning{
+    color:#fbbf24;
 }
 
-.success {
-    color: #4ade80;
+.danger{
+    background:#7f1d1d!important;
+    border-color:#ef4444!important;
 }
 
-.warning {
-    color: #fbbf24;
+.item-button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:0;
+    border-radius:8px;
+    background:#f59e0b;
+    font-weight:900;
 }
 
-/* =========================
-   ADMIN
-========================= */
+/* GAME DATA */
 
-.admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+.data-card{
+    position:relative;
+}
+
+.data-icon{
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.effect{
+    margin:5px 0;
+    color:#cbd5e1;
+}
+
+.stat{
+    display:inline-block;
+    padding:4px 7px;
+    margin:3px;
+    border-radius:6px;
+    background:#0f172a;
+    color:#fbbf24;
+    font-size:12px;
+}
+
+/* PROGRESS */
+
+.progress{
+    width:100%;
+    height:9px;
+    background:#020617;
+    border-radius:10px;
+    overflow:hidden;
+    margin:10px 0;
+}
+
+.progress-bar{
+    height:100%;
+    width:0;
+    background:#f59e0b;
+}
+
+/* ADMIN */
+
+.admin-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
 }
 
 .admin-table th,
-.admin-table td {
-    padding: 10px;
-    border-bottom: 1px solid #334155;
-    text-align: left;
+.admin-table td{
+    padding:10px;
+    border-bottom:1px solid #334155;
+    text-align:left;
 }
 
-.admin-table th {
-    color: #fbbf24;
+.admin-table th{
+    color:#fbbf24;
 }
 
-.small-btn {
-    border: 0;
-    border-radius: 7px;
-    padding: 7px 10px;
-    margin: 2px;
-    font-weight: bold;
+.admin-form{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:10px;
 }
 
-.ban-btn {
-    background: #dc2626;
-    color: white;
+.admin-form input{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #475569;
+    background:#020617;
+    color:#fff;
 }
 
-.unban-btn {
-    background: #16a34a;
-    color: white;
+.admin-form button{
+    padding:10px;
+    border:0;
+    border-radius:8px;
+    background:#f59e0b;
+    font-weight:900;
 }
 
-.gift-btn {
-    background: #2563eb;
-    color: white;
+.small-btn{
+    padding:6px 9px;
+    margin:2px;
+    border:0;
+    border-radius:6px;
+    font-weight:bold;
 }
 
-.admin-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 10px;
-    margin-top: 15px;
+.ban-btn{
+    background:#dc2626;
+    color:#fff;
 }
 
-.admin-form input {
-    background: #0f172a;
-    color: white;
-    border: 1px solid #475569;
-    padding: 10px;
-    border-radius: 8px;
+.unban-btn{
+    background:#16a34a;
+    color:#fff;
 }
 
-.admin-form button {
-    background: #f59e0b;
-    border: 0;
-    border-radius: 8px;
-    font-weight: 900;
-}
+/* MOBILE */
 
-/* =========================
-   MOBILE
-========================= */
+@media(max-width:700px){
 
-@media (max-width: 700px) {
-    .topbar {
-        height: auto;
-        padding: 12px;
-        flex-direction: column;
-        gap: 10px;
+    .topbar{
+        flex-direction:column;
     }
 
-    .resources {
-        width: 100%;
-        justify-content: center;
+    .content{
+        padding:12px;
     }
 
-    .nav {
-        justify-content: center;
+    .panel{
+        padding:17px;
     }
 
-    .content {
-        padding: 12px;
+    .nav{
+        justify-content:center;
     }
 
-    .auth-box {
-        padding: 22px;
-    }
-
-    .admin-table {
-        font-size: 12px;
+    .brand{
+        font-size:22px;
     }
 }
 </style>
@@ -415,14 +431,12 @@ button {
 
 <body>
 
-<!-- =========================
-     LOADING
-========================= -->
+<!-- LOADING -->
 
 <div id="loading">
     <div class="loading-box">
         <div class="loading-title">⚔️ SWUL</div>
-        <div class="loading-sub">
+        <div class="loading-version">
             Stick War Ultimate Legends v.2026.27.8
         </div>
 
@@ -430,15 +444,13 @@ button {
             <div class="loader-bar"></div>
         </div>
 
-        <div class="loading-sub">
-            Loading...
+        <div id="loadingStatus">
+            Connecting to SWUL server...
         </div>
     </div>
 </div>
 
-<!-- =========================
-     LOGIN / REGISTER
-========================= -->
+<!-- AUTH -->
 
 <section id="authScreen" class="hidden">
 
@@ -450,13 +462,13 @@ button {
             Stick War Ultimate Legends v.2026.27.8
         </div>
 
-        <h2 class="auth-title" id="authTitle">
-            ⚔️ ACCOUNT LOGIN
+        <h2 style="text-align:center">
+            ACCOUNT LOGIN
         </h2>
 
         <div class="field">
             <label>Username</label>
-            <input id="username" type="text" autocomplete="username">
+            <input id="username" autocomplete="username">
         </div>
 
         <div class="field">
@@ -464,546 +476,521 @@ button {
             <input id="password" type="password" autocomplete="current-password">
         </div>
 
-        <button class="main-btn" id="loginButton">
+        <button class="main-btn" onclick="login()">
             LOGIN
         </button>
 
-        <button class="secondary-btn" id="registerButton">
+        <button class="secondary-btn" onclick="register()">
             CREATE ACCOUNT
         </button>
 
-        <button class="guest-btn" id="guestButton">
+        <button class="guest-btn" onclick="guestLogin()">
             PLAY AS GUEST
         </button>
 
-        <div class="status" id="authStatus"></div>
+        <div id="authStatus" class="status"></div>
 
     </div>
 
 </section>
 
-<!-- =========================
-     GAME
-========================= -->
+<!-- GAME -->
 
 <section id="gameScreen" class="hidden">
 
-    <header class="topbar">
+<header class="topbar">
 
-        <div class="brand">
-            ⚔️ SWUL
+    <div class="brand">
+        ⚔️ SWUL
+    </div>
+
+    <div class="resources">
+
+        <div class="resource">
+            💰 <span id="gold">0</span>
         </div>
 
-        <div class="resources">
-
-            <div class="resource">
-                💰 <span id="gold">0</span>
-            </div>
-
-            <div class="resource">
-                💎 <span id="gems">0</span>
-            </div>
-
-            <div class="resource">
-                👤 <span id="usernameDisplay">Guest</span>
-            </div>
-
+        <div class="resource">
+            💎 <span id="gems">0</span>
         </div>
 
-    </header>
-
-    <nav class="nav">
-
-        <button onclick="showPage('home')">
-            🏠 Home
-        </button>
-
-        <button onclick="showPage('campaign')">
-            ⚔️ Campaign
-        </button>
-
-        <button onclick="showPage('mission')">
-            🗺️ Mission
-        </button>
-
-        <button onclick="showPage('armory')">
-            🛡️ Armory
-        </button>
-
-        <button onclick="showPage('shop')">
-            🛒 Shop
-        </button>
-
-        <button onclick="showPage('events')">
-            🎉 Events
-        </button>
-
-        <button onclick="showPage('leaderboard')">
-            🏆 Leaderboard
-        </button>
-
-        <button onclick="showPage('codes')">
-            🔑 Codes
-        </button>
-
-        <button onclick="showPage('appeal')">
-            📩 Appeal
-        </button>
-
-        <button
-            id="adminNav"
-            class="admin-nav hidden"
-            onclick="showPage('admin')">
-            👑 Admin Panel
-        </button>
-
-        <button onclick="logout()">
-            🚪 Logout
-        </button>
-
-    </nav>
-
-    <main class="content">
-
-        <!-- HOME -->
-
-        <div id="page-home" class="page">
-
-            <div class="panel">
-
-                <h1>⚔️ Welcome to SWUL</h1>
-
-                <p id="globalMessage">
-                    Loading server message...
-                </p>
-
-                <div class="card-grid">
-
-                    <div class="card">
-                        <h3>⚔️ Campaign</h3>
-                        <div class="big">0%</div>
-                        <p>Complete the Stick War campaign.</p>
-                    </div>
-
-                    <div class="card">
-                        <h3>🗺️ Missions</h3>
-                        <div class="big">0</div>
-                        <p>Fight through challenging missions.</p>
-                    </div>
-
-                    <div class="card">
-                        <h3>🛡️ Armory</h3>
-                        <p>Equip units, armor and special abilities.</p>
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="resource">
+            👤 <span id="usernameDisplay">Guest</span>
         </div>
 
-        <!-- CAMPAIGN -->
+    </div>
 
-        <div id="page-campaign" class="page hidden">
+</header>
 
-            <div class="panel">
+<nav class="nav">
 
-                <h1>⚔️ Campaign</h1>
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('campaign')">⚔️ Campaign</button>
+    <button onclick="showPage('mission')">🗺️ Mission</button>
+    <button onclick="showPage('armory')">🛡️ Armory</button>
+    <button onclick="showPage('spells')">✨ Spells</button>
+    <button onclick="showPage('units')">⚔️ Units</button>
+    <button onclick="showPage('royals')">👑 Royals</button>
+    <button onclick="showPage('shop')">🛒 Shop</button>
+    <button onclick="showPage('leaderboard')">🏆 Leaderboard</button>
+    <button onclick="showPage('codes')">🔑 Codes</button>
+    <button onclick="showPage('appeal')">📩 Appeal</button>
 
-                <p>
-                    Your campaign progress:
-                    <strong id="campaignProgress">0</strong>
-                </p>
+    <button
+        id="adminNav"
+        class="admin-nav hidden"
+        onclick="showPage('admin')">
+        👑 Admin
+    </button>
 
-                <button class="main-btn" onclick="alert('Campaign system coming next!')">
-                    START CAMPAIGN
-                </button>
+    <button onclick="logout()">🚪 Logout</button>
 
-            </div>
+</nav>
 
-        </div>
+<main class="content">
 
-        <!-- MISSION -->
+<!-- HOME -->
 
-        <div id="page-mission" class="page hidden">
+<div id="page-home" class="page">
 
-            <div class="panel">
+<div class="panel">
 
-                <h1>🗺️ Mission</h1>
+<h1>⚔️ Stick War Ultimate Legends</h1>
 
-                <p>
-                    Mission progress:
-                    <strong id="missionProgress">0</strong>
-                </p>
+<p id="globalMessage">
+Loading server message...
+</p>
 
-                <div class="card-grid">
+<div class="card-grid">
 
-                    <div class="card">
-                        <h3>Mission 1</h3>
-                        <p>Training Grounds</p>
-                        <button class="main-btn"
-                            onclick="alert('Mission system coming next!')">
-                            PLAY
-                        </button>
-                    </div>
+<div class="card">
+<h3>⚔️ Campaign</h3>
+<div class="big" id="homeCampaign">0/10</div>
+<p>Complete 10 campaign stages.</p>
+</div>
 
-                    <div class="card">
-                        <h3>Mission 2</h3>
-                        <p>Enemy Attack</p>
-                        <button class="main-btn">
-                            LOCKED
-                        </button>
-                    </div>
+<div class="card">
+<h3>🗺️ Missions</h3>
+<div class="big" id="homeMission">0/10</div>
+<p>Complete 10 special missions.</p>
+</div>
 
-                </div>
+<div class="card">
+<h3>🛡️ Armory</h3>
+<div class="big">10</div>
+<p>Special armor sets with unique effects.</p>
+</div>
 
-            </div>
+<div class="card">
+<h3>✨ Spells</h3>
+<div class="big">19</div>
+<p>Powerful battlefield abilities.</p>
+</div>
 
-        </div>
+</div>
 
-        <!-- ARMORY -->
+</div>
 
-        <div id="page-armory" class="page hidden">
+</div>
 
-            <div class="panel">
+<!-- CAMPAIGN -->
 
-                <h1>🛡️ Armory</h1>
+<div id="page-campaign" class="page hidden">
 
-                <div class="card-grid">
+<div class="panel">
 
-                    <div class="card">
-                        <h3>⚔️ Swordwrath</h3>
-                        <p>Basic melee warrior.</p>
-                    </div>
+<h1>⚔️ Campaign</h1>
 
-                    <div class="card">
-                        <h3>🏹 Archidon</h3>
-                        <p>Long-range archer.</p>
-                    </div>
+<p>
+Progress:
+<strong id="campaignProgress">0</strong>/10
+</p>
 
-                    <div class="card">
-                        <h3>🛡️ Spearton</h3>
-                        <p>Heavy defensive warrior.</p>
-                    </div>
+<div class="progress">
+<div id="campaignBar" class="progress-bar"></div>
+</div>
 
-                    <div class="card">
-                        <h3>🧙 Magikill</h3>
-                        <p>Powerful magic unit.</p>
-                    </div>
+<div id="campaignList" class="card-grid">
+Loading campaign...
+</div>
 
-                    <div class="card">
-                        <h3>👑 Giant</h3>
-                        <p>Massive battlefield unit.</p>
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
+<!-- MISSION -->
 
-        </div>
+<div id="page-mission" class="page hidden">
 
-        <!-- SHOP -->
+<div class="panel">
 
-        <div id="page-shop" class="page hidden">
+<h1>🗺️ Missions</h1>
 
-            <div class="panel">
+<p>
+Progress:
+<strong id="missionProgress">0</strong>/10
+</p>
 
-                <h1>🛒 Shop</h1>
+<div class="progress">
+<div id="missionBar" class="progress-bar"></div>
+</div>
 
-                <div class="card-grid">
+<div id="missionList" class="card-grid">
+Loading missions...
+</div>
 
-                    <div class="card">
-                        <h3>💰 Gold Pack</h3>
-                        <p>+10,000 Gold</p>
-                        <button class="main-btn"
-                            onclick="alert('Shop purchase system coming next!')">
-                            BUY
-                        </button>
-                    </div>
+</div>
 
-                    <div class="card">
-                        <h3>💎 Gem Pack</h3>
-                        <p>+1,000 Gems</p>
-                        <button class="main-btn">
-                            BUY
-                        </button>
-                    </div>
+</div>
 
-                    <div class="card">
-                        <h3>🦅 Giffon</h3>
-                        <p>Legendary Giant</p>
-                        <button class="main-btn">
-                            VIEW
-                        </button>
-                    </div>
+<!-- ARMORY -->
 
-                </div>
+<div id="page-armory" class="page hidden">
 
-            </div>
+<div class="panel">
 
-        </div>
+<h1>🛡️ Armory</h1>
 
-        <!-- EVENTS -->
+<p>10 armor sets with special effects.</p>
 
-        <div id="page-events" class="page hidden">
+<div id="armorList" class="card-grid">
+Loading armor...
+</div>
 
-            <div class="panel">
+</div>
 
-                <h1>🎉 Events</h1>
+</div>
 
-                <div class="card">
-                    <h3>🔥 SWUL Launch Event</h3>
-                    <p>Special rewards are coming soon.</p>
-                </div>
+<!-- SPELLS -->
 
-            </div>
+<div id="page-spells" class="page hidden">
 
-        </div>
+<div class="panel">
 
-        <!-- LEADERBOARD -->
+<h1>✨ Spells</h1>
 
-        <div id="page-leaderboard" class="page hidden">
+<div id="spellList" class="card-grid">
+Loading spells...
+</div>
 
-            <div class="panel">
+</div>
 
-                <h1>🏆 Leaderboard</h1>
+</div>
 
-                <button class="main-btn"
-                    onclick="loadLeaderboard()">
-                    REFRESH
-                </button>
+<!-- UNITS -->
 
-                <div id="leaderboardList">
-                    Loading...
-                </div>
+<div id="page-units" class="page hidden">
 
-            </div>
+<div class="panel">
 
-        </div>
+<h1>⚔️ Units</h1>
 
-        <!-- CODES -->
+<div id="unitList" class="card-grid">
+Loading units...
+</div>
 
-        <div id="page-codes" class="page hidden">
+</div>
 
-            <div class="panel">
+</div>
 
-                <h1>🔑 Redeem Code</h1>
+<!-- ROYALS -->
 
-                <div class="field">
-                    <label>Code</label>
-                    <input id="redeemCode" type="text">
-                </div>
+<div id="page-royals" class="page hidden">
 
-                <button class="main-btn"
-                    onclick="redeemCode()">
-                    REDEEM
-                </button>
+<div class="panel">
 
-                <div class="status" id="codeStatus"></div>
+<h1>👑 Royals</h1>
 
-            </div>
+<div id="royalList" class="card-grid">
+Loading royals...
+</div>
 
-        </div>
+</div>
 
-        <!-- APPEAL -->
+</div>
 
-        <div id="page-appeal" class="page hidden">
+<!-- SHOP -->
 
-            <div class="panel">
+<div id="page-shop" class="page hidden">
 
-                <h1>📩 Appeal</h1>
+<div class="panel">
 
-                <p>
-                    If your account has been banned, you can submit an appeal.
-                </p>
+<h1>🛒 Shop</h1>
 
-                <button class="main-btn"
-                    onclick="alert('Appeal system coming next!')">
-                    SEND APPEAL
-                </button>
+<div class="card-grid">
 
-            </div>
+<div class="card">
+<div class="data-icon">💰</div>
+<h3>Gold Pack</h3>
+<p>+10,000 Gold</p>
+<button class="item-button" onclick="buyGold()">
+BUY
+</button>
+</div>
 
-        </div>
+<div class="card">
+<div class="data-icon">💎</div>
+<h3>Gem Pack</h3>
+<p>+1,000 Gems</p>
+<button class="item-button" onclick="buyGems()">
+BUY
+</button>
+</div>
 
-        <!-- ADMIN -->
+<div class="card">
+<div class="data-icon">🦅</div>
+<h3>Giffon</h3>
+<p>Legendary Giant</p>
+<button class="item-button" onclick="alert('Giffon system ready for the next update!')">
+VIEW
+</button>
+</div>
 
-        <div id="page-admin" class="page hidden">
+</div>
 
-            <div class="panel">
+</div>
 
-                <h1>👑 Admin Panel</h1>
+</div>
 
-                <p class="warning">
-                    Administrator access only.
-                </p>
+<!-- LEADERBOARD -->
 
-                <hr>
+<div id="page-leaderboard" class="page hidden">
 
-                <h2>👥 Accounts</h2>
+<div class="panel">
 
-                <button class="main-btn"
-                    onclick="loadAccounts()">
-                    REFRESH ACCOUNTS
-                </button>
+<h1>🏆 Leaderboard</h1>
 
-                <div style="overflow-x:auto">
+<button class="main-btn" onclick="loadLeaderboard()">
+REFRESH
+</button>
 
-                    <table class="admin-table">
+<div id="leaderboardList">
+Loading...
+</div>
 
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Gold</th>
-                                <th>Gems</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
+</div>
 
-                        <tbody id="accountsTable">
-                        </tbody>
+</div>
 
-                    </table>
+<!-- CODES -->
 
-                </div>
+<div id="page-codes" class="page hidden">
 
-                <hr>
+<div class="panel">
 
-                <h2>🎁 Gift</h2>
+<h1>🔑 Redeem Code</h1>
 
-                <div class="admin-form">
+<div class="field">
 
-                    <input
-                        id="giftAccountId"
-                        placeholder="Account ID">
+<label>Code</label>
 
-                    <input
-                        id="giftGold"
-                        type="number"
-                        placeholder="Gold">
+<input id="redeemCode">
 
-                    <input
-                        id="giftGems"
-                        type="number"
-                        placeholder="Gems">
+</div>
 
-                    <input
-                        id="giftSkin"
-                        placeholder="Skin">
+<button class="main-btn" onclick="redeemCode()">
+REDEEM
+</button>
 
-                    <button onclick="adminGift()">
-                        SEND GIFT
-                    </button>
+<div id="codeStatus" class="status"></div>
 
-                </div>
+</div>
 
-                <hr>
+</div>
 
-                <h2>🔑 Create Code</h2>
+<!-- APPEAL -->
 
-                <div class="admin-form">
+<div id="page-appeal" class="page hidden">
 
-                    <input
-                        id="newCode"
-                        placeholder="Code">
+<div class="panel">
 
-                    <input
-                        id="newCodeGold"
-                        type="number"
-                        placeholder="Gold">
+<h1>📩 Ban Appeal</h1>
 
-                    <input
-                        id="newCodeGems"
-                        type="number"
-                        placeholder="Gems">
+<p>
+If your account is banned, you can submit an appeal.
+</p>
 
-                    <input
-                        id="newCodeSkin"
-                        placeholder="Skin">
+<div class="field">
+<label>Username</label>
+<input id="appealUsername">
+</div>
 
-                    <button onclick="createCode()">
-                        CREATE CODE
-                    </button>
+<div class="field">
+<label>Reason</label>
+<input id="appealReason">
+</div>
 
-                </div>
+<button class="main-btn" onclick="sendAppeal()">
+SEND APPEAL
+</button>
 
-                <hr>
+<div id="appealStatus" class="status"></div>
 
-                <h2>📢 Global Message</h2>
+</div>
 
-                <div class="admin-form">
+</div>
 
-                    <input
-                        id="globalMessageInput"
-                        placeholder="Message">
+<!-- ADMIN -->
 
-                    <button onclick="updateGlobalMessage()">
-                        UPDATE
-                    </button>
+<div id="page-admin" class="page hidden">
 
-                </div>
+<div class="panel">
 
-                <div class="status" id="adminStatus"></div>
+<h1>👑 Admin Panel</h1>
 
-            </div>
+<p class="warning">
+Administrator access only.
+</p>
 
-        </div>
+<hr>
 
-    </main>
+<h2>👥 Accounts</h2>
+
+<button class="main-btn" onclick="loadAccounts()">
+REFRESH ACCOUNTS
+</button>
+
+<div style="overflow-x:auto">
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Username</th>
+<th>Role</th>
+<th>Gold</th>
+<th>Gems</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody id="accountsTable"></tbody>
+
+</table>
+
+</div>
+
+<hr>
+
+<h2>🎁 Gift</h2>
+
+<div class="admin-form">
+
+<input id="giftAccountId" placeholder="Account ID">
+<input id="giftGold" type="number" placeholder="Gold">
+<input id="giftGems" type="number" placeholder="Gems">
+<input id="giftSkin" placeholder="Skin">
+
+<button onclick="adminGift()">
+SEND GIFT
+</button>
+
+</div>
+
+<hr>
+
+<h2>🔑 Create Code</h2>
+
+<div class="admin-form">
+
+<input id="newCode" placeholder="Code">
+<input id="newCodeGold" type="number" placeholder="Gold">
+<input id="newCodeGems" type="number" placeholder="Gems">
+<input id="newCodeSkin" placeholder="Skin">
+
+<button onclick="createCode()">
+CREATE CODE
+</button>
+
+</div>
+
+<hr>
+
+<h2>📢 Global Message</h2>
+
+<div class="admin-form">
+
+<input
+id="globalMessageInput"
+placeholder="Global message">
+
+<button onclick="updateGlobalMessage()">
+UPDATE
+</button>
+
+</div>
+
+<div id="adminStatus" class="status"></div>
+
+</div>
+
+</div>
+
+</main>
 
 </section>
 
 <script>
 
-/* =====================================================
-   SWUL FRONTEND → RENDER BACKEND
-===================================================== */
+/* =========================================================
+   SWUL FRONTEND
+   BACKEND CONNECTION
+========================================================= */
 
 const API = "https://swul-backend.onrender.com";
 
+let gameData = null;
 let currentAccount = null;
 let guestMode = false;
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const loading = document.getElementById("loading");
-const authScreen = document.getElementById("authScreen");
-const gameScreen = document.getElementById("gameScreen");
-const authStatus = document.getElementById("authStatus");
-
-/* =====================================================
-   LOADING
-===================================================== */
+/* =========================================================
+   START
+========================================================= */
 
 window.addEventListener("load", async () => {
 
-    setTimeout(async () => {
+    try{
 
-        loading.style.opacity = "0";
+        await loadGameData();
 
-        setTimeout(() => {
-            loading.classList.add("hidden");
-        }, 400);
+        await checkServer();
 
-        const saved = localStorage.getItem("swulAccount");
+    }catch(error){
 
-        if (saved) {
+        console.error(error);
 
-            try {
+    }
 
-                currentAccount = JSON.parse(saved);
+    setTimeout(() => {
 
-                if (currentAccount && currentAccount.role) {
-                    enterGame(currentAccount);
+        document.getElementById("loading").classList.add("hidden");
+
+        const saved =
+            localStorage.getItem("swulAccount");
+
+        if(saved){
+
+            try{
+
+                const account =
+                    JSON.parse(saved);
+
+                if(account && account.role){
+
+                    currentAccount = account;
+                    guestMode = false;
+
+                    enterGame(account);
+
                     return;
+
                 }
 
-            } catch (e) {
+            }catch(e){
 
                 localStorage.removeItem("swulAccount");
 
@@ -1013,103 +1000,503 @@ window.addEventListener("load", async () => {
 
         showAuth();
 
-        checkServer();
-
-    }, 1800);
+    },1800);
 
 });
 
-/* =====================================================
-   SERVER CHECK
-===================================================== */
+/* =========================================================
+   LOAD GAME DATA
+========================================================= */
 
-async function checkServer() {
+async function loadGameData(){
 
-    try {
+    const response =
+        await fetch(`${API}/api/game-data`);
 
-        const response = await fetch(`${API}/api/status`);
+    if(!response.ok){
 
-        const data = await response.json();
+        throw new Error("Game data unavailable");
 
-        if (data.online) {
+    }
 
-            authStatus.textContent =
-                "🟢 Server online";
+    gameData =
+        await response.json();
 
-        }
+    console.log("SWUL GAME DATA:",gameData);
 
-    } catch (error) {
+    renderGameData();
 
-        authStatus.textContent =
-            "🔴 Cannot connect to server";
+}
+
+/* =========================================================
+   SERVER
+========================================================= */
+
+async function checkServer(){
+
+    try{
+
+        const response =
+            await fetch(`${API}/api/status`);
+
+        const data =
+            await response.json();
+
+        document.getElementById("loadingStatus").textContent =
+            data.online
+                ? "🟢 SWUL Server Online"
+                : "🔴 Server Offline";
+
+    }catch(error){
+
+        document.getElementById("loadingStatus").textContent =
+            "🔴 Cannot connect to SWUL server";
 
     }
 
 }
 
-/* =====================================================
-   SHOW AUTH
-===================================================== */
+/* =========================================================
+   RENDER DATA
+========================================================= */
 
-function showAuth() {
+function renderGameData(){
 
-    authScreen.classList.remove("hidden");
-    gameScreen.classList.add("hidden");
+    if(!gameData) return;
+
+    renderCampaign();
+    renderMissions();
+    renderArmors();
+    renderSpells();
+    renderUnits();
+    renderRoyals();
 
 }
 
-/* =====================================================
-   LOGIN
-===================================================== */
+/* =========================================================
+   CAMPAIGN
+========================================================= */
 
-document.getElementById("loginButton").addEventListener("click", async () => {
+function renderCampaign(){
 
-    const username =
-        document.getElementById("username").value.trim();
+    const list =
+        document.getElementById("campaignList");
 
-    const password =
-        document.getElementById("password").value;
+    if(!gameData.campaign){
 
-    if (!username || !password) {
-
-        authStatus.textContent =
-            "Please enter username and password.";
+        list.innerHTML =
+            "<div class='card'>No campaign data.</div>";
 
         return;
 
     }
 
-    authStatus.textContent = "Connecting...";
+    list.innerHTML =
+        gameData.campaign.map((stage,index)=>{
 
-    try {
+            const unlocked =
+                index === 0 ||
+                index < Number(
+                    currentAccount?.campaignProgress || 0
+                );
 
-        const response = await fetch(`${API}/api/login`, {
+            return `
 
-            method: "POST",
+            <div class="card ${unlocked ? "" : "locked"}">
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                <div class="data-icon">
+                    ${unlocked ? "⚔️" : "🔒"}
+                </div>
 
-            body: JSON.stringify({
-                username,
-                password
-            })
+                <h3>
+                    ${stage.id}. ${escapeHTML(stage.name)}
+                </h3>
 
-        });
+                <p>
+                    💰 Reward:
+                    ${Number(stage.reward).toLocaleString()}
+                </p>
 
-        const data = await response.json();
+                <button
+                    class="item-button"
+                    onclick="playCampaign(${stage.id})"
+                    ${unlocked ? "" : "disabled"}>
 
-        if (!response.ok) {
+                    ${unlocked ? "PLAY" : "LOCKED"}
 
-            authStatus.textContent =
+                </button>
+
+            </div>
+
+            `;
+
+        }).join("");
+
+}
+
+/* =========================================================
+   MISSION
+========================================================= */
+
+function renderMissions(){
+
+    const list =
+        document.getElementById("missionList");
+
+    if(!gameData.missions){
+
+        list.innerHTML =
+            "<div class='card'>No mission data.</div>";
+
+        return;
+
+    }
+
+    list.innerHTML =
+        gameData.missions.map((mission,index)=>{
+
+            const unlocked =
+                index === 0 ||
+                index < Number(
+                    currentAccount?.missionProgress || 0
+                );
+
+            return `
+
+            <div class="card ${unlocked ? "" : "locked"}">
+
+                <div class="data-icon">
+                    ${unlocked ? "🗺️" : "🔒"}
+                </div>
+
+                <h3>
+                    ${mission.id}. ${escapeHTML(mission.name)}
+                </h3>
+
+                <p>
+                    💰 Reward:
+                    ${Number(mission.reward).toLocaleString()}
+                </p>
+
+                <button
+                    class="item-button"
+                    onclick="playMission(${mission.id})"
+                    ${unlocked ? "" : "disabled"}>
+
+                    ${unlocked ? "PLAY" : "LOCKED"}
+
+                </button>
+
+            </div>
+
+            `;
+
+        }).join("");
+
+}
+
+/* =========================================================
+   ARMORS
+========================================================= */
+
+function renderArmors(){
+
+    const list =
+        document.getElementById("armorList");
+
+    if(!gameData.armors){
+
+        list.innerHTML =
+            "<div class='card'>No armor data.</div>";
+
+        return;
+
+    }
+
+    list.innerHTML =
+        gameData.armors.map(armor=>`
+
+        <div class="card data-card">
+
+            <div class="data-icon">
+                🛡️
+            </div>
+
+            <h3>
+                ${escapeHTML(
+                    armor.displayName || armor.name
+                )}
+            </h3>
+
+            <p>
+                ${escapeHTML(
+                    armor.description || ""
+                )}
+            </p>
+
+            <h4>✨ Effects</h4>
+
+            ${
+                (armor.effects || [])
+                .map(effect=>`
+                    <div class="effect">
+                        • ${escapeHTML(effect)}
+                    </div>
+                `).join("")
+            }
+
+            <h4>📊 Stats</h4>
+
+            ${
+                Object.entries(armor.stats || {})
+                .map(([key,value])=>`
+                    <span class="stat">
+                        ${escapeHTML(key)}:
+                        ${escapeHTML(value)}
+                    </span>
+                `).join("")
+            }
+
+            <button
+                class="item-button"
+                onclick="equipArmor(${armor.id})">
+
+                EQUIP
+
+            </button>
+
+        </div>
+
+        `).join("");
+
+}
+
+/* =========================================================
+   SPELLS
+========================================================= */
+
+function renderSpells(){
+
+    const list =
+        document.getElementById("spellList");
+
+    if(!gameData.spells){
+
+        list.innerHTML =
+            "<div class='card'>No spell data.</div>";
+
+        return;
+
+    }
+
+    const icons = [
+        "⚡","☄️","🔥","❄️","💚",
+        "😡","🛡️","🌪️","🌋","☠️",
+        "👥","🌀","🏹","🌑","🌩️",
+        "⏱️","🪨","💨","👹"
+    ];
+
+    list.innerHTML =
+        gameData.spells.map((spell,index)=>`
+
+        <div class="card">
+
+            <div class="data-icon">
+                ${icons[index] || "✨"}
+            </div>
+
+            <h3>
+                ${spell.id}.
+                ${escapeHTML(spell.name)}
+            </h3>
+
+            <p>
+                Special battlefield spell.
+            </p>
+
+            <button
+                class="item-button"
+                onclick="useSpell(${spell.id})">
+
+                SELECT
+
+            </button>
+
+        </div>
+
+        `).join("");
+
+}
+
+/* =========================================================
+   UNITS
+========================================================= */
+
+function renderUnits(){
+
+    const list =
+        document.getElementById("unitList");
+
+    if(!gameData.units){
+
+        list.innerHTML =
+            "<div class='card'>No unit data.</div>";
+
+        return;
+
+    }
+
+    list.innerHTML =
+        gameData.units.map(unit=>`
+
+        <div class="card">
+
+            <div class="data-icon">⚔️</div>
+
+            <h3>
+                ${unit.id}. ${escapeHTML(unit.name)}
+            </h3>
+
+            <p>
+                Battlefield unit.
+            </p>
+
+            <button
+                class="item-button"
+                onclick="selectUnit(${unit.id})">
+
+                SELECT
+
+            </button>
+
+        </div>
+
+        `).join("");
+
+}
+
+/* =========================================================
+   ROYALS
+========================================================= */
+
+function renderRoyals(){
+
+    const list =
+        document.getElementById("royalList");
+
+    if(!gameData.royals){
+
+        list.innerHTML =
+            "<div class='card'>No royal data.</div>";
+
+        return;
+
+    }
+
+    list.innerHTML =
+        gameData.royals.map(royal=>`
+
+        <div class="card">
+
+            <div class="data-icon">👑</div>
+
+            <h3>
+                ${royal.id}.
+                ${escapeHTML(royal.name)}
+            </h3>
+
+            <p>
+                Royal legendary character.
+            </p>
+
+            <button
+                class="item-button"
+                onclick="selectRoyal(${royal.id})">
+
+                SELECT
+
+            </button>
+
+        </div>
+
+        `).join("");
+
+}
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function showAuth(){
+
+    document
+        .getElementById("authScreen")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("gameScreen")
+        .classList.add("hidden");
+
+}
+
+async function login(){
+
+    const username =
+        document.getElementById("username")
+        .value.trim();
+
+    const password =
+        document.getElementById("password")
+        .value;
+
+    const status =
+        document.getElementById("authStatus");
+
+    if(!username || !password){
+
+        status.textContent =
+            "Enter username and password.";
+
+        return;
+
+    }
+
+    status.textContent =
+        "Connecting...";
+
+    try{
+
+        const response =
+            await fetch(`${API}/api/login`,{
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+                    username,
+                    password
+                })
+
+            });
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            status.textContent =
                 data.message || "Login failed.";
 
             return;
 
         }
 
-        currentAccount = data.account;
+        currentAccount =
+            data.account;
+
         guestMode = false;
 
         localStorage.setItem(
@@ -1119,143 +1506,147 @@ document.getElementById("loginButton").addEventListener("click", async () => {
 
         enterGame(currentAccount);
 
-    } catch (error) {
+    }catch(error){
 
         console.error(error);
 
-        authStatus.textContent =
-            "🔴 Cannot connect to SWUL backend.";
+        status.textContent =
+            "🔴 Cannot connect to backend.";
 
     }
 
-});
+}
 
-/* =====================================================
-   REGISTER
-===================================================== */
-
-document.getElementById("registerButton").addEventListener("click", async () => {
+async function register(){
 
     const username =
-        document.getElementById("username").value.trim();
+        document.getElementById("username")
+        .value.trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("password")
+        .value;
 
-    if (!username || !password) {
+    const status =
+        document.getElementById("authStatus");
 
-        authStatus.textContent =
+    if(!username || !password){
+
+        status.textContent =
             "Enter username and password.";
 
         return;
 
     }
 
-    authStatus.textContent = "Creating account...";
+    status.textContent =
+        "Creating account...";
 
-    try {
+    try{
 
-        const response = await fetch(`${API}/api/register`, {
+        const response =
+            await fetch(`${API}/api/register`,{
 
-            method: "POST",
+                method:"POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                headers:{
+                    "Content-Type":"application/json"
+                },
 
-            body: JSON.stringify({
-                username,
-                password
-            })
+                body:JSON.stringify({
+                    username,
+                    password
+                })
 
-        });
+            });
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        if (!response.ok) {
+        if(!response.ok){
 
-            authStatus.textContent =
+            status.textContent =
                 data.message || "Registration failed.";
 
             return;
 
         }
 
-        authStatus.textContent =
-            "✅ Account created! You can now login.";
+        status.textContent =
+            "✅ Account created! Now login.";
 
-    } catch (error) {
+    }catch(error){
 
         console.error(error);
 
-        authStatus.textContent =
-            "🔴 Cannot connect to server.";
+        status.textContent =
+            "🔴 Cannot connect to backend.";
 
     }
 
-});
+}
 
-/* =====================================================
-   GUEST
-===================================================== */
-
-document.getElementById("guestButton").addEventListener("click", () => {
+function guestLogin(){
 
     guestMode = true;
 
     currentAccount = {
-        id: null,
-        username: "Guest",
-        role: "guest",
-        gold: 0,
-        gems: 0,
-        skins: [],
-        campaignProgress: 0,
-        missionProgress: 0
+
+        id:null,
+        username:"Guest",
+        role:"guest",
+        gold:0,
+        gems:0,
+        skins:[],
+        campaignProgress:0,
+        missionProgress:0
+
     };
 
     enterGame(currentAccount);
 
-});
+}
 
-/* =====================================================
+/* =========================================================
    ENTER GAME
-===================================================== */
+========================================================= */
 
-function enterGame(account) {
+function enterGame(account){
 
-    authScreen.classList.add("hidden");
-    gameScreen.classList.remove("hidden");
+    document
+        .getElementById("authScreen")
+        .classList.add("hidden");
 
-    document.getElementById("usernameDisplay").textContent =
+    document
+        .getElementById("gameScreen")
+        .classList.remove("hidden");
+
+    document.getElementById(
+        "usernameDisplay"
+    ).textContent =
         account.username;
 
-    document.getElementById("gold").textContent =
-        Number(account.gold || 0).toLocaleString();
+    updateResources();
 
-    document.getElementById("gems").textContent =
-        Number(account.gems || 0).toLocaleString();
+    updateProgress();
 
-    document.getElementById("campaignProgress").textContent =
-        account.campaignProgress || 0;
-
-    document.getElementById("missionProgress").textContent =
-        account.missionProgress || 0;
-
-    /* ADMIN BUTTON */
-
-    const adminButton =
+    const admin =
         document.getElementById("adminNav");
 
-    if (account.role === "admin" && !guestMode) {
+    if(
+        account.role === "admin" &&
+        !guestMode
+    ){
 
-        adminButton.classList.remove("hidden");
+        admin.classList.remove("hidden");
 
-    } else {
+    }else{
 
-        adminButton.classList.add("hidden");
+        admin.classList.add("hidden");
 
     }
+
+    renderGameData();
 
     showPage("home");
 
@@ -1263,33 +1654,87 @@ function enterGame(account) {
 
 }
 
-/* =====================================================
-   PAGE NAVIGATION
-===================================================== */
+/* =========================================================
+   RESOURCES
+========================================================= */
 
-function showPage(page) {
+function updateResources(){
 
-    document.querySelectorAll(".page").forEach(element => {
-        element.classList.add("hidden");
-    });
+    document.getElementById("gold")
+        .textContent =
+        Number(currentAccount?.gold || 0)
+        .toLocaleString();
 
-    const target =
-        document.getElementById(`page-${page}`);
+    document.getElementById("gems")
+        .textContent =
+        Number(currentAccount?.gems || 0)
+        .toLocaleString();
 
-    if (!target) return;
+}
 
-    /* Guest cannot access admin */
+function updateProgress(){
 
-    if (page === "admin") {
+    const campaign =
+        Number(
+            currentAccount?.campaignProgress || 0
+        );
 
-        if (
+    const missions =
+        Number(
+            currentAccount?.missionProgress || 0
+        );
+
+    document.getElementById(
+        "campaignProgress"
+    ).textContent = campaign;
+
+    document.getElementById(
+        "missionProgress"
+    ).textContent = missions;
+
+    document.getElementById(
+        "homeCampaign"
+    ).textContent =
+        `${campaign}/10`;
+
+    document.getElementById(
+        "homeMission"
+    ).textContent =
+        `${missions}/10`;
+
+    document.getElementById(
+        "campaignBar"
+    ).style.width =
+        `${Math.min(campaign,10)*10}%`;
+
+    document.getElementById(
+        "missionBar"
+    ).style.width =
+        `${Math.min(missions,10)*10}%`;
+
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(page){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(element=>{
+            element.classList.add("hidden");
+        });
+
+    if(page === "admin"){
+
+        if(
             !currentAccount ||
             currentAccount.role !== "admin" ||
             guestMode
-        ) {
+        ){
 
             alert("⛔ Admin access required.");
-
             return;
 
         }
@@ -1298,92 +1743,455 @@ function showPage(page) {
 
     }
 
-    target.classList.remove("hidden");
+    const target =
+        document.getElementById(
+            `page-${page}`
+        );
+
+    if(target){
+
+        target.classList.remove("hidden");
+
+    }
 
 }
 
-/* =====================================================
+/* =========================================================
    LOGOUT
-===================================================== */
+========================================================= */
 
-function logout() {
+function logout(){
 
     currentAccount = null;
     guestMode = false;
 
-    localStorage.removeItem("swulAccount");
+    localStorage.removeItem(
+        "swulAccount"
+    );
 
-    gameScreen.classList.add("hidden");
-    authScreen.classList.remove("hidden");
+    document
+        .getElementById("gameScreen")
+        .classList.add("hidden");
 
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-
-    authStatus.textContent = "";
+    showAuth();
 
 }
 
-/* =====================================================
+/* =========================================================
    GLOBAL MESSAGE
-===================================================== */
+========================================================= */
 
-async function loadGlobalMessage() {
+async function loadGlobalMessage(){
 
-    try {
+    try{
 
         const response =
-            await fetch(`${API}/api/global-message`);
+            await fetch(
+                `${API}/api/global-message`
+            );
 
         const data =
             await response.json();
 
-        if (data.success) {
+        if(data.success){
 
-            document.getElementById("globalMessage").textContent =
+            document.getElementById(
+                "globalMessage"
+            ).textContent =
                 data.message;
 
         }
 
-    } catch (error) {
+    }catch(error){
 
-        document.getElementById("globalMessage").textContent =
+        document.getElementById(
+            "globalMessage"
+        ).textContent =
             "Server message unavailable.";
 
     }
 
 }
 
-/* =====================================================
-   ADMIN ACCOUNTS
-===================================================== */
+/* =========================================================
+   CAMPAIGN / MISSIONS
+========================================================= */
 
-async function loadAccounts() {
+function playCampaign(id){
 
-    if (
+    if(guestMode){
+
+        alert("Login required to save campaign progress.");
+        return;
+
+    }
+
+    const stage =
+        gameData.campaign.find(
+            x=>x.id === id
+        );
+
+    if(!stage) return;
+
+    alert(
+        `⚔️ ${stage.name}\n\nCampaign battle system is ready for the next gameplay update.`
+    );
+
+}
+
+function playMission(id){
+
+    if(guestMode){
+
+        alert("Login required to save mission progress.");
+        return;
+
+    }
+
+    const mission =
+        gameData.missions.find(
+            x=>x.id === id
+        );
+
+    if(!mission) return;
+
+    alert(
+        `🗺️ ${mission.name}\n\nMission battle system is ready for the next gameplay update.`
+    );
+
+}
+
+/* =========================================================
+   ARMORY / SPELLS
+========================================================= */
+
+function equipArmor(id){
+
+    const armor =
+        gameData.armors.find(
+            x=>x.id === id
+        );
+
+    if(!armor) return;
+
+    alert(
+        `🛡️ Equipped:\n${armor.displayName || armor.name}`
+    );
+
+}
+
+function useSpell(id){
+
+    const spell =
+        gameData.spells.find(
+            x=>x.id === id
+        );
+
+    if(!spell) return;
+
+    alert(
+        `✨ Selected spell: ${spell.name}`
+    );
+
+}
+
+function selectUnit(id){
+
+    const unit =
+        gameData.units.find(
+            x=>x.id === id
+        );
+
+    if(unit){
+
+        alert(
+            `⚔️ Selected unit: ${unit.name}`
+        );
+
+    }
+
+}
+
+function selectRoyal(id){
+
+    const royal =
+        gameData.royals.find(
+            x=>x.id === id
+        );
+
+    if(royal){
+
+        alert(
+            `👑 Selected royal: ${royal.name}`
+        );
+
+    }
+
+}
+
+/* =========================================================
+   SHOP
+========================================================= */
+
+function buyGold(){
+
+    if(guestMode){
+
+        alert("Login to buy items.");
+        return;
+
+    }
+
+    alert(
+        "🛒 Gold purchase system will be connected to the backend economy next."
+    );
+
+}
+
+function buyGems(){
+
+    if(guestMode){
+
+        alert("Login to buy items.");
+        return;
+
+    }
+
+    alert(
+        "🛒 Gem purchase system will be connected to the backend economy next."
+    );
+
+}
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
+
+async function loadLeaderboard(){
+
+    const box =
+        document.getElementById(
+            "leaderboardList"
+        );
+
+    box.innerHTML =
+        "Loading...";
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/api/leaderboard`
+            );
+
+        const data =
+            await response.json();
+
+        if(!data.success){
+
+            box.textContent =
+                "Failed.";
+
+            return;
+
+        }
+
+        if(!data.leaderboard.length){
+
+            box.textContent =
+                "No players yet.";
+
+            return;
+
+        }
+
+        box.innerHTML =
+            data.leaderboard.map(player=>`
+
+                <div
+                    class="card"
+                    style="margin-top:10px">
+
+                    <strong>
+                        #${player.rank}
+                        ${escapeHTML(player.username)}
+                    </strong>
+
+                    <p>
+                        💰
+                        ${Number(player.gold)
+                        .toLocaleString()}
+
+                        &nbsp;&nbsp;
+
+                        💎
+                        ${Number(player.gems)
+                        .toLocaleString()}
+                    </p>
+
+                </div>
+
+            `).join("");
+
+    }catch(error){
+
+        box.textContent =
+            "🔴 Cannot connect to backend.";
+
+    }
+
+}
+
+/* =========================================================
+   REDEEM CODE
+========================================================= */
+
+async function redeemCode(){
+
+    const status =
+        document.getElementById(
+            "codeStatus"
+        );
+
+    if(
         !currentAccount ||
-        currentAccount.role !== "admin" ||
-        guestMode
-    ) {
+        currentAccount.role === "guest"
+    ){
+
+        status.textContent =
+            "Login to redeem codes.";
 
         return;
 
     }
 
-    const table =
-        document.getElementById("accountsTable");
+    const code =
+        document.getElementById(
+            "redeemCode"
+        ).value.trim();
 
-    table.innerHTML =
-        "<tr><td colspan='7'>Loading...</td></tr>";
+    if(!code){
 
-    try {
+        status.textContent =
+            "Enter a code.";
+
+        return;
+
+    }
+
+    try{
 
         const response =
-            await fetch(`${API}/api/admin/accounts`);
+            await fetch(
+                `${API}/api/redeem-code`,{
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        accountId:
+                            currentAccount.id,
+
+                        code
+
+                    })
+
+                }
+            );
 
         const data =
             await response.json();
 
-        if (!data.success) {
+        if(!response.ok){
+
+            status.textContent =
+                data.message ||
+                "Invalid code.";
+
+            return;
+
+        }
+
+        currentAccount.gold +=
+            Number(
+                data.rewards?.gold || 0
+            );
+
+        currentAccount.gems +=
+            Number(
+                data.rewards?.gems || 0
+            );
+
+        if(
+            data.rewards?.skin &&
+            !currentAccount.skins.includes(
+                data.rewards.skin
+            )
+        ){
+
+            currentAccount.skins.push(
+                data.rewards.skin
+            );
+
+        }
+
+        localStorage.setItem(
+            "swulAccount",
+            JSON.stringify(
+                currentAccount
+            )
+        );
+
+        updateResources();
+
+        status.textContent =
+            `✅ ${data.message}`;
+
+    }catch(error){
+
+        status.textContent =
+            "🔴 Backend connection failed.";
+
+    }
+
+}
+
+/* =========================================================
+   ADMIN ACCOUNTS
+========================================================= */
+
+async function loadAccounts(){
+
+    if(
+        !currentAccount ||
+        currentAccount.role !== "admin" ||
+        guestMode
+    ) return;
+
+    const table =
+        document.getElementById(
+            "accountsTable"
+        );
+
+    table.innerHTML =
+        "<tr><td colspan='7'>Loading...</td></tr>";
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/api/admin/accounts`
+            );
+
+        const data =
+            await response.json();
+
+        if(!data.success){
 
             table.innerHTML =
                 "<tr><td colspan='7'>Failed.</td></tr>";
@@ -1394,57 +2202,87 @@ async function loadAccounts() {
 
         table.innerHTML = "";
 
-        data.accounts.forEach(account => {
+        data.accounts.forEach(account=>{
 
             const row =
                 document.createElement("tr");
 
             const status =
-                account.banned || account.permanentBan
-                    ? "🔴 Banned"
-                    : "🟢 Active";
+                account.banned ||
+                account.permanentBan
+                ? "🔴 Banned"
+                : "🟢 Active";
 
             row.innerHTML = `
+
                 <td>${account.id}</td>
-                <td>${escapeHTML(account.username)}</td>
-                <td>${escapeHTML(account.role)}</td>
-                <td>${Number(account.gold).toLocaleString()}</td>
-                <td>${Number(account.gems).toLocaleString()}</td>
-                <td>${status}</td>
+
                 <td>
-                    ${
-                        account.role !== "admin"
-                        ? `
-                        <button
-                            class="small-btn ban-btn"
-                            onclick="banAccount(${account.id}, false)">
-                            BAN
-                        </button>
-
-                        <button
-                            class="small-btn danger"
-                            onclick="banAccount(${account.id}, true)">
-                            PERM BAN
-                        </button>
-
-                        <button
-                            class="small-btn unban-btn"
-                            onclick="unbanAccount(${account.id})">
-                            UNBAN
-                        </button>
-                        `
-                        : "👑 ADMIN"
-                    }
+                    ${escapeHTML(
+                        account.username
+                    )}
                 </td>
+
+                <td>
+                    ${escapeHTML(
+                        account.role
+                    )}
+                </td>
+
+                <td>
+                    ${Number(
+                        account.gold
+                    ).toLocaleString()}
+                </td>
+
+                <td>
+                    ${Number(
+                        account.gems
+                    ).toLocaleString()}
+                </td>
+
+                <td>${status}</td>
+
+                <td>
+
+                ${
+                    account.role !== "admin"
+
+                    ? `
+
+                    <button
+                        class="small-btn ban-btn"
+                        onclick="banAccount(${account.id},false)">
+                        BAN
+                    </button>
+
+                    <button
+                        class="small-btn danger"
+                        onclick="banAccount(${account.id},true)">
+                        PERM BAN
+                    </button>
+
+                    <button
+                        class="small-btn unban-btn"
+                        onclick="unbanAccount(${account.id})">
+                        UNBAN
+                    </button>
+
+                    `
+
+                    : "👑 ADMIN"
+
+                }
+
+                </td>
+
             `;
 
             table.appendChild(row);
 
         });
 
-    } catch (error) {
-
-        console.error(error);
+    }catch(error){
 
         table.innerHTML =
             "<tr><td colspan='7'>🔴 Backend connection failed.</td></tr>";
@@ -1453,436 +2291,379 @@ async function loadAccounts() {
 
 }
 
-/* =====================================================
+/* =========================================================
    ADMIN BAN
-===================================================== */
+========================================================= */
 
-async function banAccount(accountId, permanent) {
+async function banAccount(
+    accountId,
+    permanent
+){
 
-    if (!confirm(
+    if(!confirm(
         permanent
-            ? "Permanently ban this account?"
-            : "Ban this account?"
+        ? "Permanently ban this account?"
+        : "Ban this account?"
     )) return;
 
-    try {
+    try{
 
         const response =
-            await fetch(`${API}/api/admin/ban`, {
+            await fetch(
+                `${API}/api/admin/ban`,{
 
-                method: "POST",
+                    method:"POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify({
-                    accountId,
-                    permanent
-                })
+                    body:JSON.stringify({
+                        accountId,
+                        permanent
+                    })
 
-            });
-
-        const data =
-            await response.json();
-
-        document.getElementById("adminStatus").textContent =
-            data.message || "Done.";
-
-        loadAccounts();
-
-    } catch (error) {
-
-        document.getElementById("adminStatus").textContent =
-            "Backend connection failed.";
-
-    }
-
-}
-
-/* =====================================================
-   ADMIN UNBAN
-===================================================== */
-
-async function unbanAccount(accountId) {
-
-    try {
-
-        const response =
-            await fetch(`${API}/api/admin/unban`, {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    accountId
-                })
-
-            });
-
-        const data =
-            await response.json();
-
-        document.getElementById("adminStatus").textContent =
-            data.message || "Done.";
-
-        loadAccounts();
-
-    } catch (error) {
-
-        document.getElementById("adminStatus").textContent =
-            "Backend connection failed.";
-
-    }
-
-}
-
-/* =====================================================
-   ADMIN GIFT
-===================================================== */
-
-async function adminGift() {
-
-    const accountId =
-        document.getElementById("giftAccountId").value;
-
-    const gold =
-        document.getElementById("giftGold").value || 0;
-
-    const gems =
-        document.getElementById("giftGems").value || 0;
-
-    const skin =
-        document.getElementById("giftSkin").value || null;
-
-    if (!accountId) {
-
-        alert("Enter Account ID.");
-
-        return;
-
-    }
-
-    try {
-
-        const response =
-            await fetch(`${API}/api/admin/gift`, {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    accountId,
-                    gold,
-                    gems,
-                    skin
-                })
-
-            });
-
-        const data =
-            await response.json();
-
-        document.getElementById("adminStatus").textContent =
-            data.message || "Gift completed.";
-
-        loadAccounts();
-
-    } catch (error) {
-
-        document.getElementById("adminStatus").textContent =
-            "Backend connection failed.";
-
-    }
-
-}
-
-/* =====================================================
-   CREATE CODE
-===================================================== */
-
-async function createCode() {
-
-    const code =
-        document.getElementById("newCode").value.trim();
-
-    const gold =
-        document.getElementById("newCodeGold").value || 0;
-
-    const gems =
-        document.getElementById("newCodeGems").value || 0;
-
-    const skin =
-        document.getElementById("newCodeSkin").value || null;
-
-    if (!code) {
-
-        alert("Enter code.");
-
-        return;
-
-    }
-
-    try {
-
-        const response =
-            await fetch(`${API}/api/admin/create-code`, {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    code,
-                    gold,
-                    gems,
-                    skin
-                })
-
-            });
-
-        const data =
-            await response.json();
-
-        document.getElementById("adminStatus").textContent =
-            data.message || "Code created.";
-
-    } catch (error) {
-
-        document.getElementById("adminStatus").textContent =
-            "Backend connection failed.";
-
-    }
-
-}
-
-/* =====================================================
-   REDEEM CODE
-===================================================== */
-
-async function redeemCode() {
-
-    if (
-        !currentAccount ||
-        currentAccount.role === "guest"
-    ) {
-
-        document.getElementById("codeStatus").textContent =
-            "Login to an account to redeem codes.";
-
-        return;
-
-    }
-
-    const code =
-        document.getElementById("redeemCode").value.trim();
-
-    if (!code) {
-
-        document.getElementById("codeStatus").textContent =
-            "Enter a code.";
-
-        return;
-
-    }
-
-    try {
-
-        const response =
-            await fetch(`${API}/api/redeem-code`, {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    accountId: currentAccount.id,
-                    code
-                })
-
-            });
-
-        const data =
-            await response.json();
-
-        if (!response.ok) {
-
-            document.getElementById("codeStatus").textContent =
-                data.message || "Invalid code.";
-
-            return;
-
-        }
-
-        document.getElementById("codeStatus").textContent =
-            `✅ ${data.message}`;
-
-        currentAccount.gold +=
-            Number(data.rewards.gold || 0);
-
-        currentAccount.gems +=
-            Number(data.rewards.gems || 0);
-
-        if (
-            data.rewards.skin &&
-            !currentAccount.skins.includes(data.rewards.skin)
-        ) {
-
-            currentAccount.skins.push(
-                data.rewards.skin
+                }
             );
 
-        }
+        const data =
+            await response.json();
 
-        localStorage.setItem(
-            "swulAccount",
-            JSON.stringify(currentAccount)
-        );
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            data.message || "Done.";
 
-        enterGame(currentAccount);
+        loadAccounts();
 
-    } catch (error) {
+    }catch(error){
 
-        document.getElementById("codeStatus").textContent =
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
             "Backend connection failed.";
 
     }
 
 }
 
-/* =====================================================
-   ADMIN GLOBAL MESSAGE
-===================================================== */
+/* =========================================================
+   ADMIN UNBAN
+========================================================= */
 
-async function updateGlobalMessage() {
+async function unbanAccount(accountId){
 
-    const message =
-        document.getElementById("globalMessageInput").value.trim();
-
-    if (!message) {
-
-        alert("Enter a message.");
-
-        return;
-
-    }
-
-    try {
+    try{
 
         const response =
-            await fetch(`${API}/api/admin/global-message`, {
+            await fetch(
+                `${API}/api/admin/unban`,{
 
-                method: "POST",
+                    method:"POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify({
-                    message
-                })
+                    body:JSON.stringify({
+                        accountId
+                    })
 
-            });
+                }
+            );
 
         const data =
             await response.json();
 
-        document.getElementById("adminStatus").textContent =
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            data.message || "Done.";
+
+        loadAccounts();
+
+    }catch(error){
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            "Backend connection failed.";
+
+    }
+
+}
+
+/* =========================================================
+   ADMIN GIFT
+========================================================= */
+
+async function adminGift(){
+
+    const accountId =
+        document.getElementById(
+            "giftAccountId"
+        ).value;
+
+    const gold =
+        document.getElementById(
+            "giftGold"
+        ).value || 0;
+
+    const gems =
+        document.getElementById(
+            "giftGems"
+        ).value || 0;
+
+    const skin =
+        document.getElementById(
+            "giftSkin"
+        ).value || null;
+
+    if(!accountId){
+
+        alert("Enter Account ID.");
+        return;
+
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/api/admin/gift`,{
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        accountId,
+                        gold,
+                        gems,
+                        skin
+
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            data.message ||
+            "Gift completed.";
+
+        loadAccounts();
+
+    }catch(error){
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            "Backend connection failed.";
+
+    }
+
+}
+
+/* =========================================================
+   CREATE CODE
+========================================================= */
+
+async function createCode(){
+
+    const code =
+        document.getElementById(
+            "newCode"
+        ).value.trim();
+
+    const gold =
+        document.getElementById(
+            "newCodeGold"
+        ).value || 0;
+
+    const gems =
+        document.getElementById(
+            "newCodeGems"
+        ).value || 0;
+
+    const skin =
+        document.getElementById(
+            "newCodeSkin"
+        ).value || null;
+
+    if(!code){
+
+        alert("Enter code.");
+        return;
+
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/api/admin/create-code`,{
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        code,
+                        gold,
+                        gems,
+                        skin
+
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            data.message ||
+            "Code created.";
+
+    }catch(error){
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            "Backend connection failed.";
+
+    }
+
+}
+
+/* =========================================================
+   GLOBAL MESSAGE ADMIN
+========================================================= */
+
+async function updateGlobalMessage(){
+
+    const message =
+        document.getElementById(
+            "globalMessageInput"
+        ).value.trim();
+
+    if(!message){
+
+        alert("Enter a message.");
+        return;
+
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                `${API}/api/admin/global-message`,{
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        message
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
             data.message || "Updated.";
 
         loadGlobalMessage();
 
-    } catch (error) {
+    }catch(error){
 
-        document.getElementById("adminStatus").textContent =
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
             "Backend connection failed.";
 
     }
 
 }
 
-/* =====================================================
-   LEADERBOARD
-===================================================== */
+/* =========================================================
+   APPEAL
+========================================================= */
 
-async function loadLeaderboard() {
+function sendAppeal(){
 
-    const box =
-        document.getElementById("leaderboardList");
+    const username =
+        document.getElementById(
+            "appealUsername"
+        ).value.trim();
 
-    box.innerHTML = "Loading...";
+    const reason =
+        document.getElementById(
+            "appealReason"
+        ).value.trim();
 
-    try {
+    const status =
+        document.getElementById(
+            "appealStatus"
+        );
 
-        const response =
-            await fetch(`${API}/api/leaderboard`);
+    if(!username || !reason){
 
-        const data =
-            await response.json();
+        status.textContent =
+            "Enter username and reason.";
 
-        if (!data.success) {
-
-            box.textContent = "Failed.";
-
-            return;
-
-        }
-
-        if (!data.leaderboard.length) {
-
-            box.textContent = "No players yet.";
-
-            return;
-
-        }
-
-        box.innerHTML =
-            data.leaderboard.map(player => `
-                <div class="card" style="margin-top:10px">
-                    <strong>
-                        #${player.rank}
-                        ${escapeHTML(player.username)}
-                    </strong>
-
-                    <div>
-                        💰 ${Number(player.gold).toLocaleString()}
-                        &nbsp;&nbsp;
-                        💎 ${Number(player.gems).toLocaleString()}
-                    </div>
-                </div>
-            `).join("");
-
-    } catch (error) {
-
-        box.textContent =
-            "🔴 Cannot connect to backend.";
+        return;
 
     }
 
+    /*
+       Backend hiện tại chưa có endpoint
+       /api/appeal nên chưa gửi online.
+    */
+
+    status.textContent =
+        "📩 Appeal form saved locally. Backend appeal endpoint will be added next.";
+
 }
 
-/* =====================================================
-   SECURITY HELPERS
-===================================================== */
+/* =========================================================
+   SECURITY
+========================================================= */
 
-function escapeHTML(value) {
+function escapeHTML(value){
 
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
 }
 
